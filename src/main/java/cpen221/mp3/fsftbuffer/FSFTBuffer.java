@@ -1,14 +1,31 @@
 package cpen221.mp3.fsftbuffer;
 
+import java.security.InvalidKeyException;
+import java.util.*;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
+
 public class FSFTBuffer<T extends Bufferable> {
 
     /* the default buffer size is 32 objects */
-    public static final int DSIZE = 32;
+    private static final int DSIZE = 32;
 
     /* the default timeout value is 3600s */
-    public static final int DTIMEOUT = 3600;
+    private static final int DTIMEOUT = 3600;
 
-    /* TODO: Implement this datatype */
+    private Timer globalTimer;
+    private Helper increments;
+
+    private int capacity;
+    private int timeout;
+    private Integer absoluteTime;
+
+    private ConcurrentHashMap<String, T> bufferContents;
+    private ConcurrentHashMap<T, String> bufferReversed;
+    private ConcurrentHashMap<String, Integer> timers;
+    private Integer key;
 
     /**
      * Create a buffer with a fixed capacity and a timeout value.
@@ -20,7 +37,17 @@ public class FSFTBuffer<T extends Bufferable> {
      *                 be in the buffer before it times out
      */
     public FSFTBuffer(int capacity, int timeout) {
-        // TODO: implement this constructor
+        this.capacity = capacity;
+        this.timeout = timeout;
+        bufferContents = new ConcurrentHashMap<>();
+        bufferReversed = new ConcurrentHashMap<>();
+        timers = new ConcurrentHashMap<>();
+        absoluteTime = 0;
+        key = 0;
+        globalTimer = new Timer();
+        increments = new Helper();
+        globalTimer.schedule(increments, 1000, 1000);
+
     }
 
     /**
@@ -28,24 +55,60 @@ public class FSFTBuffer<T extends Bufferable> {
      */
     public FSFTBuffer() {
         this(DSIZE, DTIMEOUT);
+        bufferContents = new ConcurrentHashMap<>();
+        bufferReversed = new ConcurrentHashMap<>();
+        timers = new ConcurrentHashMap<>();
+        key = 0;
+        absoluteTime = 0;
+        globalTimer = new Timer();
+        increments = new Helper();
+        globalTimer.schedule(increments, 1000, 1000);
     }
+
 
     /**
      * Add a value to the buffer.
      * If the buffer is full then remove the least recently accessed
      * object to make room for the new object.
      */
-    boolean put(T t) {
-        // TODO: implement this method
+    public boolean put(T t) {
+        if(bufferContents.size() == capacity) {
+            removeLast();
+            bufferContents.put(Integer.toString(t.hashCode()+key),t);
+            key++;
+        }else{
+            bufferContents.put(Integer.toString(t.hashCode()+key),t);
+            key++;
+        }
         return false;
     }
+    /**is this thread proof?*/
+    private void removeLast() {
+        Integer min = timeout * 2 + absoluteTime;
+        String id = "something";
+        boolean done = false;
+        while (!done) {
+            for (String a : timers.keySet()) {
+                if (timers.get(a) < min) {
+                    min = timers.get(a);
+                    id = a;
+                }
+            }
+            if(timers.get(id).equals(min)){
+                done = true;
+                bufferReversed.remove(bufferContents.get(id));
+                bufferContents.remove(id);
+            }
+        }
+    }
+
 
     /**
      * @param id the identifier of the object to be retrieved
      * @return the object that matches the identifier from the
      * buffer
      */
-    T get(String id) {
+    public T get (String id) throws InvalidKeyException {
         /* TODO: change this */
         /* Do not return null. Throw a suitable checked exception when an object
             is not in the cache. You can add the checked exception to the method
@@ -61,9 +124,13 @@ public class FSFTBuffer<T extends Bufferable> {
      * @param id the identifier of the object to "touch"
      * @return true if successful and false otherwise
      */
-    boolean touch(String id) {
-        /* TODO: Implement this method */
-        return false;
+    public boolean touch(String id) {
+        if(!timers.contains(id)) {
+            return false;
+        } else {
+            timers.replace(id, timeout + absoluteTime);
+            return true;
+        }
     }
 
     /**
@@ -74,8 +141,26 @@ public class FSFTBuffer<T extends Bufferable> {
      * @param t the object to update
      * @return true if successful and false otherwise
      */
-    boolean update(T t) {
-        /* TODO: implement this method */
-        return false;
+    public boolean update(T t) {
+        if(!bufferContents.containsValue(t)) {
+            return false;
+        } else {
+            timers.replace(bufferReversed.get(t), timeout + absoluteTime);
+            return true;
+        }
+    }
+
+
+    class Helper extends TimerTask {
+        @Override
+        public void run() {
+            ++absoluteTime;
+            for(String a : timers.keySet()){
+                if(a.equals(absoluteTime)){
+                    timers.remove(a);
+                    bufferContents.remove(a);
+                }
+            }
+        }
     }
 }
