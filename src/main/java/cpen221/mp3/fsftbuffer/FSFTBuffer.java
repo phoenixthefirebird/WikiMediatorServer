@@ -47,7 +47,6 @@ public class FSFTBuffer<T extends Bufferable> {
         globalTimer = new Timer();
         increments = new Helper();
         globalTimer.schedule(increments, 1000, 1000);
-
     }
 
     /**
@@ -64,42 +63,37 @@ public class FSFTBuffer<T extends Bufferable> {
         increments = new Helper();
         globalTimer.schedule(increments, 1000, 1000);
     }
-
+    
 
     /**
      * Add a value to the buffer.
      * If the buffer is full then remove the least recently accessed
      * object to make room for the new object.
      */
-    public boolean put(T t) {
+    synchronized public boolean put(T t) {
         if(bufferContents.size() == capacity) {
             removeLast();
-            bufferContents.put(Integer.toString(t.hashCode()+key),t);
-            key++;
-        }else{
-            bufferContents.put(Integer.toString(t.hashCode()+key),t);
-            key++;
-        }
-        return false;
+        } 
+        bufferContents.put(Integer.toString(t.hashCode() + key),t);
+        bufferReversed.put(t,Integer.toString(t.hashCode() + key));    
+        timers.put(Integer.toString(t.hashCode() + key),absoluteTime + timeout);
+        key++;
+        return true;
     }
-    /**is this thread proof?*/
-    private void removeLast() {
+
+
+    synchronized private void removeLast() {
         Integer min = timeout * 2 + absoluteTime;
         String id = "something";
-        boolean done = false;
-        while (!done) {
-            for (String a : timers.keySet()) {
-                if (timers.get(a) < min) {
-                    min = timers.get(a);
-                    id = a;
-                }
-            }
-            if(timers.get(id).equals(min)){
-                done = true;
-                bufferReversed.remove(bufferContents.get(id));
-                bufferContents.remove(id);
+        for (String a : timers.keySet()) {
+            if (timers.get(a) < min) {
+                min = timers.get(a);
+                id = a;
             }
         }
+        bufferReversed.remove(bufferContents.get(id));
+        bufferContents.remove(id);
+        timers.remove(id);
     }
 
 
@@ -107,13 +101,15 @@ public class FSFTBuffer<T extends Bufferable> {
      * @param id the identifier of the object to be retrieved
      * @return the object that matches the identifier from the
      * buffer
+     * Throws InvalidKeyException when the content is not in the cache.
+     *
      */
-    public T get (String id) throws InvalidKeyException {
-        /* TODO: change this */
-        /* Do not return null. Throw a suitable checked exception when an object
-            is not in the cache. You can add the checked exception to the method
-            signature. */
-        return null;
+    synchronized public T get (String id) throws InvalidKeyException {
+        if(!bufferContents.keySet().contains(id)){
+            throw new InvalidKeyException();
+        } else {
+            return bufferContents.get(id);
+        }
     }
 
     /**
@@ -124,7 +120,7 @@ public class FSFTBuffer<T extends Bufferable> {
      * @param id the identifier of the object to "touch"
      * @return true if successful and false otherwise
      */
-    public boolean touch(String id) {
+    synchronized public boolean touch(String id) {
         if(!timers.contains(id)) {
             return false;
         } else {
@@ -141,7 +137,7 @@ public class FSFTBuffer<T extends Bufferable> {
      * @param t the object to update
      * @return true if successful and false otherwise
      */
-    public boolean update(T t) {
+    synchronized public boolean update(T t) {
         if(!bufferContents.containsValue(t)) {
             return false;
         } else {
@@ -153,13 +149,18 @@ public class FSFTBuffer<T extends Bufferable> {
 
     class Helper extends TimerTask {
         @Override
-        public void run() {
+        synchronized public void run() {
             ++absoluteTime;
+            Set <String> toBeRemoved = new HashSet<>();
             for(String a : timers.keySet()){
-                if(a.equals(absoluteTime)){
-                    timers.remove(a);
+                if(timers.get(a) == absoluteTime){
+                    toBeRemoved.add(a);
+                    bufferReversed.remove(bufferContents.get(a));
                     bufferContents.remove(a);
                 }
+            }
+            for(String id: toBeRemoved){
+                timers.remove(id);
             }
         }
     }
