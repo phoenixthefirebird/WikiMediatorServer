@@ -25,7 +25,6 @@ public class FSFTBuffer<T extends Bufferable> {
     private ConcurrentHashMap<String, T> bufferContents;
     private ConcurrentHashMap<T, String> bufferReversed;
     private ConcurrentHashMap<String, Integer> timers;
-    private Integer key;
 
     /**
      * Create a buffer with a fixed capacity and a timeout value.
@@ -43,7 +42,6 @@ public class FSFTBuffer<T extends Bufferable> {
         bufferReversed = new ConcurrentHashMap<>();
         timers = new ConcurrentHashMap<>();
         absoluteTime = 0;
-        key = 0;
         globalTimer = new Timer();
         increments = new Helper();
         globalTimer.schedule(increments, 1000, 1000);
@@ -57,7 +55,6 @@ public class FSFTBuffer<T extends Bufferable> {
         bufferContents = new ConcurrentHashMap<>();
         bufferReversed = new ConcurrentHashMap<>();
         timers = new ConcurrentHashMap<>();
-        key = 0;
         absoluteTime = 0;
         globalTimer = new Timer();
         increments = new Helper();
@@ -73,11 +70,10 @@ public class FSFTBuffer<T extends Bufferable> {
     synchronized public boolean put(T t) {
         if(bufferContents.size() == capacity) {
             removeLast();
-        } 
-        bufferContents.put(Integer.toString(t.hashCode() + key),t);
-        bufferReversed.put(t,Integer.toString(t.hashCode() + key));    
-        timers.put(Integer.toString(t.hashCode() + key),absoluteTime + timeout);
-        key++;
+        }
+        bufferContents.put(t.id(),t);
+        bufferReversed.put(t,t.id());    
+        timers.put(t.id(), absoluteTime + timeout);
         return true;
     }
 
@@ -108,6 +104,7 @@ public class FSFTBuffer<T extends Bufferable> {
         if(!bufferContents.keySet().contains(id)){
             throw new InvalidKeyException();
         } else {
+            timers.replace(id, timeout + absoluteTime);
             return bufferContents.get(id);
         }
     }
@@ -121,7 +118,7 @@ public class FSFTBuffer<T extends Bufferable> {
      * @return true if successful and false otherwise
      */
     synchronized public boolean touch(String id) {
-        if(!timers.contains(id)) {
+        if(!timers.keySet().contains(id)) {
             return false;
         } else {
             timers.replace(id, timeout + absoluteTime);

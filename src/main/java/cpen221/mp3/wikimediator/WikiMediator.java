@@ -1,5 +1,7 @@
 package cpen221.mp3.wikimediator;
 
+import java.util.*;
+
 public class WikiMediator {
 
     /* TODO: Implement this datatype
@@ -13,5 +15,24 @@ public class WikiMediator {
         values like null.
 
      */
+    public List<String> search(String query, int limit){
+        return null;
+     }
+   
+    public  String getPage(String pageTitle){
+        return null;
+     }
+
+    public List<String> zeitgeist(int limit){
+        return null;
+     }
+
+    public List<String> trending(int limit){
+        return null;
+    }
+
+    public int peakLoad30s(){
+        return -1;
+    }
 
 }

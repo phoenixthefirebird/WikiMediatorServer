@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+
 }
 
 group 'CPEN 221'
@@ -10,8 +11,10 @@ sourceCompatibility = 1.11
 repositories {
     mavenCentral()
     jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     testImplementation group: 'junit', name: 'junit', version: '4.12'
+    implementation 'org.fastily:jwiki:1.8.0'
 }
