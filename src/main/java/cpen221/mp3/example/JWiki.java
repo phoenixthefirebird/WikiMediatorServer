@@ -1,9 +1,9 @@
 
 package cpen221.mp3.example;
 
-import org.fastily.jwiki.core.Wiki;
-import org.fastily.jwiki.dwrap.Revision;
-import org.fastily.jwiki.core.Wiki;
+//import org.fastily.jwiki.core.Wiki;
+//import org.fastily.jwiki.dwrap.Revision;
+//import org.fastily.jwiki.core.Wiki;
 
 import java.util.List;
 //
@@ -17,8 +17,8 @@ import java.util.List;
 //
 public class JWiki {
    public static void main(String[] args) {
-       Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
-      String pageTitle = "Barack Obama";
+   //    Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
+//      String pageTitle = "Barack Obama";
 ////        System.out.println(wiki.getPageText("Main Page"));
 ////        System.out.println(wiki.getCategoriesOnPage(pageTitle));
 ////        System.out.println(wiki.getLinksOnPage(pageTitle));
@@ -32,5 +32,5 @@ public class JWiki {
 ////            System.out.println(wiki.getContribs(latestRev.user, 10, false));
 ////        }
 //        System.exit(0);
-//    }
-//}
+   }
+}

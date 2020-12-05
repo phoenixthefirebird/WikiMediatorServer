@@ -122,7 +122,7 @@ public class Tests {
         for(int i = 0; i < 10; i++){
             try {
                 Thread.sleep(1000);
-                System.out.println(buffer.get(target.id()));
+               // System.out.println(buffer.get(target.id()));
             } catch (Exception InterruptedException){
                 return;
             }
