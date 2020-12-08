@@ -52,24 +52,26 @@ public class FSFTBuffer<T extends Bufferable> {
      */
     public FSFTBuffer() {
         this(DSIZE, DTIMEOUT);
-        bufferContents = new ConcurrentHashMap<>();
-        bufferReversed = new ConcurrentHashMap<>();
-        timers = new ConcurrentHashMap<>();
-        absoluteTime = 0;
-        globalTimer = new Timer();
-        increments = new Helper();
-        globalTimer.schedule(increments, 1000, 1000);
     }
     
 
     /**
      * Add a value to the buffer.
      * If the buffer is full then remove the least recently accessed
-     * object to make room for the new object.
+     * object to make room for the new object. If there were repeated id
+     * in the buffer then throw out the old version before inserting the new
+     * version
      */
     synchronized public boolean put(T t) {
         if(bufferContents.size() == capacity) {
             removeLast();
+        }
+        for(String i : bufferContents.keySet()){
+            if(i.compareTo(t.id()) == 0){
+                bufferReversed.remove(t);
+                bufferContents.remove(t.id());
+                timers.remove(t.id());
+            }
         }
         bufferContents.put(t.id(),t);
         bufferReversed.put(t,t.id());    
