@@ -1,10 +1,9 @@
 
 package cpen221.mp3.example;
 
+import org.fastily.jwiki.core.NS;
 import org.fastily.jwiki.core.Wiki;
 import org.fastily.jwiki.dwrap.Revision;
-import org.fastily.jwiki.core.Wiki;
-
 import java.util.List;
 //
 ///*
@@ -30,7 +29,7 @@ public class JWiki {
         if (rList.size() > 0) {
             Revision latestRev = rList.get(0);
             System.out.println(latestRev.user);
-            System.out.println(wiki.getContribs(latestRev.user, 10, false));
+            System.out.println(wiki.getContribs(latestRev.user, 10, false,false, NS.USER));
         }
         System.exit(0);
     }
