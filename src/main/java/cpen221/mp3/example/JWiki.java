@@ -17,6 +17,7 @@ import java.util.List;
 //
 public class JWiki {
    public static void main(String[] args) {
+
        Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
       String pageTitle = "Barack Obama";
         System.out.println(wiki.getPageText("Main Page"));
@@ -33,4 +34,5 @@ public class JWiki {
         }
         System.exit(0);
     }
+
 }
