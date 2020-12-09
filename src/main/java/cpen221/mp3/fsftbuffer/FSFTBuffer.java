@@ -148,19 +148,26 @@ public class FSFTBuffer<T extends Bufferable> {
 
     class Helper extends TimerTask {
         @Override
-        synchronized public void run() {
-            ++absoluteTime;
-            Set <String> toBeRemoved = new HashSet<>();
-            for(String a : timers.keySet()){
-                if(timers.get(a) == absoluteTime){
-                    toBeRemoved.add(a);
-                    bufferReversed.remove(bufferContents.get(a));
-                    bufferContents.remove(a);
+        public void run() {
+            synchronized (timers){
+                synchronized (bufferReversed){
+                    synchronized (bufferContents){
+                        ++absoluteTime;
+                        Set <String> toBeRemoved = new HashSet<>();
+                        for(String a : timers.keySet()){
+                            if(timers.get(a) == absoluteTime){
+                                toBeRemoved.add(a);
+                                bufferReversed.remove(bufferContents.get(a));
+                                bufferContents.remove(a);
+                            }
+                        }
+                        for(String id: toBeRemoved){
+                            timers.remove(id);
+                        }
+                    }
                 }
             }
-            for(String id: toBeRemoved){
-                timers.remove(id);
-            }
+
         }
     }
 }
