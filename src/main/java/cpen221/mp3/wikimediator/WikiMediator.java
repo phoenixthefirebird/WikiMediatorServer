@@ -22,8 +22,7 @@ public class WikiMediator {
 
      */
     public List<String> search(String query, int limit){
-        NS ns = wiki.whichNS(query);
-        List<String> searched = wiki.search(query, limit, ns);
+        List<String> searched = wiki.search(query, limit, NS.USER);
         return searched;
      }
    
