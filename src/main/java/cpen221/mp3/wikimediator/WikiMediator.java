@@ -27,7 +27,8 @@ public class WikiMediator {
      }
    
     public  String getPage(String pageTitle){
-        return null;
+        String page = wiki.getPageText(pageTitle);
+        return page;
      }
 
     public List<String> zeitgeist(int limit){
