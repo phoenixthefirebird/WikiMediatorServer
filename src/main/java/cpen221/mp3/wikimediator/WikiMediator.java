@@ -1,8 +1,14 @@
 package cpen221.mp3.wikimediator;
 
+import cpen221.mp3.fsftbuffer.FSFTBuffer;
+import org.fastily.jwiki.core.NS;
+import org.fastily.jwiki.core.Wiki;
+
 import java.util.*;
 
 public class WikiMediator {
+    Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
+//    FSFTBuffer buffer = new FSFTBuffer(int capacity, int timeout)<>;
 
     /* TODO: Implement this datatype
 
@@ -16,7 +22,9 @@ public class WikiMediator {
 
      */
     public List<String> search(String query, int limit){
-        return null;
+        NS ns = wiki.whichNS(query);
+        List<String> searched = wiki.search(query, limit, ns);
+        return searched;
      }
    
     public  String getPage(String pageTitle){
