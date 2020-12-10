@@ -27,6 +27,7 @@ public class WikiMediator {
      }
    
     public  String getPage(String pageTitle){
+        //need to use FSFTbuffer as LRU cache - get and put
         String page = wiki.getPageText(pageTitle);
         return page;
      }
