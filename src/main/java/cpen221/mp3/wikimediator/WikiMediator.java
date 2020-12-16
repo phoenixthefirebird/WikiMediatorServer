@@ -23,11 +23,20 @@ public class WikiMediator {
      */
     /**
      * Given a query, return up to limit page titles that match the query string
+     * @param query, the String to match the page titles with
+     * @param limit, the upward number of page titles to return
+     * @return a list of page titles that match the query string
      * */
     public List<String> search(String query, int limit){
-        List<String> searched = wiki.search(query, limit, NS.USER);
+        List<String> searched = wiki.search(query, limit, NS.USER); //not sure
         return searched;
      }
+
+     /**
+      * Given a pageTitle, return the text associated with the Wikipedia
+      * page that matches pageTitle.
+      * @param pageTitle, the page title for the page to search for matching text
+      * */
    
     public  String getPage(String pageTitle){
         //need to use FSFTbuffer as LRU cache - get and put
