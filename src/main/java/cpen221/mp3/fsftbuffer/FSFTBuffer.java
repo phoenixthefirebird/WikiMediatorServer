@@ -8,6 +8,20 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class FSFTBuffer<T extends Bufferable> {
+    /**
+     * AF:
+     * buffer that retains a limited number of items for a
+     * limited time.
+     *
+     * RI:
+     * capacity is greater than 0
+     * timeout value is greater than 0
+     * bufferContents is not null
+     * bufferReversed is not null
+     * timers is not null
+     * the number of items in the buffer is never greater than the capacity
+     * the contents of bufferContents, bufferReversed, and timers must correlate with each other
+     * there are no two items with repeated id in the buffer */
 
     /* the default buffer size is 32 objects */
     private static final int DSIZE = 32;
@@ -56,7 +70,7 @@ public class FSFTBuffer<T extends Bufferable> {
      * version.
      */
     synchronized public boolean put(T t) {
-        if(bufferContents.size() == capacity) {
+        if(bufferContents.size() >= capacity) {
             removeLast();
         }
         for(String i : bufferContents.keySet()){
@@ -73,7 +87,7 @@ public class FSFTBuffer<T extends Bufferable> {
     }
 
 
-    synchronized private void removeLast() {
+    private void removeLast() {
         Long min = 2 * timeout*1000 + System.currentTimeMillis();
         String id = "something";
         for (String a : timers.keySet()) {
