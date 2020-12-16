@@ -21,7 +21,8 @@ public class FSFTBuffer<T extends Bufferable> {
      * timers is not null
      * the number of items in the buffer is never greater than the capacity
      * the contents of bufferContents, bufferReversed, and timers must correlate with each other
-     * there are no two items with repeated id in the buffer */
+     * there are no two items with repeated id in the buffer
+     * timeout items cannot be accessed again */
 
     /* the default buffer size is 32 objects */
     private static final int DSIZE = 32;
@@ -112,7 +113,12 @@ public class FSFTBuffer<T extends Bufferable> {
     synchronized public T get (String id) throws InvalidKeyException {
         if(!bufferContents.keySet().contains(id)){
             throw new InvalidKeyException();
-        } else {
+        }else if(timers.get(id) - System.currentTimeMillis() < 0.00001){
+            bufferReversed.remove(bufferContents.get(id));
+            timers.remove(id);
+            bufferContents.remove(id);
+            throw new InvalidKeyException();
+        }  else {
             timers.replace(id,  timeout*1000 + System.currentTimeMillis());
             return bufferContents.get(id);
         }
@@ -129,7 +135,12 @@ public class FSFTBuffer<T extends Bufferable> {
     synchronized public boolean touch(String id) {
         if(!timers.keySet().contains(id)) {
             return false;
-        } else {
+        }else if(timers.get(id) - System.currentTimeMillis() < 0.00001){
+            bufferReversed.remove(bufferContents.get(id));
+            timers.remove(id);
+            bufferContents.remove(id);
+            return false;
+        }  else {
             timers.replace(id,  timeout*1000 + System.currentTimeMillis());
             return true;
         }
@@ -145,6 +156,11 @@ public class FSFTBuffer<T extends Bufferable> {
      */
     synchronized public boolean update(T t) {
         if(!bufferContents.containsValue(t)) {
+            return false;
+        } else if(timers.get(bufferReversed.get(t)) - System.currentTimeMillis() < 0.00001){
+            bufferContents.remove(bufferReversed.get(t));
+            timers.remove(bufferReversed.get(t));
+            bufferReversed.remove(t);
             return false;
         } else {
             timers.replace(bufferReversed.get(t), timeout*1000 + System.currentTimeMillis());
