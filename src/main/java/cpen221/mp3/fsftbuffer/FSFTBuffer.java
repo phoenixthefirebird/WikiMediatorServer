@@ -23,7 +23,10 @@ public class FSFTBuffer<T extends Bufferable> {
      * the number of items in the buffer is never greater than the capacity
      * the contents of bufferContents, bufferReversed, and timers must correlate with each other
      * there are no two items with repeated id in the buffer
-     * timeout items cannot be accessed again */
+     * timeout items cannot be accessed again
+     *
+     * Thread-safety Arguments:
+     * TODO: see the readings for details */
 
     /* the default buffer size is 32 objects */
     private static final int DSIZE = 32;
