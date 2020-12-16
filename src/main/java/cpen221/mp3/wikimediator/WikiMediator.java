@@ -1,17 +1,17 @@
 package cpen221.mp3.wikimediator;
 
-import cpen221.mp3.fsftbuffer.FSFTBuffer;
+import cpen221.mp3.fsftbuffer.*;
 import org.fastily.jwiki.core.NS;
 import org.fastily.jwiki.core.Wiki;
 
+import java.security.InvalidKeyException;
 import java.util.*;
 
 public class WikiMediator {
-    Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
-//    FSFTBuffer buffer = new FSFTBuffer(int capacity, int timeout)<>;
+    private Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
+    private FSFTBuffer buffer;
 
-    /* TODO: Implement this datatype
-
+    /*
         You must implement the methods with the exact signatures
         as provided in the statement for this mini-project.
 
@@ -21,6 +21,10 @@ public class WikiMediator {
         values like null.
 
      */
+
+    public WikiMediator(int capacity, int timeout){
+        buffer = new FSFTBuffer(capacity,timeout);
+    }
     /**
      * Given a query, return up to limit page titles that match the query string
      * @param query, the String to match the page titles with
@@ -36,11 +40,17 @@ public class WikiMediator {
       * Given a pageTitle, return the text associated with the Wikipedia
       * page that matches pageTitle.
       * @param pageTitle, the page title for the page to search for matching text
+      * @return a String representing the text of the wiki page with associated with the title
       * */
    
     public  String getPage(String pageTitle){
-        //need to use FSFTbuffer as LRU cache - get and put
-        String page = wiki.getPageText(pageTitle);
+        String page;
+        try{
+            page = ((WKBuffer) buffer.get(pageTitle)).getText();
+        }catch (InvalidKeyException e){
+            page = wiki.getPageText(pageTitle);
+            buffer.put(new WKBuffer(pageTitle));
+        }
         return page;
      }
 
