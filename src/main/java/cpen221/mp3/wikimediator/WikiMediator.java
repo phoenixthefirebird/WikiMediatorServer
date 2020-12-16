@@ -52,7 +52,7 @@ public class WikiMediator {
      * @return a list of page titles that match the query string
      * */
     public List<String> search(String query, int limit){
-        List<String> searched = wiki.search(query, limit, NS.USER); //not sure
+        List<String> searched = wiki.search(query, limit, NS.MAIN); //not sure
         return searched;
      }
 
