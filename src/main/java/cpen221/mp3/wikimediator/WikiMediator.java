@@ -96,7 +96,7 @@ public class WikiMediator {
         try {
             FileWriter writer = new FileWriter(".\\local\\" + filename);
             for (String query : totalFrequency.keySet()) {
-                writer.write(query + ":" + totalFrequency.get(query) + System.lineSeparator());
+                writer.write(query + ": " + totalFrequency.get(query) + System.lineSeparator());
             }
             writer.close();
         }catch (IOException e){
