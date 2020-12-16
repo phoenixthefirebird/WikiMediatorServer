@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 public class FSFTBuffer<T extends Bufferable> {
+    //TODO: check over the documentation and implementation updates
     /**
      * AF:
      * buffer that retains a limited number of items for a

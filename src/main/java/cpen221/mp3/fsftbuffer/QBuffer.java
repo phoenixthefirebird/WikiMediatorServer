@@ -4,6 +4,7 @@ package cpen221.mp3.fsftbuffer;
  * this immutable Bufferable class stores the query Strings used in WikiMediator
  */
 public class QBuffer implements Bufferable{
+    //TODO: check over the documentation and implementation
     /**
      * AF:
      * stores a String from query request

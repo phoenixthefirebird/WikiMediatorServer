@@ -11,6 +11,7 @@ import java.util.*;
  */
 
 public class WKBuffer implements Bufferable{
+    //TODO: check over the documentation and implementation
     /**
      * AF:
      * represents a wiki page with the title of the page and the text of the page

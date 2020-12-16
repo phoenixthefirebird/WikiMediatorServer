@@ -11,11 +11,21 @@ import java.security.InvalidKeyException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * this class enables basic page requests on Wikipedia
+ */
+
 public class WikiMediator {
+    /**
+     * AF:
+     * TODO: write this
+     * RI:
+     *  TODO: write this
+     */
     private Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
-    private FSFTBuffer buffer;
+    private FSFTBuffer pageBuffer;
+    private FSFTBuffer queryBuffer;
     private ConcurrentHashMap<String, Integer> totalFrequency;
-    private ConcurrentHashMap<String,Long> trendingQuery;
 
 
     /*
@@ -30,7 +40,7 @@ public class WikiMediator {
      */
 
     public WikiMediator(int capacity, int timeout){
-        buffer = new FSFTBuffer(capacity,timeout);
+        pageBuffer = new FSFTBuffer(capacity,timeout);
     }
     /**
      * Given a query, return up to limit page titles that match the query string
@@ -53,10 +63,10 @@ public class WikiMediator {
     public  String getPage(String pageTitle){
         String page;
         try{
-            page = ((WKBuffer) buffer.get(pageTitle)).getText();
+            page = ((WKBuffer) pageBuffer.get(pageTitle)).getText();
         }catch (InvalidKeyException e){
             page = wiki.getPageText(pageTitle);
-            buffer.put(new WKBuffer(pageTitle));
+            pageBuffer.put(new WKBuffer(pageTitle));
         }
         return page;
      }
