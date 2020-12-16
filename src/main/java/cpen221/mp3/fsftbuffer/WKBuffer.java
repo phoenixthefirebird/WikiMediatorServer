@@ -24,8 +24,8 @@ public class WKBuffer implements Bufferable{
      * title and text corresponds
      */
 
-    private String title;
-    private String text;
+    private final String title;
+    private final String text;
     private Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
 
     public WKBuffer(String title){
