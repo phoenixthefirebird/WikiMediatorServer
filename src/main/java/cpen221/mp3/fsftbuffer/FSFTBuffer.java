@@ -15,16 +15,13 @@ public class FSFTBuffer<T extends Bufferable> {
     /* the default timeout value is 3600s */
     private static final int DTIMEOUT = 3600;
 
-    private Timer globalTimer;
-    private Helper increments;
 
     private int capacity;
     private int timeout;
-    private Integer absoluteTime;
 
     private ConcurrentHashMap<String, T> bufferContents;
     private ConcurrentHashMap<T, String> bufferReversed;
-    private ConcurrentHashMap<String, Integer> timers;
+    private ConcurrentHashMap<String, Long> timers;
 
     /**
      * Create a buffer with a fixed capacity and a timeout value.
@@ -41,10 +38,6 @@ public class FSFTBuffer<T extends Bufferable> {
         bufferContents = new ConcurrentHashMap<>();
         bufferReversed = new ConcurrentHashMap<>();
         timers = new ConcurrentHashMap<>();
-        absoluteTime = 0;
-        globalTimer = new Timer();
-        increments = new Helper();
-        globalTimer.schedule(increments, 1000, 1000);
     }
 
     /**
@@ -60,7 +53,7 @@ public class FSFTBuffer<T extends Bufferable> {
      * If the buffer is full then remove the least recently accessed
      * object to make room for the new object. If there were repeated id
      * in the buffer then throw out the old version before inserting the new
-     * version
+     * version.
      */
     synchronized public boolean put(T t) {
         if(bufferContents.size() == capacity) {
@@ -75,13 +68,13 @@ public class FSFTBuffer<T extends Bufferable> {
         }
         bufferContents.put(t.id(),t);
         bufferReversed.put(t,t.id());    
-        timers.put(t.id(), absoluteTime + timeout);
+        timers.put(t.id(),  timeout*1000 + System.currentTimeMillis());
         return true;
     }
 
 
     synchronized private void removeLast() {
-        Integer min = timeout * 2 + absoluteTime;
+        Long min = 2 * timeout*1000 + System.currentTimeMillis();
         String id = "something";
         for (String a : timers.keySet()) {
             if (timers.get(a) < min) {
@@ -106,7 +99,7 @@ public class FSFTBuffer<T extends Bufferable> {
         if(!bufferContents.keySet().contains(id)){
             throw new InvalidKeyException();
         } else {
-            timers.replace(id, timeout + absoluteTime);
+            timers.replace(id,  timeout*1000 + System.currentTimeMillis());
             return bufferContents.get(id);
         }
     }
@@ -123,7 +116,7 @@ public class FSFTBuffer<T extends Bufferable> {
         if(!timers.keySet().contains(id)) {
             return false;
         } else {
-            timers.replace(id, timeout + absoluteTime);
+            timers.replace(id,  timeout*1000 + System.currentTimeMillis());
             return true;
         }
     }
@@ -140,34 +133,9 @@ public class FSFTBuffer<T extends Bufferable> {
         if(!bufferContents.containsValue(t)) {
             return false;
         } else {
-            timers.replace(bufferReversed.get(t), timeout + absoluteTime);
+            timers.replace(bufferReversed.get(t), timeout*1000 + System.currentTimeMillis());
             return true;
         }
     }
 
-
-    class Helper extends TimerTask {
-        @Override
-        public void run() {
-            synchronized (timers){
-                synchronized (bufferReversed){
-                    synchronized (bufferContents){
-                        ++absoluteTime;
-                        Set <String> toBeRemoved = new HashSet<>();
-                        for(String a : timers.keySet()){
-                            if(timers.get(a) == absoluteTime){
-                                toBeRemoved.add(a);
-                                bufferReversed.remove(bufferContents.get(a));
-                                bufferContents.remove(a);
-                            }
-                        }
-                        for(String id: toBeRemoved){
-                            timers.remove(id);
-                        }
-                    }
-                }
-            }
-
-        }
-    }
 }
