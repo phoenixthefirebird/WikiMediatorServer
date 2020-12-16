@@ -3,13 +3,20 @@ package cpen221.mp3.wikimediator;
 import cpen221.mp3.fsftbuffer.*;
 import org.fastily.jwiki.core.NS;
 import org.fastily.jwiki.core.Wiki;
+import java.io.FileWriter;
 
+
+import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class WikiMediator {
     private Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
     private FSFTBuffer buffer;
+    private ConcurrentHashMap<String, Integer> totalFrequency;
+    private ConcurrentHashMap<String,Long> trendingQuery;
+
 
     /*
         You must implement the methods with the exact signatures
@@ -54,6 +61,13 @@ public class WikiMediator {
         return page;
      }
 
+     /**
+      * Return the most common Strings used in search and getPage requests,
+      * with items being sorted in non-decreasing count order.
+      * When many requests have been made, return only limit number of items.
+      * @param limit the maximum number of results in the return list
+      * @return a list of most common Strings sorted in non-decreasing count order
+      */
     public List<String> zeitgeist(int limit){
         return null;
      }
@@ -66,4 +80,29 @@ public class WikiMediator {
         return -1;
     }
 
+    public List<String> executeQuery(String query){
+        return null;
+    }
+
+    /**
+     * this function saves the states of the WikiMediator to an existing file,
+     * overwrites the existing content if the file is not empty
+     * @param filename the complete .txt filename (with postfix) of the
+     *        file in the local directory to which the state of WikiMediator
+     *        will be saved to
+     * @return true if the state is saved successfully, false otherwise
+     * */
+    public boolean closeWiki(String filename){
+        try {
+            FileWriter writer = new FileWriter(".\\local\\" + filename);
+            for (String query : totalFrequency.keySet()) {
+                writer.write(query + ":" + totalFrequency.get(query) + System.lineSeparator());
+            }
+            writer.close();
+        }catch (IOException e){
+            System.err.println("There was error saving the state of the WikiMediator!");
+            return false;
+        }
+        return true;
+    }
 }
