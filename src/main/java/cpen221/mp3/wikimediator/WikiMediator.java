@@ -77,18 +77,14 @@ public class WikiMediator {
      * @return a list of page titles that match the query string
      * */
     public List<String> search(String query, int limit){
-<<<<<<< HEAD
+
         queryLog.add(new Pair(System.currentTimeMillis(),query));
         functionLog.add(new Pair(System.currentTimeMillis(), "search"));
         List<String> searched = wiki.search(query, limit, NS.MAIN);
-=======
         if(totalFrequency.containsKey(query))
             totalFrequency.put(query, totalFrequency.get(query) + 1);
         else
             totalFrequency.put(query, 1);
-
-        List<String> searched = wiki.search(query, limit, NS.MAIN); //not sure
->>>>>>> 1980ba7e6ba2a8397348365c72054ad2850cb38f
         return searched;
      }
 
@@ -100,16 +96,16 @@ public class WikiMediator {
       * */
    
     public  String getPage(String pageTitle){
-<<<<<<< HEAD
+
         queryLog.add(new Pair(System.currentTimeMillis(),pageTitle));
         functionLog.add(new Pair(System.currentTimeMillis(), "getPage"));
-=======
+
         if(totalFrequency.containsKey(pageTitle))
             totalFrequency.put(pageTitle, totalFrequency.get(pageTitle) + 1);
         else
             totalFrequency.put(pageTitle, 1);
 
->>>>>>> 1980ba7e6ba2a8397348365c72054ad2850cb38f
+
         String page;
         try{
             page = ((WKBuffer) pageBuffer.get(pageTitle)).getText();
@@ -130,12 +126,12 @@ public class WikiMediator {
     public List<String> zeitgeist(int limit){
 
         functionLog.add(new Pair(System.currentTimeMillis(),"zeitgeist"));
-
         List<String> commonStrings = totalFrequency.entrySet()
-                .stream()
-                .sorted(Comparator.comparing(Entry::getKey)
+                .parallelStream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .map(e -> e.getKey())
                 .limit(limit)
-                        .collect(Collectors.toList());
+                .collect(Collectors.toList());
         return commonStrings;
      }
 
@@ -144,7 +140,7 @@ public class WikiMediator {
     public List<String> trending(int limit){
         functionLog.add(new Pair(System.currentTimeMillis(),"trending"));
         List<String> result = queryLog.stream().filter(x -> (((Integer) x.getFirst()) + WINDOW)
-                >= System.currentTimeMillis())
+                >= System.currentTimeMillis()).map(e -> e.getSecond().toString()).collect(Collectors.toList());
         return null;
     }
 
