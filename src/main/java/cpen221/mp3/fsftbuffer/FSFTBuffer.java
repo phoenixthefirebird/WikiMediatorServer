@@ -20,6 +20,7 @@ public class FSFTBuffer<T extends Bufferable> {
      * bufferContents is not null
      * bufferReversed is not null
      * timers is not null
+     * timeout is represented in miliseconds
      * the number of items in the buffer is never greater than the capacity
      * the contents of bufferContents, bufferReversed, and timers must correlate with each other
      * there are no two items with repeated id in the buffer
@@ -39,7 +40,6 @@ public class FSFTBuffer<T extends Bufferable> {
     private int timeout;
 
     private ConcurrentHashMap<String, T> bufferContents;
-    private ConcurrentHashMap<T, String> bufferReversed;
     private ConcurrentHashMap<String, Long> timers;
 
     /**
@@ -53,9 +53,8 @@ public class FSFTBuffer<T extends Bufferable> {
      */
     public FSFTBuffer(int capacity, int timeout) {
         this.capacity = capacity;
-        this.timeout = timeout;
+        this.timeout = timeout * 1000;
         bufferContents = new ConcurrentHashMap<>();
-        bufferReversed = new ConcurrentHashMap<>();
         timers = new ConcurrentHashMap<>();
     }
 
@@ -70,30 +69,22 @@ public class FSFTBuffer<T extends Bufferable> {
     /**
      * Add a value to the buffer.
      * If the buffer is full then remove the least recently accessed
-     * object to make room for the new object. If there were repeated id
-     * in the buffer then throw out the old version before inserting the new
-     * version.
+     * object to make room for the new object. This also removes all timeout items.
+     * If there were repeated id in the buffer then throw out the old version before
+     * inserting the new version.
      */
     synchronized public boolean put(T t) {
         if(bufferContents.size() >= capacity) {
             removeLast();
         }
-        for(String i : bufferContents.keySet()){
-            if(i.compareTo(t.id()) == 0){
-                bufferReversed.remove(t);
-                bufferContents.remove(t.id());
-                timers.remove(t.id());
-            }
-        }
         bufferContents.put(t.id(),t);
-        bufferReversed.put(t,t.id());    
-        timers.put(t.id(),  timeout*1000 + System.currentTimeMillis());
+        timers.put(t.id(),  timeout + System.currentTimeMillis());
         return true;
     }
 
 
-    private void removeLast() {
-        Long min = 2 * timeout*1000 + System.currentTimeMillis();
+    synchronized private void removeLast() {
+        Long min = 2 * timeout + System.currentTimeMillis();
         String id = "something";
         for (String a : timers.keySet()) {
             if (timers.get(a) < min) {
@@ -101,7 +92,6 @@ public class FSFTBuffer<T extends Bufferable> {
                 id = a;
             }
         }
-        bufferReversed.remove(bufferContents.get(id));
         bufferContents.remove(id);
         timers.remove(id);
     }
@@ -118,42 +108,40 @@ public class FSFTBuffer<T extends Bufferable> {
         if(!bufferContents.keySet().contains(id)){
             throw new InvalidKeyException();
         }else if(timers.get(id) - System.currentTimeMillis() < 0.00001){
-            bufferReversed.remove(bufferContents.get(id));
             timers.remove(id);
             bufferContents.remove(id);
             throw new InvalidKeyException();
-        }  else {
-            timers.replace(id,  timeout*1000 + System.currentTimeMillis());
-            return bufferContents.get(id);
         }
+        timers.put(id,  timeout + System.currentTimeMillis());
+        return bufferContents.get(id);
+
     }
 
     /**
-     * Update the last refresh time for the object with the provided id.
      * This method is used to mark an object as "not stale" so that its
      * timeout is delayed.
      *
      * @param id the identifier of the object to "touch"
-     * @return true if successful and false otherwise
+     * @return true if successful and false if none of the items in the buffer has the
+     * id or if the old object already timed out
      */
     synchronized public boolean touch(String id) {
         if(!timers.keySet().contains(id)) {
             return false;
         }else if(timers.get(id) - System.currentTimeMillis() < 0.00001){
-            bufferReversed.remove(bufferContents.get(id));
             timers.remove(id);
             bufferContents.remove(id);
             return false;
         }  else {
-            timers.replace(id,  timeout*1000 + System.currentTimeMillis());
+            timers.put(id,  timeout + System.currentTimeMillis());
             return true;
         }
     }
 
     /**
      * Update an object in the buffer.
-     * This method updates an object and acts like a "touch" to
-     * renew the object in the cache.
+     * This method updates the content of the object and
+     * also restart the countdown for timeout
      *
      * @param t the object to update
      * @return true if successful and false otherwise
@@ -161,13 +149,13 @@ public class FSFTBuffer<T extends Bufferable> {
     synchronized public boolean update(T t) {
         if(!bufferContents.containsValue(t)) {
             return false;
-        } else if(timers.get(bufferReversed.get(t)) - System.currentTimeMillis() < 0.00001){
-            bufferContents.remove(bufferReversed.get(t));
-            timers.remove(bufferReversed.get(t));
-            bufferReversed.remove(t);
+        } else if(timers.get(t.id()) - System.currentTimeMillis() < 0.00001){
+            timers.remove(t.id());
+            bufferContents.remove(t.id());
             return false;
         } else {
-            timers.replace(bufferReversed.get(t), timeout*1000 + System.currentTimeMillis());
+            timers.put(t.id(), timeout + System.currentTimeMillis());
+            bufferContents.put(t.id(),t);
             return true;
         }
     }
