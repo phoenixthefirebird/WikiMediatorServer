@@ -25,10 +25,7 @@ public class WikiMediator {
      */
     private Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
     private FSFTBuffer pageBuffer;
-    //TODO: not sure if to use buffer to keep track of recent searches for trending, cannot iterator through contents in buffer
-    private FSFTBuffer queryBuffer;
     private ConcurrentHashMap<String, Integer> totalFrequency;
-    private int BIG_CAPACITY = 9999999;
 
 
     /*
@@ -42,9 +39,24 @@ public class WikiMediator {
 
      */
 
+    public WikiMediator(){
+
+        pageBuffer = new FSFTBuffer();
+    }
+
     public WikiMediator(int capacity, int timeout){
+
         pageBuffer = new FSFTBuffer(capacity,timeout);
-        queryBuffer = new FSFTBuffer(BIG_CAPACITY, 30);
+    }
+
+    public WikiMediator(int capacity, int timeout, String filename){
+        //TODO: work on a scanner to scan a file for data
+        pageBuffer = new FSFTBuffer(capacity,timeout);
+    }
+
+    public WikiMediator(String filename){
+        //TODO: work on a scanner to scan a file for data
+        pageBuffer = new FSFTBuffer();
     }
     /**
      * Given a query, return up to limit page titles that match the query string
