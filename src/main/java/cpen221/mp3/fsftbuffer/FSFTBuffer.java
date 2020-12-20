@@ -11,8 +11,9 @@ public class FSFTBuffer<T extends Bufferable> {
     //TODO: check over the documentation and implementation updates
     /**
      * AF:
-     * buffer that retains a limited number of items for a
-     * limited time.
+     * FSFT buffer retains a limited number of items for a limited time.
+     * buffercontent holds contents in contents in buffer with its id
+     * timer tracks time
      *
      * RI:
      * capacity is greater than 0
