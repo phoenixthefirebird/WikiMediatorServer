@@ -26,7 +26,7 @@ public class QBuffer implements Bufferable{
      * */
     @Override
     public String id() {
-        return ((Integer) this.hashCode()).toString();
+        return query;
     }
 
 
