@@ -118,13 +118,12 @@ public class WikiMediator {
 
      /**
       * Return the most common Strings used in search and getPage requests,
-      * with items being sorted in non-decreasing count order.
+      * with items being sorted in non-increasing count order.
       * When many requests have been made, return only limit number of items.
       * @param limit the maximum number of results in the return list
-      * @return a list of most common Strings sorted in non-decreasing count order
+      * @return a list of limit number of the most common Strings sorted in non-increasing count order
       */
     public List<String> zeitgeist(int limit){
-
         functionLog.add(new Pair(System.currentTimeMillis(),"zeitgeist"));
         List<String> commonStrings = totalFrequency.entrySet()
                 .parallelStream()
@@ -135,12 +134,24 @@ public class WikiMediator {
         return commonStrings;
      }
 
-    /** Similar to zeitgeist(), but returns the most frequent requests made in the last 30 seconds.
+    /**
+     * Similar to zeitgeist(), but returns the most frequent requests made in the last 30 seconds.
+     * @param limit the number of results to return
+     * @return a list of limit number of String sorted in non-increasing frequency of use
+     * over the lst 30 seconds
      */
     public List<String> trending(int limit){
         functionLog.add(new Pair(System.currentTimeMillis(),"trending"));
-        List<String> result = queryLog.stream().filter(x -> (((Integer) x.getFirst()) + WINDOW)
-                >= System.currentTimeMillis()).map(e -> e.getSecond().toString()).collect(Collectors.toList());
+        Map <String, Long> map = queryLog.stream()
+                .filter(x -> (((Integer) x.getFirst()) + WINDOW) >= System.currentTimeMillis())
+                .collect(Collectors.groupingBy(e -> (String) e.getSecond(),
+                        (Collectors.counting())));
+        List<String> result = map.entrySet()
+                .parallelStream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .map(e -> e.getKey())
+                .limit(limit)
+                .collect(Collectors.toList());
         return null;
     }
 
