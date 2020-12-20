@@ -1,6 +1,7 @@
 package cpen221.mp3.wikimediator;
 
 import cpen221.mp3.fsftbuffer.*;
+import kotlin.Pair;
 import org.fastily.jwiki.core.NS;
 import org.fastily.jwiki.core.Wiki;
 import java.io.FileWriter;
@@ -25,6 +26,9 @@ public class WikiMediator {
     private Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
     private FSFTBuffer pageBuffer;
     private ConcurrentHashMap<String, Integer> totalFrequency;
+    private ArrayList<Pair> queryLog;
+    private ArrayList<Pair> functionLog;
+    private final int WINDOW = 30000;
 
 
     /*
@@ -39,31 +43,41 @@ public class WikiMediator {
      */
 
     public WikiMediator(){
-
         pageBuffer = new FSFTBuffer();
+        queryLog = new ArrayList<>();
+        functionLog = new ArrayList<>();
     }
 
     public WikiMediator(int capacity, int timeout){
 
         pageBuffer = new FSFTBuffer(capacity,timeout);
+        queryLog = new ArrayList<>();
+        functionLog = new ArrayList<>();
     }
 
     public WikiMediator(int capacity, int timeout, String filename){
         //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer(capacity,timeout);
+        queryLog = new ArrayList<>();
+        functionLog = new ArrayList<>();
     }
 
     public WikiMediator(String filename){
         //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer();
+        queryLog = new ArrayList<>();
+        functionLog = new ArrayList<>();
     }
     /**
      * Given a query, return up to limit page titles that match the query string
+     * Also add timestamp data to the data log
      * @param query, the String to match the page titles with
      * @param limit, the upward number of page titles to return
      * @return a list of page titles that match the query string
      * */
     public List<String> search(String query, int limit){
+        queryLog.add(new Pair(System.currentTimeMillis(),query));
+        functionLog.add(new Pair(System.currentTimeMillis(), "search"));
         List<String> searched = wiki.search(query, limit, NS.MAIN);
         return searched;
      }
@@ -76,6 +90,8 @@ public class WikiMediator {
       * */
    
     public  String getPage(String pageTitle){
+        queryLog.add(new Pair(System.currentTimeMillis(),pageTitle));
+        functionLog.add(new Pair(System.currentTimeMillis(), "getPage"));
         String page;
         try{
             page = ((WKBuffer) pageBuffer.get(pageTitle)).getText();
@@ -94,19 +110,28 @@ public class WikiMediator {
       * @return a list of most common Strings sorted in non-decreasing count order
       */
     public List<String> zeitgeist(int limit){
+        functionLog.add(new Pair(System.currentTimeMillis(),"zeitgeist"));
         return null;
      }
 
+    /** Similar to zeitgeist(), but returns the most frequent requests made in the last 30 seconds.
+     */
     public List<String> trending(int limit){
+        functionLog.add(new Pair(System.currentTimeMillis(),"trending"));
+        List<String> result = queryLog.stream().filter(x -> (((Integer) x.getFirst()) + WINDOW)
+                >= System.currentTimeMillis())
         return null;
     }
+
+    /**
+     * @return the maximum number of requests
+     * seen in any 30-second window
+     * The request count includes all requests made using the public API of WikiMediator
+     */
 
     public int peakLoad30s(){
+        functionLog.add(new Pair(System.currentTimeMillis(),"peakLoad30s"));
         return -1;
-    }
-
-    public List<String> executeQuery(String query){
-        return null;
     }
 
     /**
