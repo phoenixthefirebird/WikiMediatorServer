@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * this class enables basic page requests on Wikipedia
@@ -52,6 +53,11 @@ public class WikiMediator {
      * @return a list of page titles that match the query string
      * */
     public List<String> search(String query, int limit){
+        if(totalFrequency.containsKey(query))
+            totalFrequency.put(query, totalFrequency.get(query) + 1);
+        else
+            totalFrequency.put(query, 1);
+
         List<String> searched = wiki.search(query, limit, NS.MAIN); //not sure
         return searched;
      }
@@ -64,6 +70,11 @@ public class WikiMediator {
       * */
    
     public  String getPage(String pageTitle){
+        if(totalFrequency.containsKey(pageTitle))
+            totalFrequency.put(pageTitle, totalFrequency.get(pageTitle) + 1);
+        else
+            totalFrequency.put(pageTitle, 1);
+
         String page;
         try{
             page = ((WKBuffer) pageBuffer.get(pageTitle)).getText();
@@ -82,7 +93,12 @@ public class WikiMediator {
       * @return a list of most common Strings sorted in non-decreasing count order
       */
     public List<String> zeitgeist(int limit){
-        return null;
+        List<String> commonStrings = totalFrequency.entrySet()
+                .stream()
+                .sorted(Comparator.comparing(Entry::getKey)
+                .limit(limit)
+                        .collect(Collectors.toList());
+        return commonStrings;
      }
 
     public List<String> trending(int limit){
