@@ -20,9 +20,17 @@ import java.util.stream.Collectors;
 public class WikiMediator {
     /**
      * AF:
-     * TODO: write this
+     * Wiki mediator service cache wikipedia pages to minimize network accesses
+     * Wiki mediator service collect statistical information about requests
+     * queryLog //TODO: what does this do?
+     * functionLog tracks Strings used in search and getPage requests with number of time used
+     * maxRequest tracks number of times specific String is used
+     *
      * RI:
-     *  TODO: write this
+     * queryLog is not null
+     * functionLog is not null
+     * window //TODO: describe representation of window
+     * Function log is not null
      */
     private Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
     private FSFTBuffer pageBuffer;
