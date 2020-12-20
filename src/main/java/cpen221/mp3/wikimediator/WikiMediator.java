@@ -56,7 +56,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
         functionLog = new ConcurrentHashMap<>();
-        maxRequest = new Pair(System.currentTimeMillis(),0);
+        maxRequest = new Pair(System.currentTimeMillis()/1000,0);
     }
 
     public WikiMediator(int capacity, int timeout){
@@ -64,7 +64,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer(capacity,timeout);
         queryLog = new ArrayList<>();
         functionLog = new ConcurrentHashMap<>();
-        maxRequest = new Pair(System.currentTimeMillis(),0);
+        maxRequest = new Pair(System.currentTimeMillis()/1000,0);
     }
 
     public WikiMediator(int capacity, int timeout, String filename){
@@ -72,7 +72,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer(capacity,timeout);
         queryLog = new ArrayList<>();
         functionLog = new ConcurrentHashMap<>();
-        maxRequest = new Pair(System.currentTimeMillis(),0);
+        maxRequest = new Pair(System.currentTimeMillis()/1000,0);
     }
 
     public WikiMediator(String filename){
@@ -80,7 +80,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
         functionLog = new ConcurrentHashMap<>();
-        maxRequest = new Pair(System.currentTimeMillis(),0);
+        maxRequest = new Pair(System.currentTimeMillis()/1000,0);
     }
     /**
      * Given a query, return up to limit page titles that match the query string
@@ -92,11 +92,11 @@ public class WikiMediator {
     synchronized public List<String> search(String query, int limit){
 
         queryLog.add(new Pair(System.currentTimeMillis(), query));
-        if(!functionLog.keySet().contains(System.currentTimeMillis())){
-            functionLog.put(System.currentTimeMillis(), 1);
+        if(!functionLog.keySet().contains(System.currentTimeMillis()/1000)){
+            functionLog.put(System.currentTimeMillis()/1000, 1);
         }
         else {
-            functionLog.put(System.currentTimeMillis(), functionLog.get(System.currentTimeMillis()) + 1);
+            functionLog.put(System.currentTimeMillis()/1000, functionLog.get(System.currentTimeMillis()/1000) + 1);
         }
 
         if(totalFrequency.containsKey(query))
@@ -118,18 +118,18 @@ public class WikiMediator {
      synchronized public String getPage(String pageTitle){
 
         queryLog.add(new Pair(System.currentTimeMillis(), pageTitle));
-         if(!functionLog.keySet().contains(System.currentTimeMillis())){
-             functionLog.put(System.currentTimeMillis(), 1);
+         if(!functionLog.keySet().contains(System.currentTimeMillis()/1000)){
+             functionLog.put(System.currentTimeMillis()/1000, 1);
          }
          else {
-             functionLog.put(System.currentTimeMillis(), functionLog.get(System.currentTimeMillis()) + 1);
+             functionLog.put(System.currentTimeMillis()/1000,
+                     functionLog.get(System.currentTimeMillis()/1000) + 1);
          }
 
         if(totalFrequency.containsKey(pageTitle))
             totalFrequency.put(pageTitle, totalFrequency.get(pageTitle) + 1);
         else
             totalFrequency.put(pageTitle, 1);
-
 
         String page;
         try{
@@ -149,11 +149,11 @@ public class WikiMediator {
       * @return a list of limit number of the most common Strings sorted in non-increasing count order
       */
      synchronized public List<String> zeitgeist(int limit){
-         if(!functionLog.keySet().contains(System.currentTimeMillis())){
-             functionLog.put(System.currentTimeMillis(), 1);
+         if(!functionLog.keySet().contains(System.currentTimeMillis()/1000)){
+             functionLog.put(System.currentTimeMillis()/1000, 1);
          }
          else {
-             functionLog.put(System.currentTimeMillis(), functionLog.get(System.currentTimeMillis()) + 1);
+             functionLog.put(System.currentTimeMillis()/1000, functionLog.get(System.currentTimeMillis()/1000) + 1);
          }
         List<String> commonStrings = totalFrequency.entrySet()
                 .parallelStream()
@@ -171,11 +171,11 @@ public class WikiMediator {
      * over the lst 30 seconds
      */
     synchronized public List<String> trending(int limit){
-        if(!functionLog.keySet().contains(System.currentTimeMillis())){
-            functionLog.put(System.currentTimeMillis(), 1);
+        if(!functionLog.keySet().contains(System.currentTimeMillis()/1000)){
+            functionLog.put(System.currentTimeMillis()/1000, 1);
         }
         else {
-            functionLog.put(System.currentTimeMillis(), functionLog.get(System.currentTimeMillis()) + 1);
+            functionLog.put(System.currentTimeMillis()/1000, functionLog.get(System.currentTimeMillis()/1000) + 1);
         }
         Map <String, Long> map = queryLog.stream()
                 .filter(x -> (((Integer) x.getFirst()) + WINDOW) >= System.currentTimeMillis())
@@ -187,7 +187,7 @@ public class WikiMediator {
                 .map(e -> e.getKey())
                 .limit(limit)
                 .collect(Collectors.toList());
-        return null;
+        return result;
     }
 
     /**
@@ -196,11 +196,12 @@ public class WikiMediator {
      */
 
     synchronized public int peakLoad30s(){
-        if(!functionLog.keySet().contains(System.currentTimeMillis())){
-            functionLog.put(System.currentTimeMillis(), 1);
+        if(!functionLog.keySet().contains(System.currentTimeMillis()/1000)){
+            functionLog.put(System.currentTimeMillis()/1000, 1);
         }
         else {
-            functionLog.put(System.currentTimeMillis(), functionLog.get(System.currentTimeMillis()) + 1);
+            functionLog.put(System.currentTimeMillis()/1000,
+                    functionLog.get(System.currentTimeMillis()/1000) + 1);
         }
 
         //TODO: complete functionality, log the past maximum and its window start time in maxRequest
