@@ -18,11 +18,10 @@ public class FSFTBuffer<T extends Bufferable> {
      * capacity is greater than 0
      * timeout value is greater than 0
      * bufferContents is not null
-     * bufferReversed is not null
      * timers is not null
      * timeout is represented in miliseconds
      * the number of items in the buffer is never greater than the capacity
-     * the contents of bufferContents, bufferReversed, and timers must correlate with each other
+     * the contents of bufferContents and timers must correlate with each other
      * there are no two items with repeated id in the buffer
      * timeout items cannot be accessed again
      *
@@ -74,26 +73,34 @@ public class FSFTBuffer<T extends Bufferable> {
      * inserting the new version.
      */
     synchronized public boolean put(T t) {
+        String minID = clearStale();
         if(bufferContents.size() >= capacity) {
-            removeLast();
+            bufferContents.remove(minID);
+            timers.remove(minID);
         }
         bufferContents.put(t.id(),t);
         timers.put(t.id(),  timeout + System.currentTimeMillis());
         return true;
     }
 
-
-    synchronized private void removeLast() {
+    synchronized private String clearStale(){
         Long min = 2 * timeout + System.currentTimeMillis();
         String id = "something";
+        ArrayList<String> stale = new ArrayList<>();
         for (String a : timers.keySet()) {
-            if (timers.get(a) < min) {
+            if (timers.get(a) < min && timers.get(a) > System.currentTimeMillis()) {
                 min = timers.get(a);
                 id = a;
             }
+            if(timers.get(a) > System.currentTimeMillis()){
+                stale.add(a);
+            }
         }
-        bufferContents.remove(id);
-        timers.remove(id);
+        for(String b: stale){
+            timers.remove(b);
+            bufferContents.remove(b);
+        }
+        return id;
     }
 
 
