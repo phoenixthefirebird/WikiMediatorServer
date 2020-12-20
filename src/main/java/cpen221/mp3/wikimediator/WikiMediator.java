@@ -39,18 +39,22 @@ public class WikiMediator {
      */
 
     public WikiMediator(){
+
         pageBuffer = new FSFTBuffer();
     }
 
     public WikiMediator(int capacity, int timeout){
+
         pageBuffer = new FSFTBuffer(capacity,timeout);
     }
 
     public WikiMediator(int capacity, int timeout, String filename){
+        //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer(capacity,timeout);
     }
 
     public WikiMediator(String filename){
+        //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer();
     }
     /**
