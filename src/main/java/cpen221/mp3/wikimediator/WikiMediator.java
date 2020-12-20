@@ -30,6 +30,7 @@ public class WikiMediator {
     private ArrayList<Pair> queryLog;
     private ConcurrentHashMap<Long, Integer> functionLog;
     private final int WINDOW = 30000;
+    private Pair maxRequest;
 
 
     /*
@@ -47,6 +48,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
         functionLog = new ConcurrentHashMap<>();
+        maxRequest = new Pair(System.currentTimeMillis(),0);
     }
 
     public WikiMediator(int capacity, int timeout){
@@ -54,6 +56,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer(capacity,timeout);
         queryLog = new ArrayList<>();
         functionLog = new ConcurrentHashMap<>();
+        maxRequest = new Pair(System.currentTimeMillis(),0);
     }
 
     public WikiMediator(int capacity, int timeout, String filename){
@@ -61,6 +64,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer(capacity,timeout);
         queryLog = new ArrayList<>();
         functionLog = new ConcurrentHashMap<>();
+        maxRequest = new Pair(System.currentTimeMillis(),0);
     }
 
     public WikiMediator(String filename){
@@ -68,6 +72,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
         functionLog = new ConcurrentHashMap<>();
+        maxRequest = new Pair(System.currentTimeMillis(),0);
     }
     /**
      * Given a query, return up to limit page titles that match the query string
@@ -105,7 +110,12 @@ public class WikiMediator {
      synchronized public String getPage(String pageTitle){
 
         queryLog.add(new Pair(System.currentTimeMillis(), pageTitle));
-        functionLog.add(new Pair(System.currentTimeMillis(), "getPage"));
+         if(!functionLog.keySet().contains(System.currentTimeMillis())){
+             functionLog.put(System.currentTimeMillis(), 1);
+         }
+         else {
+             functionLog.put(System.currentTimeMillis(), functionLog.get(System.currentTimeMillis()) + 1);
+         }
 
         if(totalFrequency.containsKey(pageTitle))
             totalFrequency.put(pageTitle, totalFrequency.get(pageTitle) + 1);
@@ -131,7 +141,12 @@ public class WikiMediator {
       * @return a list of limit number of the most common Strings sorted in non-increasing count order
       */
      synchronized public List<String> zeitgeist(int limit){
-        functionLog.add(new Pair(System.currentTimeMillis(),"zeitgeist"));
+         if(!functionLog.keySet().contains(System.currentTimeMillis())){
+             functionLog.put(System.currentTimeMillis(), 1);
+         }
+         else {
+             functionLog.put(System.currentTimeMillis(), functionLog.get(System.currentTimeMillis()) + 1);
+         }
         List<String> commonStrings = totalFrequency.entrySet()
                 .parallelStream()
                 .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
@@ -148,9 +163,12 @@ public class WikiMediator {
      * over the lst 30 seconds
      */
     synchronized public List<String> trending(int limit){
-        functionLog.add(new Pair(System.currentTimeMillis(),"trending"));
-
-
+        if(!functionLog.keySet().contains(System.currentTimeMillis())){
+            functionLog.put(System.currentTimeMillis(), 1);
+        }
+        else {
+            functionLog.put(System.currentTimeMillis(), functionLog.get(System.currentTimeMillis()) + 1);
+        }
         Map <String, Long> map = queryLog.stream()
                 .filter(x -> (((Integer) x.getFirst()) + WINDOW) >= System.currentTimeMillis())
                 .collect(Collectors.groupingBy(e -> (String) e.getSecond(),
@@ -170,7 +188,14 @@ public class WikiMediator {
      */
 
     synchronized public int peakLoad30s(){
-        functionLog.put(System.currentTimeMillis(),0);//TODO
+        if(!functionLog.keySet().contains(System.currentTimeMillis())){
+            functionLog.put(System.currentTimeMillis(), 1);
+        }
+        else {
+            functionLog.put(System.currentTimeMillis(), functionLog.get(System.currentTimeMillis()) + 1);
+        }
+
+        //TODO: complete functionality, log the past maximum and its window start time in maxRequest
         return -1;
     }
 
