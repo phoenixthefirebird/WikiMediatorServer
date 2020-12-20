@@ -2,10 +2,7 @@ package cpen221.mp3.fsftbuffer;
 
 import java.security.InvalidKeyException;
 import java.util.*;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.stream.Collectors;
 
 public class FSFTBuffer<T extends Bufferable> {
     //TODO: check over the documentation and implementation updates
