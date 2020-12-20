@@ -28,7 +28,7 @@ public class WikiMediator {
     private FSFTBuffer pageBuffer;
     private ConcurrentHashMap<String, Integer> totalFrequency;
     private ArrayList<Pair> queryLog;
-    private ArrayList<Pair> functionLog;
+    private ConcurrentHashMap<Long, Integer> functionLog;
     private final int WINDOW = 30000;
 
 
@@ -46,28 +46,28 @@ public class WikiMediator {
     public WikiMediator(){
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
-        functionLog = new ArrayList<>();
+        functionLog = new ConcurrentHashMap<>();
     }
 
     public WikiMediator(int capacity, int timeout){
 
         pageBuffer = new FSFTBuffer(capacity,timeout);
         queryLog = new ArrayList<>();
-        functionLog = new ArrayList<>();
+        functionLog = new ConcurrentHashMap<>();
     }
 
     public WikiMediator(int capacity, int timeout, String filename){
         //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer(capacity,timeout);
         queryLog = new ArrayList<>();
-        functionLog = new ArrayList<>();
+        functionLog = new ConcurrentHashMap<>();
     }
 
     public WikiMediator(String filename){
         //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
-        functionLog = new ArrayList<>();
+        functionLog = new ConcurrentHashMap<>();
     }
     /**
      * Given a query, return up to limit page titles that match the query string
@@ -76,15 +76,22 @@ public class WikiMediator {
      * @param limit, the upward number of page titles to return
      * @return a list of page titles that match the query string
      * */
-    public List<String> search(String query, int limit){
+    synchronized public List<String> search(String query, int limit){
 
-        queryLog.add(new Pair(System.currentTimeMillis(),query));
-        functionLog.add(new Pair(System.currentTimeMillis(), "search"));
-        List<String> searched = wiki.search(query, limit, NS.MAIN);
+        queryLog.add(new Pair(System.currentTimeMillis(), query));
+        if(!functionLog.keySet().contains(System.currentTimeMillis())){
+            functionLog.put(System.currentTimeMillis(), 1);
+        }
+        else {
+            functionLog.put(System.currentTimeMillis(), functionLog.get(System.currentTimeMillis()) + 1);
+        }
+
         if(totalFrequency.containsKey(query))
             totalFrequency.put(query, totalFrequency.get(query) + 1);
         else
             totalFrequency.put(query, 1);
+
+        List<String> searched = wiki.search(query, limit, NS.MAIN);
         return searched;
      }
 
@@ -94,10 +101,10 @@ public class WikiMediator {
       * @param pageTitle, the page title for the page to search for matching text
       * @return a String representing the text of the wiki page with associated with the title
       * */
-   
-    public  String getPage(String pageTitle){
 
-        queryLog.add(new Pair(System.currentTimeMillis(),pageTitle));
+     synchronized public String getPage(String pageTitle){
+
+        queryLog.add(new Pair(System.currentTimeMillis(), pageTitle));
         functionLog.add(new Pair(System.currentTimeMillis(), "getPage"));
 
         if(totalFrequency.containsKey(pageTitle))
@@ -123,7 +130,7 @@ public class WikiMediator {
       * @param limit the maximum number of results in the return list
       * @return a list of limit number of the most common Strings sorted in non-increasing count order
       */
-    public List<String> zeitgeist(int limit){
+     synchronized public List<String> zeitgeist(int limit){
         functionLog.add(new Pair(System.currentTimeMillis(),"zeitgeist"));
         List<String> commonStrings = totalFrequency.entrySet()
                 .parallelStream()
@@ -140,8 +147,10 @@ public class WikiMediator {
      * @return a list of limit number of String sorted in non-increasing frequency of use
      * over the lst 30 seconds
      */
-    public List<String> trending(int limit){
+    synchronized public List<String> trending(int limit){
         functionLog.add(new Pair(System.currentTimeMillis(),"trending"));
+
+
         Map <String, Long> map = queryLog.stream()
                 .filter(x -> (((Integer) x.getFirst()) + WINDOW) >= System.currentTimeMillis())
                 .collect(Collectors.groupingBy(e -> (String) e.getSecond(),
@@ -156,13 +165,12 @@ public class WikiMediator {
     }
 
     /**
-     * @return the maximum number of requests
-     * seen in any 30-second window
+     * @return the maximum number of requests seen in any 30-second window
      * The request count includes all requests made using the public API of WikiMediator
      */
 
-    public int peakLoad30s(){
-        functionLog.add(new Pair(System.currentTimeMillis(),"peakLoad30s"));
+    synchronized public int peakLoad30s(){
+        functionLog.put(System.currentTimeMillis(),0);//TODO
         return -1;
     }
 
@@ -174,7 +182,7 @@ public class WikiMediator {
      *        will be saved to
      * @return true if the state is saved successfully, false otherwise
      * */
-    public boolean closeWiki(String filename){
+    synchronized public boolean closeWiki(String filename){
         try {
             FileWriter writer = new FileWriter(".\\local\\" + filename);
             for (String query : totalFrequency.keySet()) {
