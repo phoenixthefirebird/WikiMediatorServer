@@ -185,6 +185,16 @@ public class WikiMediator {
     }
 
     /**
+     * this function supports structural query over wiki
+     * @param query the query input for the search
+     * @return a list of relevant Strings for the search
+     * throws InvalidQueryException for queries that are invalid (cannot be parsed).
+     */
+    synchronized public List<String> executeQuery(String query) throws InvalidQueryException {
+        return null;
+    }
+
+    /**
      * this function saves the states of the WikiMediator to an existing file,
      * overwrites the existing content if the file is not empty
      *
