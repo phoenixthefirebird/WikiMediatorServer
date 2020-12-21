@@ -43,11 +43,25 @@ public class WikiMediatorTests {
         System.out.println(Arrays.toString(searchResult.toArray()));
 
         try {
-            Thread.sleep(100);
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        System.out.println(page);
+        searchResult = wiki.search("computer", 1);
+        System.out.println(Arrays.toString(searchResult.toArray()));
+
+        searchResult = wiki.search("computer", 2);
+        System.out.println(Arrays.toString(searchResult.toArray()));
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        String page2 = wiki.getPage("engineer");
+
+        System.out.println(Arrays.toString((wiki.zeitgeist(3)).toArray()));
     }
 }
