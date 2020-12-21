@@ -20,20 +20,20 @@ public class WikiMediatorTests {
     }
 
     //testing getpage method
-//    @Test
-//    public void test2() {
-//
-//        WikiMediator wiki = new WikiMediator();
-//        String page = wiki.getPage("ubc");
-//        System.out.println(page);
-//    }
+    @Test
+    public void test2() {
+
+        WikiMediator wiki = new WikiMediator();
+        String page = wiki.getPage("ubc");
+        System.out.println(page);
+    }
 
     //testing zeitgeist method
-//    @Test
-//    public void test3() {
-//
-//        WikiMediator wiki = new WikiMediator();
-//        String page = wiki.getPage("ubc");
-//        System.out.println(page);
-//    }
+    @Test
+    public void test3() {
+
+        WikiMediator wiki = new WikiMediator();
+        String page = wiki.getPage("ubc");
+        System.out.println(page);
+    }
 }

@@ -57,6 +57,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
         functionLog = new loadTracker();
+        totalFrequency = new ConcurrentHashMap<>();
 
     }
 
@@ -65,6 +66,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer(capacity, timeout);
         queryLog = new ArrayList<>();
         functionLog = new loadTracker();
+        totalFrequency = new ConcurrentHashMap<>();
     }
 
     public WikiMediator(int capacity, int timeout, String filename) {
@@ -72,6 +74,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer(capacity, timeout);
         queryLog = new ArrayList<>();
         functionLog = new loadTracker();
+        totalFrequency = new ConcurrentHashMap<>();
     }
 
     public WikiMediator(String filename) {
@@ -79,6 +82,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
         functionLog = new loadTracker();
+        totalFrequency = new ConcurrentHashMap<>();
     }
 
     /**
