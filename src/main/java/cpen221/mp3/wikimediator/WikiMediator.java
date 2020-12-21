@@ -189,9 +189,19 @@ public class WikiMediator {
      * @param query the query input for the search
      * @return a list of relevant Strings for the search
      * throws InvalidQueryException for queries that are invalid (cannot be parsed).
+     * TODO
      */
     synchronized public List<String> executeQuery(String query) throws InvalidQueryException {
         return null;
+    }
+
+    /**
+     * TODO
+     * @param query
+     * @return
+     */
+    synchronized private boolean validateQuery(String query){
+        return false;
     }
 
     /**
