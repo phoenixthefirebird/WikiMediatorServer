@@ -36,8 +36,8 @@ public class FSFTBuffer<T extends Bufferable> {
     private int capacity;
     private int timeout;
 
-    private ConcurrentHashMap<String, T> bufferContents;
-    private ConcurrentHashMap<String, Long> timers;
+    private final ConcurrentHashMap<String, T> bufferContents;
+    private final ConcurrentHashMap<String, Long> timers;
 
     /**
      * Create a buffer with a fixed capacity and a timeout value.
