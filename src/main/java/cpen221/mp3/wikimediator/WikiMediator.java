@@ -36,7 +36,7 @@ public class WikiMediator {
     private Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
     private FSFTBuffer pageBuffer;
     private ConcurrentHashMap<String, Integer> totalFrequency;
-    private ArrayList<Pair> queryLog;
+    private List<Pair> queryLog;
     private ConcurrentHashMap<Long, Integer> functionLog;
     private final int WINDOW = 30000;
     private Pair maxRequest;
@@ -90,8 +90,8 @@ public class WikiMediator {
      * Given a query, return up to limit page titles that match the query string
      * Also add timestamp data to the data log
      *
-     * @param query, the String to match the page titles with
-     * @param limit, the upward number of page titles to return
+     * @param query the String to match the page titles with
+     * @param limit the upward number of page titles to return
      * @return a list of page titles that match the query string
      */
     synchronized public List<String> search(String query, int limit) {
@@ -105,7 +105,7 @@ public class WikiMediator {
      * Given a pageTitle, return the text associated with the Wikipedia
      * page that matches pageTitle.
      *
-     * @param pageTitle, the page title for the page to search for matching text
+     * @param pageTitle the page title for the page to search for matching text
      * @return a String representing the text of the wiki page with associated with the title
      */
 
@@ -167,8 +167,10 @@ public class WikiMediator {
      */
     synchronized public List<String> trending(int limit) {
         trackWorkload();
-        Map<String, Long> map = queryLog.stream()
+        queryLog = queryLog.stream()
                 .filter(x -> (((Integer) x.getFirst()) + WINDOW) >= System.currentTimeMillis())
+                .collect(Collectors.toList());
+        Map<String, Long> map = queryLog.stream()
                 .collect(Collectors.groupingBy(e -> (String) e.getSecond(),
                         (Collectors.counting())));
         List<String> result = map.entrySet()
