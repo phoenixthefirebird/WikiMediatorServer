@@ -37,9 +37,8 @@ public class WikiMediator {
     private FSFTBuffer pageBuffer;
     private ConcurrentHashMap<String, Integer> totalFrequency;
     private List<Pair> queryLog;
-    private ConcurrentHashMap<Long, Integer> functionLog;
+    private loadTracker functionLog;
     private final int WINDOW = 30000;
-    private Pair maxRequest;
 
 
     /*
@@ -56,16 +55,15 @@ public class WikiMediator {
     public WikiMediator() {
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
-        functionLog = new ConcurrentHashMap<>();
-        maxRequest = new Pair(System.currentTimeMillis() / 1000, 0);
+        functionLog = new loadTracker();
+
     }
 
     public WikiMediator(int capacity, int timeout) {
 
         pageBuffer = new FSFTBuffer(capacity, timeout);
         queryLog = new ArrayList<>();
-        functionLog = new ConcurrentHashMap<>();
-        maxRequest = new Pair(System.currentTimeMillis() / 1000, 0);
+        functionLog = new loadTracker();
     }
 
     public WikiMediator(int capacity, int timeout, String filename) {
@@ -73,8 +71,7 @@ public class WikiMediator {
         //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer(capacity, timeout);
         queryLog = new ArrayList<>();
-        functionLog = new ConcurrentHashMap<>();
-        maxRequest = new Pair(System.currentTimeMillis() / 1000, 0);
+        functionLog = new loadTracker();
     }
 
     public WikiMediator(String filename) {
@@ -82,8 +79,7 @@ public class WikiMediator {
         //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
-        functionLog = new ConcurrentHashMap<>();
-        maxRequest = new Pair(System.currentTimeMillis() / 1000, 0);
+        functionLog = new loadTracker();
     }
 
     /**
@@ -131,12 +127,7 @@ public class WikiMediator {
     }
 
     synchronized private void trackWorkload(){
-        if (!functionLog.keySet().contains(System.currentTimeMillis() / 1000)) {
-            functionLog.put(System.currentTimeMillis() / 1000, 1);
-        } else {
-            functionLog.put(System.currentTimeMillis() / 1000,
-                    functionLog.get(System.currentTimeMillis() / 1000) + 1);
-        }
+        functionLog.increment();
     }
 
     /**
@@ -189,10 +180,8 @@ public class WikiMediator {
 
     synchronized public int peakLoad30s() {
         trackWorkload();
-
         //TODO: complete functionality, log the past maximum and its window start time in maxRequest
-
-        return -1;
+        return functionLog.getMaxLoad();
     }
 
     /**
