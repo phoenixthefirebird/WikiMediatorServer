@@ -24,7 +24,6 @@ public class WikiMediatorTests {
     //testing getpage method
     @Test
     public void test2() {
-
         WikiMediator wiki = new WikiMediator();
         String page = wiki.getPage("ubc");
         System.out.println(page);
@@ -33,9 +32,22 @@ public class WikiMediatorTests {
     //testing zeitgeist method
     @Test
     public void test3() {
-
         WikiMediator wiki = new WikiMediator();
+        List<String> searchResult = new ArrayList<>();
         String page = wiki.getPage("ubc");
+
+        searchResult = wiki.search("ubc", 1);
+        System.out.println(Arrays.toString(searchResult.toArray()));
+
+        searchResult = wiki.search("ubc", 2);
+        System.out.println(Arrays.toString(searchResult.toArray()));
+
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         System.out.println(page);
     }
 }
