@@ -205,6 +205,7 @@ public class WikiMediator {
         }
 
         //TODO: complete functionality, log the past maximum and its window start time in maxRequest
+
         return -1;
     }
 
