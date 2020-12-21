@@ -15,7 +15,7 @@ public class WikiMediatorTests {
         WikiMediator wiki = new WikiMediator();
         List<String> searchResult = new ArrayList<>();
 
-        searchResult = wiki.search("ubc", 1);
+        searchResult = wiki.search("wikipedia", 1);
         System.out.println(Arrays.toString(searchResult.toArray()));
     }
 
