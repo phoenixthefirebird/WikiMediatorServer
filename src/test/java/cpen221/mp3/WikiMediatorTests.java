@@ -33,35 +33,21 @@ public class WikiMediatorTests {
     @Test
     public void test3() {
         WikiMediator wiki = new WikiMediator();
-        List<String> searchResult = new ArrayList<>();
-        String page = wiki.getPage("ubc");
+        System.out.println(wiki.getPage("ubc"));
+        System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
+        System.out.println(Arrays.toString(wiki.search("ubc", 2).toArray()));
 
-        searchResult = wiki.search("ubc", 1);
-        System.out.println(Arrays.toString(searchResult.toArray()));
+        System.out.println(Arrays.toString(wiki.search("computer", 1).toArray()));
+        System.out.println(Arrays.toString(wiki.search("computer", 2).toArray()));
 
-        searchResult = wiki.search("ubc", 2);
-        System.out.println(Arrays.toString(searchResult.toArray()));
-
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        searchResult = wiki.search("computer", 1);
-        System.out.println(Arrays.toString(searchResult.toArray()));
-
-        searchResult = wiki.search("computer", 2);
-        System.out.println(Arrays.toString(searchResult.toArray()));
-
-        try {
-            Thread.sleep(500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        String page2 = wiki.getPage("engineer");
-
+        System.out.println(wiki.getPage("engineer"));
         System.out.println(Arrays.toString((wiki.zeitgeist(3)).toArray()));
+    }
+
+    @Test
+    public void test4() {
+        WikiMediator wiki = new WikiMediator();
+        String page = wiki.getPage("ubc");
+        System.out.println(page);
     }
 }
