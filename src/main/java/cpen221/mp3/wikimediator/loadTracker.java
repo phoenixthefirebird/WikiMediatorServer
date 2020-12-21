@@ -1,5 +1,7 @@
 package cpen221.mp3.wikimediator;
 
+import java.io.IOException;
+import java.io.Writer;
 import java.util.*;
 
 public class loadTracker {
@@ -73,6 +75,35 @@ public class loadTracker {
 
     synchronized public int getMaxLoad(){
         return Math.max(currentLoad + secondLoad - log.get(0), maxLoad);
+    }
+
+    /**
+     * this function writes the data in loadTracker class to the end of a file
+     * @param writer the Writer object to enable write toe the correct file
+     */
+
+    synchronized public void close(Writer writer){
+        if(log.size() >= window){
+            currentLoad -= log.remove(0);
+        }
+        log.add(secondLoad);
+        currentLoad += secondLoad;
+        secondLoad = 0;
+        if(currentLoad > maxLoad){
+            maxLoad = currentLoad;
+        }
+        try{
+            writer.write("startmaxLoad" + System.lineSeparator());
+            writer.write("startlog" + System.lineSeparator());
+            for(Integer i : log){
+                writer.write(i + System.lineSeparator());
+            }
+            writer.write("currentLoad: "  + currentLoad);
+            writer.write("maxLoad: " + maxLoad);
+        }catch (IOException e){
+            System.err.println("there is a problem writing in the maxLoad data");
+        }
+
     }
 
     public class ScheduledTask extends TimerTask {

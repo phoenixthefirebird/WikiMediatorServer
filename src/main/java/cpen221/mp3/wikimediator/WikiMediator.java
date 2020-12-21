@@ -196,9 +196,16 @@ public class WikiMediator {
     synchronized public boolean closeWiki(String filename) {
         try {
             FileWriter writer = new FileWriter(".\\local\\" + filename);
+            writer.write("totalFrequency" + System.lineSeparator());
             for (String query : totalFrequency.keySet()) {
                 writer.write(query + ": " + totalFrequency.get(query) + System.lineSeparator());
             }
+            writer.write("queryLog" + System.lineSeparator());
+            for(Pair i : queryLog){
+                writer.write(i.getFirst() + ": " + i.getSecond() + System.lineSeparator());
+            }
+            writer.write("functionLog" + System.lineSeparator());
+            functionLog.close(writer);
             writer.close();
         } catch (IOException e) {
             System.err.println("There was error saving the state of the WikiMediator!");
