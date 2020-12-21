@@ -53,6 +53,7 @@ public class WikiMediator {
      */
 
     public WikiMediator() {
+        //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
         functionLog = new loadTracker();
@@ -60,14 +61,13 @@ public class WikiMediator {
     }
 
     public WikiMediator(int capacity, int timeout) {
-
+        //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer(capacity, timeout);
         queryLog = new ArrayList<>();
         functionLog = new loadTracker();
     }
 
     public WikiMediator(int capacity, int timeout, String filename) {
-        Scanner scan = new Scanner(System.getProperty(filename));
         //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer(capacity, timeout);
         queryLog = new ArrayList<>();
@@ -75,7 +75,6 @@ public class WikiMediator {
     }
 
     public WikiMediator(String filename) {
-        Scanner scan = new Scanner(System.getProperty(filename));
         //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
