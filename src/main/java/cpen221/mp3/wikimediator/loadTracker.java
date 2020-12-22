@@ -93,7 +93,7 @@ public class loadTracker {
             maxLoad = currentLoad;
         }
         try{
-            writer.write("maxLoad: " + maxLoad);
+            writer.write("maxLoad: " + maxLoad + System.lineSeparator());
             writer.write("startlog" + System.lineSeparator());
             for(Integer i : log){
                 writer.write(i + System.lineSeparator());
