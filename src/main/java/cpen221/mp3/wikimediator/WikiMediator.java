@@ -168,7 +168,7 @@ public class WikiMediator {
         trackWorkload();
         synchronized (queryLog){
             queryLog = queryLog.stream()
-                    .filter(x -> (((Integer) x.getFirst()) + WINDOW) >= System.currentTimeMillis())
+                    .filter(x -> (((Long) x.getFirst()) + WINDOW) >= System.currentTimeMillis())
                     .collect(Collectors.toList());
             Map<String, Long> map = queryLog.stream()
                     .collect(Collectors.groupingBy(e -> (String) e.getSecond(),
