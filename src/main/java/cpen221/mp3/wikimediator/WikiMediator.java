@@ -92,7 +92,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer<>(capacity, timeout);
         queryLog = new ArrayList<>();
         totalFrequency = new ConcurrentHashMap<>();
-        File file = new File(filename);
+        File file = new File(".\\local\\" +filename);
         Scanner sc;
         try {
             sc = new Scanner(file);
@@ -110,7 +110,7 @@ public class WikiMediator {
         pageBuffer = new FSFTBuffer<>();
         queryLog = new ArrayList<>();
         totalFrequency = new ConcurrentHashMap<>();
-        File file = new File(filename);
+        File file = new File(".\\local\\" +filename);
         Scanner sc;
         try {
             sc = new Scanner(file);
