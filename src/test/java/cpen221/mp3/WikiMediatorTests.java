@@ -106,7 +106,7 @@ public class WikiMediatorTests {
     //wikimediator parameterized constructor testing
     @Test
     public void test7() {
-        WikiMediator wiki = new WikiMediator(10, 30, ".\\local\\wikimediator.txt");
+        WikiMediator wiki = new WikiMediator(10, 30, "wikimediator.txt");
         wiki.closeWiki();
     }
 }
