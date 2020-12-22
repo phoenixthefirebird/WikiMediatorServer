@@ -62,4 +62,30 @@ public class WikiMediatorTests {
 
         System.out.println(Arrays.toString((wiki.trending(2)).toArray()));
     }
+
+    @Test
+    public void test5() {
+        WikiMediator wiki = new WikiMediator();
+        Timer timer = new Timer();
+        int flag = 0;
+
+        for(int i = 0; i < 30; i++){
+            try {
+                Thread.sleep(1000);
+                System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
+                if(flag == 0) {
+                    System.out.println(Arrays.toString(wiki.search("engineer", 1).toArray()));
+                    flag = 1;
+                }
+                else {
+                    System.out.println(Arrays.toString(wiki.search("computer", 1).toArray()));
+                    flag = 0;
+                }
+            } catch (Exception InterruptedException){
+                return;
+            }
+        }
+
+        System.out.println(wiki.peakLoad30s());
+    }
 }
