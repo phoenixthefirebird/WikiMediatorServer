@@ -105,6 +105,9 @@ public class WikiMediator {
         int stage = 0;
         while (sc.hasNextLine()) {
             String line = sc.nextLine();
+            if(line.compareTo("") == 0){
+                break;
+            }
             if(line.compareTo("totalFrequency") == 0 && stage != 0){
                 throw new IllegalArgumentException();
             }else if (line.compareTo("totalFrequency") == 0){
@@ -129,12 +132,15 @@ public class WikiMediator {
                 stage = 4;
                 continue;
             }
-            String[] arrStr = line.split(": ", 3);
+
             if(stage == 1){
+                String[] arrStr = line.split(": ", 3);
                 totalFrequency.put(arrStr[0],Integer.parseInt(arrStr[1]));
             }else if (stage == 2){
+                String[] arrStr = line.split(": ", 3);
                 queryLog.add(new Pair(Long.parseLong(arrStr[0]),arrStr[1]));
             }else if (stage == 3){
+                String[] arrStr = line.split(": ", 3);
                 max = Integer.parseInt(arrStr[1]);
             }else if (stage == 4){
                 seed.add(Integer.parseInt(line));

@@ -100,6 +100,6 @@ public class WikiMediatorTests {
     //wikimediator parameterized constructor testing
     @Test
     public void test7() {
-        WikiMediator wiki = new WikiMediator(10, 30, "C:\\Users\\freet\\IdeaProjects\\x-mp3-freetyhan-danielrjc-phoenixthefirebird\\local\\wikimediator.txt");
+        WikiMediator wiki = new WikiMediator(10, 30, "C:\\Users\\new22\\OneDrive\\Desktop\\2020T1\\CPEN221\\Code\\x-mp3-freetyhan-danielrjc-phoenixthefirebird\\local\\wikimediator.txt");
     }
 }

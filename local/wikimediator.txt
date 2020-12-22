@@ -1,5 +1,5 @@
 totalFrequency
-ubc : 6
+ubc: 6
 how to cram for finals: 4
 Christmas gift ideas: 3
 birb: 1
@@ -19,7 +19,7 @@ queryLog
 12349390623: birb
 12349391624: how to cram for finals
 functionLog
-maxLoad : 13
+maxLoad: 13
 startlog
 6
 0
