@@ -29,6 +29,13 @@ public class WikiMediatorTests {
         System.out.println(page);
     }
 
+    @Test
+    public void test6() {
+        WikiMediator wiki = new WikiMediator(10, 30);
+        String page = wiki.getPage("ubc");
+        System.out.println(page);
+    }
+
     //testing zeitgeist method
     @Test
     public void test3() {
@@ -63,6 +70,7 @@ public class WikiMediatorTests {
         System.out.println(Arrays.toString((wiki.trending(2)).toArray()));
     }
 
+    //testing peakLoad30s method
     @Test
     public void test5() {
         WikiMediator wiki = new WikiMediator();
