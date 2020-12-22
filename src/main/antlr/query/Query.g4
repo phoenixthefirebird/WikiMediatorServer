@@ -2,7 +2,7 @@ grammar Query;
 
 // This puts "package poly;" for all generated Java files. .
 @header {
-package poly;
+package query;
 }
 
 // This adds code to the generated lexer and parser.
