@@ -1,87 +1,87 @@
-//package cpen221.mp3.server;
-//
-//
-//import java.io.*;
-//import java.math.BigInteger;
-//import java.net.ServerSocket;
-//import java.net.Socket;
-//
-///**
-// * WikiMediatorServer is a server that finds the n^th Fibonacci number given n. It
-// * accepts requests of the correct form of queries and
-// * for each request, returns a reply of the form: Reply ::= (Number | "err")
-// * "\n" where a Number is the requested Fibonacci number, or "err" is used to
-// * indicate a misformatted request. FibonacciServer can handle only one client
-// * at a time.
-// *
-// * TODO: change the description to match that of WikiMediatorServer^
-// */
-//public class WikiMediatorServer {
-//    /**
-//     * AF:
-//     *
-//     * RI:
-//     * serverSocket is not null
-//     */
-//
-//    private ServerSocket serverSocket;
-//    private int limit;
-//
-//    /**
-//     * Start a server at a given port number, with the ability to process
-//     * upto n requests concurrently.
-//     *
-//     * @param port the port number to bind the server to
-//     * @param n the number of concurrent requests the server can handle
-//     * requires: 0 <= port <= 65535
-//     */
-//    public WikiMediatorServer(int port, int n) throws IOException{
-//        serverSocket = new ServerSocket(port);
-//        limit = n;
-//    }
-//
-//
-//    /**
-//     * Run the server, listening for connections and handling them.
-//     *
-//     * @throws IOException
-//     *             if the main server socket is broken
-//     */
-//    public void serve() throws IOException {
-//        while (true) {
-//            // block until a client connects
-//            final Socket socket = serverSocket.accept();
-//            // create a new thread to handle that client
-//            Thread handler = new Thread(new Runnable() {
-//                public void run() {
-//                    try {
-//                        try {
-//                            handle(socket);
-//                        } finally {
-//                            socket.close();
-//                        }
-//                    } catch (IOException ioe) {
-//                        // this exception wouldn't terminate serve(),
-//                        // since we're now on a different thread, but
-//                        // we still need to handle it
-//                        ioe.printStackTrace();
-//                    }
-//                }
-//            });
-//            // start the thread
-//            handler.start();
-//        }
-//    }
-//
-//    /**
-//     * Handle one client connection. Returns when client disconnects.
-//     *
-//     * @param socket
-//     *            socket where client is connected
-//     * @throws IOException
-//     *             if connection encounters an error
-//     */
-//    private void handle(Socket socket) throws IOException {
+package cpen221.mp3.server;
+
+
+import java.io.*;
+import java.math.BigInteger;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+/**
+ * WikiMediatorServer is a server that finds the n^th Fibonacci number given n. It
+ * accepts requests of the correct form of queries and
+ * for each request, returns a reply of the form: Reply ::= (Number | "err")
+ * "\n" where a Number is the requested Fibonacci number, or "err" is used to
+ * indicate a misformatted request. FibonacciServer can handle only one client
+ * at a time.
+ *
+ * TODO: change the description to match that of WikiMediatorServer^
+ */
+public class WikiMediatorServer {
+    /**
+     * AF:
+     *
+     * RI:
+     * serverSocket is not null
+     */
+
+    private ServerSocket serverSocket;
+    private int limit;
+
+    /**
+     * Start a server at a given port number, with the ability to process
+     * upto n requests concurrently.
+     *
+     * @param port the port number to bind the server to
+     * @param n the number of concurrent requests the server can handle
+     * requires: 0 <= port <= 65535
+     */
+    public WikiMediatorServer(int port, int n) throws IOException{
+        serverSocket = new ServerSocket(port);
+        limit = n;
+    }
+
+
+    /**
+     * Run the server, listening for connections and handling them.
+     *
+     * @throws IOException
+     *             if the main server socket is broken
+     */
+    public void serve() throws IOException {
+        while (true) {
+            // block until a client connects
+            final Socket socket = serverSocket.accept();
+            // create a new thread to handle that client
+            Thread handler = new Thread(new Runnable() {
+                public void run() {
+                    try {
+                        try {
+                            handle(socket);
+                        } finally {
+                            socket.close();
+                        }
+                    } catch (IOException ioe) {
+                        // this exception wouldn't terminate serve(),
+                        // since we're now on a different thread, but
+                        // we still need to handle it
+                        ioe.printStackTrace();
+                    }
+                }
+            });
+            // start the thread
+            handler.start();
+        }
+    }
+
+    /**
+     * Handle one client connection. Returns when client disconnects.
+     *
+     * @param socket
+     *            socket where client is connected
+     * @throws IOException
+     *             if connection encounters an error
+     */
+    private void handle(Socket socket) throws IOException {
 //        System.err.println("client connected");
 //
 //        // get the socket's input stream, and wrap converters around it
@@ -123,6 +123,12 @@
 //            out.close();
 //            in.close();
 //        }
+
 //    }
 //
 //}
+
+    }
+
+}
+

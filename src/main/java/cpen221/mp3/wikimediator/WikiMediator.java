@@ -23,7 +23,7 @@ public class WikiMediator {
      * AF:
      * Wiki mediator service cache wikipedia pages to minimize network accesses
      * Wiki mediator service collect statistical information about requests
-     * queryLog //TODO: what does this do?
+     * queryLog tracks queries used in methods
      * functionLog tracks Strings used in search and getPage requests with number of time used
      * maxRequest tracks number of times specific String is used
      * <p>
