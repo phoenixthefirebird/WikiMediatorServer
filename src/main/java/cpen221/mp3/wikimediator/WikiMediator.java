@@ -324,4 +324,32 @@ public class WikiMediator {
         }
         return true;
     }
+
+    /**
+     * this function saves the states of the WikiMediator to the default
+     * backlog.txt in local directory,
+     * overwrites the existing content if the file is not empty
+     *
+     * @return true if the state is saved successfully, false otherwise
+     */
+    synchronized public boolean closeWiki() {
+        try {
+            FileWriter writer = new FileWriter(".\\local\\backlog.txt");
+            writer.write("totalFrequency" + System.lineSeparator());
+            for (String query : totalFrequency.keySet()) {
+                writer.write(query + ": " + totalFrequency.get(query) + System.lineSeparator());
+            }
+            writer.write("queryLog" + System.lineSeparator());
+            for(Pair i : queryLog){
+                writer.write(i.getFirst() + ": " + i.getSecond() + System.lineSeparator());
+            }
+            writer.write("functionLog" + System.lineSeparator());
+            functionLog.close(writer);
+            writer.close();
+        } catch (IOException e) {
+            System.err.println("There was error saving the state of the WikiMediator!");
+            return false;
+        }
+        return true;
+    }
 }
