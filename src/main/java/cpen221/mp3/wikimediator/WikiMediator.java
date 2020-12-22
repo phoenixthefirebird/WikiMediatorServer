@@ -53,16 +53,13 @@ public class WikiMediator {
      */
 
     public WikiMediator() {
-        //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
         functionLog = new loadTracker();
         totalFrequency = new ConcurrentHashMap<>();
-
     }
 
     public WikiMediator(int capacity, int timeout) {
-        //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer(capacity, timeout);
         queryLog = new ArrayList<>();
         functionLog = new loadTracker();
@@ -93,7 +90,7 @@ public class WikiMediator {
      * @param limit the upward number of page titles to return
      * @return a list of page titles that match the query string
      */
-    synchronized public List<String> search(String query, int limit) {
+    public List<String> search(String query, int limit) {
         trackWorkload();
         trackQuery(query);
         List<String> searched = wiki.search(query, limit, NS.MAIN);
@@ -108,7 +105,7 @@ public class WikiMediator {
      * @return a String representing the text of the wiki page with associated with the title
      */
 
-    synchronized public String getPage(String pageTitle) {
+    public String getPage(String pageTitle) {
         trackQuery(pageTitle);
         trackWorkload();
         String page;
@@ -121,16 +118,22 @@ public class WikiMediator {
         return page;
     }
 
-    synchronized private void trackQuery(String query) {
-        queryLog.add(new Pair(System.currentTimeMillis(), query));
-        if (totalFrequency.containsKey(query))
-            totalFrequency.put(query, totalFrequency.get(query) + 1);
-        else
-            totalFrequency.put(query, 1);
+    private void trackQuery(String query) {
+        synchronized (queryLog){
+            queryLog.add(new Pair(System.currentTimeMillis(), query));
+        }
+        synchronized (totalFrequency){
+            if (totalFrequency.containsKey(query))
+                totalFrequency.put(query, totalFrequency.get(query) + 1);
+            else
+                totalFrequency.put(query, 1);
+        }
     }
 
-    synchronized private void trackWorkload(){
-        functionLog.increment();
+    private void trackWorkload(){
+        synchronized (functionLog){
+            functionLog.increment();
+        }
     }
 
     /**
@@ -141,15 +144,17 @@ public class WikiMediator {
      * @param limit the maximum number of results in the return list
      * @return a list of limit number of the most common Strings sorted in non-increasing count order
      */
-    synchronized public List<String> zeitgeist(int limit) {
+    public List<String> zeitgeist(int limit) {
         trackWorkload();
-        List<String> commonStrings = totalFrequency.entrySet()
-                .parallelStream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .map(e -> e.getKey())
-                .limit(limit)
-                .collect(Collectors.toList());
-        return commonStrings;
+        synchronized (totalFrequency){
+            List<String> commonStrings = totalFrequency.entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                    .map(e -> e.getKey())
+                    .limit(limit)
+                    .collect(Collectors.toList());
+            return commonStrings;
+        }
     }
 
     /**
@@ -159,21 +164,23 @@ public class WikiMediator {
      * @return a list of limit number of String sorted in non-increasing frequency of use
      * over the lst 30 seconds
      */
-    synchronized public List<String> trending(int limit) {
+    public List<String> trending(int limit) {
         trackWorkload();
-        queryLog = queryLog.stream()
-                .filter(x -> (((Integer) x.getFirst()) + WINDOW) >= System.currentTimeMillis())
-                .collect(Collectors.toList());
-        Map<String, Long> map = queryLog.stream()
-                .collect(Collectors.groupingBy(e -> (String) e.getSecond(),
-                        (Collectors.counting())));
-        List<String> result = map.entrySet()
-                .stream()
-                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                .map(e -> e.getKey())
-                .limit(limit)
-                .collect(Collectors.toList());
-        return result;
+        synchronized (queryLog){
+            queryLog = queryLog.stream()
+                    .filter(x -> (((Integer) x.getFirst()) + WINDOW) >= System.currentTimeMillis())
+                    .collect(Collectors.toList());
+            Map<String, Long> map = queryLog.stream()
+                    .collect(Collectors.groupingBy(e -> (String) e.getSecond(),
+                            (Collectors.counting())));
+            List<String> result = map.entrySet()
+                    .stream()
+                    .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                    .map(e -> e.getKey())
+                    .limit(limit)
+                    .collect(Collectors.toList());
+            return result;
+        }
     }
 
     /**
@@ -183,7 +190,6 @@ public class WikiMediator {
 
     synchronized public int peakLoad30s() {
         trackWorkload();
-        //TODO: complete functionality, log the past maximum and its window start time in maxRequest
         return functionLog.getMaxLoad();
     }
 
