@@ -4,6 +4,8 @@ import cpen221.mp3.fsftbuffer.FSFTBuffer;
 import cpen221.mp3.fsftbuffer.intBuffers;
 import cpen221.mp3.wikimediator.*;
 import org.junit.Test;
+
+import java.io.IOException;
 import java.util.*;
 
 /** sequential tests */
@@ -119,8 +121,14 @@ public class WikiMediatorTests {
 
     //error opening a file testing
     @Test
-    public void test9() {
-        WikiMediator wiki = new WikiMediator("abc.txt");
-        wiki.closeWiki("abc.txt");
+    public void test9() throws IOException {
+        WikiMediator wiki = new WikiMediator("wikimediator1.txt");
+    }
+
+    //error closing a file testing
+    @Test
+    public void test10() throws IOException {
+        WikiMediator wiki = new WikiMediator("wikimediator1.txt");
+        wiki.closeWiki("wikimediator2.txt");
     }
 }

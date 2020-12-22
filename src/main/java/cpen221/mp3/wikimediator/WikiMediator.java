@@ -62,7 +62,7 @@ public class WikiMediator {
         Scanner sc;
         try {
             sc = new Scanner(file);
-        }catch (IOException e){
+        }catch (IOException e) {
             System.err.println("cannot open file");
             sc = null;
         }
@@ -79,7 +79,7 @@ public class WikiMediator {
         Scanner sc;
         try {
             sc = new Scanner(file);
-        }catch (IOException e){
+        }catch (IOException e) {
             System.err.println("cannot open file");
             sc = null;
         }
