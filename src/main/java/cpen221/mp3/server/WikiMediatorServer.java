@@ -4,6 +4,7 @@ package cpen221.mp3.server;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import cpen221.mp3.wikimediator.WikiMediator;
+import okhttp3.Request;
 
 import java.io.*;
 import java.math.BigInteger;
@@ -105,38 +106,17 @@ public class WikiMediatorServer {
         // types to it.
         PrintWriter out = new PrintWriter(new OutputStreamWriter(
                 socket.getOutputStream()), true);
-//
-//        try {
-//            // each request is a single line containing a number
-//            for (String line = in.readLine(); line != null; line = in
-//                    .readLine()) {
-//                System.err.println("request: " + line);
-//                try {
-//                    int x = Integer.valueOf(line);
-//                    // compute answer and send back to client
-//                    BigInteger y = fibonacci(x);
-//                    System.err.println("reply: " + y);
-//                    out.println(y);
-//                } catch (NumberFormatException e) {
-//                    // complain about ill-formatted request
-//                    System.err.println("reply: err");
-//                    out.print("err\n");
-//                }
-//                //TODO: to read request
-//
-//                // important! our PrintWriter is auto-flushing, but if it were
-//                // not:
-//                // out.flush();
-//            }
-//        } finally {
-//            out.close();
-//            in.close();
-//        }
 
-//    }
-//
-//}
+            for (String line = in.readLine(); line != null; line = in
+                    .readLine()) {
+                System.out.println("request: " + line);
+                Request request = new Gson().fromJson(line, Request.class);
+//                System.err.println("reply: " + y);
+//                out.println(y);
 
+            out.close();
+            in.close();
+        }
 
     }
 
@@ -168,6 +148,7 @@ public class WikiMediatorServer {
         }
     }
 
+    //sample program
     public static void main(String[] args) {
         String jsonString = "{ \"id\": \"two\", \"type\": \"trending\", \"limit\": \"5\" }";
         Request request = new Gson().fromJson(jsonString, Request.class);
