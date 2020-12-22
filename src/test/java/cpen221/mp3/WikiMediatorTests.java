@@ -42,12 +42,24 @@ public class WikiMediatorTests {
 
         System.out.println(wiki.getPage("engineer"));
         System.out.println(Arrays.toString((wiki.zeitgeist(3)).toArray()));
+        System.out.println(Arrays.toString((wiki.zeitgeist(2)).toArray()));
     }
 
+    //testing trending method
     @Test
     public void test4() {
         WikiMediator wiki = new WikiMediator();
-        String page = wiki.getPage("ubc");
-        System.out.println(page);
+        Timer timer = new Timer();
+
+        for(int i = 0; i < 30; i++){
+            try {
+                Thread.sleep(1000);
+                System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
+            } catch (Exception InterruptedException){
+                return;
+            }
+        }
+
+        System.out.println(Arrays.toString((wiki.trending(2)).toArray()));
     }
 }
