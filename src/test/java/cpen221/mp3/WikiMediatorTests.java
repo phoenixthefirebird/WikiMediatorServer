@@ -30,7 +30,7 @@ public class WikiMediatorTests {
     }
 
     @Test
-    public void test6() {
+    public void test3() {
         WikiMediator wiki = new WikiMediator(10, 30);
         String page = wiki.getPage("ubc");
         System.out.println(page);
@@ -38,7 +38,7 @@ public class WikiMediatorTests {
 
     //testing zeitgeist method
     @Test
-    public void test3() {
+    public void test4() {
         WikiMediator wiki = new WikiMediator();
         System.out.println(wiki.getPage("ubc"));
         System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
@@ -54,7 +54,7 @@ public class WikiMediatorTests {
 
     //testing trending method
     @Test
-    public void test4() {
+    public void test5() {
         WikiMediator wiki = new WikiMediator();
         Timer timer = new Timer();
 
@@ -72,7 +72,7 @@ public class WikiMediatorTests {
 
     //testing peakLoad30s method
     @Test
-    public void test5() {
+    public void test6() {
         WikiMediator wiki = new WikiMediator();
         Timer timer = new Timer();
         int flag = 0;
@@ -95,5 +95,11 @@ public class WikiMediatorTests {
         }
 
         System.out.println(wiki.peakLoad30s());
+    }
+
+    //wikimediator parameterized constructor testing
+    @Test
+    public void test7() {
+        WikiMediator wiki = new WikiMediator(10, 30, "C:\\Users\\freet\\IdeaProjects\\x-mp3-freetyhan-danielrjc-phoenixthefirebird\\local\\wikimediator.txt");
     }
 }
