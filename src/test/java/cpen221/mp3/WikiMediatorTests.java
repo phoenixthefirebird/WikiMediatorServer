@@ -19,6 +19,7 @@ public class WikiMediatorTests {
         System.out.println(Arrays.toString(searchResult.toArray()));
         searchResult = wiki.search("ubc", 2);
         System.out.println(Arrays.toString(searchResult.toArray()));
+        wiki.closeWiki();
     }
 
     //testing getpage method
@@ -27,6 +28,7 @@ public class WikiMediatorTests {
         WikiMediator wiki = new WikiMediator();
         String page = wiki.getPage("ubc");
         System.out.println(page);
+        wiki.closeWiki();
     }
 
     @Test
@@ -34,6 +36,7 @@ public class WikiMediatorTests {
         WikiMediator wiki = new WikiMediator(10, 30);
         String page = wiki.getPage("ubc");
         System.out.println(page);
+        wiki.closeWiki();
     }
 
     //testing zeitgeist method
@@ -50,6 +53,7 @@ public class WikiMediatorTests {
         System.out.println(wiki.getPage("engineer"));
         System.out.println(Arrays.toString((wiki.zeitgeist(3)).toArray()));
         System.out.println(Arrays.toString((wiki.zeitgeist(2)).toArray()));
+        wiki.closeWiki();
     }
 
     //testing trending method
@@ -68,6 +72,7 @@ public class WikiMediatorTests {
         }
 
         System.out.println(Arrays.toString((wiki.trending(2)).toArray()));
+        wiki.closeWiki();
     }
 
     //testing peakLoad30s method
@@ -95,11 +100,13 @@ public class WikiMediatorTests {
         }
 
         System.out.println(wiki.peakLoad30s());
+        wiki.closeWiki();
     }
 
     //wikimediator parameterized constructor testing
     @Test
     public void test7() {
         WikiMediator wiki = new WikiMediator(10, 30, ".\\local\\wikimediator.txt");
+        wiki.closeWiki();
     }
 }
