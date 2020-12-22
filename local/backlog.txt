@@ -1,8 +1,11 @@
 totalFrequency
-ubc: 2
+ubc: 4
 queryLog
 1608661673473: ubc
 1608661673720: ubc
+1608663586797: ubc
+1608663587115: ubc
 functionLog
-maxLoad: 2startlog
+maxLoad: 4startlog
+2
 2
