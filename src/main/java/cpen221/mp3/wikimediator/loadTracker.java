@@ -93,13 +93,11 @@ public class loadTracker {
             maxLoad = currentLoad;
         }
         try{
-            writer.write("startmaxLoad" + System.lineSeparator());
+            writer.write("maxLoad: " + maxLoad);
             writer.write("startlog" + System.lineSeparator());
             for(Integer i : log){
                 writer.write(i + System.lineSeparator());
             }
-            writer.write("currentLoad: "  + currentLoad);
-            writer.write("maxLoad: " + maxLoad);
         }catch (IOException e){
             System.err.println("there is a problem writing in the maxLoad data");
         }

@@ -5,6 +5,7 @@ import kotlin.Pair;
 import org.fastily.jwiki.core.NS;
 import org.fastily.jwiki.core.Wiki;
 
+import java.io.File;
 import java.io.FileWriter;
 
 
@@ -29,6 +30,7 @@ public class WikiMediator {
      * <p>
      * RI:
      * queryLog is not null
+     * Pair in queryLog is Long, String pair
      * functionLog is not null
      * window //TODO: describe representation of window
      * Function log is not null
@@ -66,22 +68,80 @@ public class WikiMediator {
         totalFrequency = new ConcurrentHashMap<>();
     }
 
-    public WikiMediator(int capacity, int timeout, String filename) {
-        //TODO: work on a scanner to scan a file for data
+    public WikiMediator(int capacity, int timeout, String filename) throws IllegalArgumentException {
         pageBuffer = new FSFTBuffer(capacity, timeout);
         queryLog = new ArrayList<>();
-        functionLog = new loadTracker();
         totalFrequency = new ConcurrentHashMap<>();
+        File file = new File(filename);
+        Scanner sc;
+        try {
+            sc = new Scanner(file);
+        }catch (IOException e){
+            System.err.println("cannot open file");
+            sc = null;
+        }
+        scanToIndex(sc);
+
     }
 
     public WikiMediator(String filename) {
-        //TODO: work on a scanner to scan a file for data
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
-        functionLog = new loadTracker();
         totalFrequency = new ConcurrentHashMap<>();
+        File file = new File(filename);
+        Scanner sc;
+        try {
+            sc = new Scanner(file);
+        }catch (IOException e){
+            System.err.println("cannot open file");
+            sc = null;
+        }
+        scanToIndex(sc);
     }
 
+    private void scanToIndex(Scanner sc){
+        int max = 0;
+        ArrayList<Integer> seed = new ArrayList<>();
+        int stage = 0;
+        while (sc.hasNextLine()) {
+            String line = sc.nextLine();
+            if(line.compareTo("totalFrequency") == 0 && stage != 0){
+                throw new IllegalArgumentException();
+            }else if (line.compareTo("totalFrequency") == 0){
+                stage = 1;
+                continue;
+            }
+            if(line.compareTo("queryLog") == 0 && stage != 1){
+                throw new IllegalArgumentException();
+            } else if(line.compareTo("queryLog") == 0){
+                stage = 2;
+                continue;
+            }
+            if(line.compareTo("functionLog") == 0 && stage != 2){
+                throw new IllegalArgumentException();
+            } else if(line.compareTo("functionLog") == 0){
+                stage = 3;
+                continue;
+            }
+            if(line.compareTo("startlog") == 0 && stage != 3){
+                throw new IllegalArgumentException();
+            }else if(line.compareTo("startlog") == 0){
+                stage = 4;
+                continue;
+            }
+            String[] arrStr = line.split(": ", 3);
+            if(stage == 1){
+                totalFrequency.put(arrStr[0],Integer.parseInt(arrStr[1]));
+            }else if (stage == 2){
+                queryLog.add(new Pair(Long.parseLong(arrStr[0]),arrStr[1]));
+            }else if (stage == 3){
+                max = Integer.parseInt(arrStr[1]);
+            }else if (stage == 4){
+                seed.add(Integer.parseInt(arrStr[0]));
+            }
+        }
+        functionLog = new loadTracker(max,seed);
+    }
     /**
      * Given a query, return up to limit page titles that match the query string
      * Also add timestamp data to the data log
