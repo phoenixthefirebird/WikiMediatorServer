@@ -1,0 +1,31 @@
+totalFrequency
+ubc : 6
+how to cram for finals: 4
+Christmas gift ideas: 3
+birb: 1
+queryLog
+12349384617: ubc
+12349384617: ubc
+12349384617: ubc
+12349384617: ubc
+12349384617: ubc
+12349384617: ubc
+12349384619: how to cram for finals
+12349384619: Christmas gift ideas
+12349384620: how to cram for finals
+12349384620: Christmas gift ideas
+12349384621: how to cram for finals
+12349384622: Christmas gift ideas
+12349384623: birb
+12349384624: how to cram for finals
+functionLog
+maxLoad : 13
+startlog
+6
+0
+2
+2
+1
+1
+1
+

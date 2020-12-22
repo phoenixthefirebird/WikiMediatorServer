@@ -137,7 +137,7 @@ public class WikiMediator {
             }else if (stage == 3){
                 max = Integer.parseInt(arrStr[1]);
             }else if (stage == 4){
-                seed.add(Integer.parseInt(arrStr[0]));
+                seed.add(Integer.parseInt(line));
             }
         }
         functionLog = new loadTracker(max,seed);
