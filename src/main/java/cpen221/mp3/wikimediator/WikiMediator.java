@@ -57,15 +57,31 @@ public class WikiMediator {
     public WikiMediator() {
         pageBuffer = new FSFTBuffer();
         queryLog = new ArrayList<>();
-        functionLog = new loadTracker();
         totalFrequency = new ConcurrentHashMap<>();
+        File file = new File(".\\local\\backlog.txt");
+        Scanner sc;
+        try {
+            sc = new Scanner(file);
+        }catch (IOException e){
+            System.err.println("cannot open file");
+            sc = null;
+        }
+        scanToIndex(sc);
     }
 
     public WikiMediator(int capacity, int timeout) {
         pageBuffer = new FSFTBuffer(capacity, timeout);
         queryLog = new ArrayList<>();
-        functionLog = new loadTracker();
         totalFrequency = new ConcurrentHashMap<>();
+        File file = new File(".\\local\\backlog.txt");
+        Scanner sc;
+        try {
+            sc = new Scanner(file);
+        }catch (IOException e){
+            System.err.println("cannot open file");
+            sc = null;
+        }
+        scanToIndex(sc);
     }
 
     public WikiMediator(int capacity, int timeout, String filename) throws IllegalArgumentException {
