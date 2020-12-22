@@ -10,14 +10,14 @@ queryLog
 12349384617: ubc
 12349384617: ubc
 12349384617: ubc
-12349384619: how to cram for finals
-12349384619: Christmas gift ideas
-12349384620: how to cram for finals
-12349384620: Christmas gift ideas
-12349384621: how to cram for finals
-12349384622: Christmas gift ideas
-12349384623: birb
-12349384624: how to cram for finals
+12349386619: how to cram for finals
+12349386619: Christmas gift ideas
+12349387620: how to cram for finals
+12349387620: Christmas gift ideas
+12349388621: how to cram for finals
+12349389622: Christmas gift ideas
+12349390623: birb
+12349391624: how to cram for finals
 functionLog
 maxLoad : 13
 startlog
