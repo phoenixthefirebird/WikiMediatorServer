@@ -66,7 +66,9 @@ public class WikiMediator {
             System.err.println("cannot open file");
             sc = null;
         }
-        scanToIndex(sc);
+        if(sc != null){
+            scanToIndex(sc);
+        }
     }
 
     public WikiMediator(int capacity, int timeout) {
@@ -81,7 +83,9 @@ public class WikiMediator {
             System.err.println("cannot open file");
             sc = null;
         }
-        scanToIndex(sc);
+        if(sc != null){
+            scanToIndex(sc);
+        }
     }
 
     public WikiMediator(int capacity, int timeout, String filename) throws IllegalArgumentException {
@@ -96,7 +100,9 @@ public class WikiMediator {
             System.err.println("cannot open file");
             sc = null;
         }
-        scanToIndex(sc);
+        if(sc != null){
+            scanToIndex(sc);
+        }
 
     }
 
@@ -112,7 +118,9 @@ public class WikiMediator {
             System.err.println("cannot open file");
             sc = null;
         }
-        scanToIndex(sc);
+        if(sc != null){
+            scanToIndex(sc);
+        }
     }
 
     private void scanToIndex(Scanner sc){
@@ -231,7 +239,7 @@ public class WikiMediator {
             return totalFrequency.entrySet()
                     .stream()
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                    .map(e -> e.getKey())
+                    .map(Map.Entry::getKey)
                     .limit(limit)
                     .collect(Collectors.toList());
         }
@@ -248,18 +256,17 @@ public class WikiMediator {
         trackWorkload();
         synchronized (queryLog){
             queryLog = queryLog.stream()
-                    .filter(x -> (((Long) x.getFirst()) + WINDOW) >= System.currentTimeMillis())
+                    .filter(x -> (x.getFirst() + WINDOW) >= System.currentTimeMillis())
                     .collect(Collectors.toList());
             Map<String, Long> map = queryLog.stream()
-                    .collect(Collectors.groupingBy(e -> (String) e.getSecond(),
+                    .collect(Collectors.groupingBy(Pair<Long, String>::getSecond,
                             (Collectors.counting())));
-            List<String> result = map.entrySet()
+            return map.entrySet()
                     .stream()
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-                    .map(e -> e.getKey())
+                    .map(Map.Entry::getKey)
                     .limit(limit)
                     .collect(Collectors.toList());
-            return result;
         }
     }
 
@@ -310,7 +317,7 @@ public class WikiMediator {
                 writer.write(query + ": " + totalFrequency.get(query) + System.lineSeparator());
             }
             writer.write("queryLog" + System.lineSeparator());
-            for(Pair i : queryLog){
+            for(Pair<Long,String> i : queryLog){
                 writer.write(i.getFirst() + ": " + i.getSecond() + System.lineSeparator());
             }
             writer.write("functionLog" + System.lineSeparator());
@@ -338,7 +345,7 @@ public class WikiMediator {
                 writer.write(query + ": " + totalFrequency.get(query) + System.lineSeparator());
             }
             writer.write("queryLog" + System.lineSeparator());
-            for(Pair i : queryLog){
+            for(Pair<Long,String> i : queryLog){
                 writer.write(i.getFirst() + ": " + i.getSecond() + System.lineSeparator());
             }
             writer.write("functionLog" + System.lineSeparator());
