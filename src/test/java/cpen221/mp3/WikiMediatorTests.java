@@ -106,7 +106,21 @@ public class WikiMediatorTests {
     //wikimediator parameterized constructor testing
     @Test
     public void test7() {
-        WikiMediator wiki = new WikiMediator(10, 30, ".\\local\\wikimediator.txt");
-        wiki.closeWiki();
+        WikiMediator wiki = new WikiMediator(10, 30, "wikimediator.txt");
+        wiki.closeWiki("wikimediator.txt");
+    }
+
+    //wikimediator parameterized constructor testing with filename
+    @Test
+    public void test8() {
+        WikiMediator wiki = new WikiMediator("wikimediator.txt");
+        wiki.closeWiki("wikimediator.txt");
+    }
+
+    //error opening a file testing
+    @Test
+    public void test9() {
+        WikiMediator wiki = new WikiMediator("abc.txt");
+        wiki.closeWiki("abc.txt");
     }
 }
