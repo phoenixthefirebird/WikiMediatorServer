@@ -9,6 +9,9 @@ import java.io.*;
 import java.math.BigInteger;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * WikiMediatorServer is a server that finds the n^th Fibonacci number given n. It
@@ -137,11 +140,44 @@ public class WikiMediatorServer {
 
     }
 
-        public static void main(String[] args) {
-            String jsonString = "{ \"id\": \"two\", \"type\": \"trending\", \"limit\": \"5\" }";
-            JsonObject jsonObject = new Gson().fromJson(jsonString, JsonObject.class);
-            System.out.println(jsonObject);
+    /**
+     * this class holds the information parsed from json in the requests
+     */
+    public class Request{
+        String id;
+        String type;
+        String query;
+        String getPage;
+        int limit;
+        int timeout;
+    }
+
+    /**
+     * this class holds the information parsed from response object
+     */
+
+    public static class Response <T> {
+        String id;
+        String status;
+        T response;
+
+        public Response(String id, String status, T response){
+            this.id = id;
+            this.status = status;
+            this.response = response;
         }
+    }
+
+    public static void main(String[] args) {
+        String jsonString = "{ \"id\": \"two\", \"type\": \"trending\", \"limit\": \"5\" }";
+        Request request = new Gson().fromJson(jsonString, Request.class);
+        System.out.println(request.limit);
+        String[] seed = {"Barack Obama","Barack Obama in comics", "Barack Obama Sr.", "List of things named after Barack Obama", "Speeches of Barack Obama"};
+        List<String> result = Arrays.asList(seed);
+        Response response = new Response("2","success",5);
+        String json = new Gson().toJson(response);
+        System.out.println(json);
+    }
 
 }
 
