@@ -35,10 +35,10 @@ public class WikiMediator {
      * window //TODO: describe representation of window
      * Function log is not null
      */
-    private Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
-    private FSFTBuffer pageBuffer;
-    private ConcurrentHashMap<String, Integer> totalFrequency;
-    private List<Pair> queryLog;
+    private final Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
+    private final FSFTBuffer<WKBuffer> pageBuffer;
+    private final ConcurrentHashMap<String, Integer> totalFrequency;
+    private List<Pair<Long,String>> queryLog;
     private loadTracker functionLog;
     private final int WINDOW = 30000;
 
@@ -55,7 +55,7 @@ public class WikiMediator {
      */
 
     public WikiMediator() {
-        pageBuffer = new FSFTBuffer();
+        pageBuffer = new FSFTBuffer<>();
         queryLog = new ArrayList<>();
         totalFrequency = new ConcurrentHashMap<>();
         File file = new File(".\\local\\backlog.txt");
@@ -70,7 +70,7 @@ public class WikiMediator {
     }
 
     public WikiMediator(int capacity, int timeout) {
-        pageBuffer = new FSFTBuffer(capacity, timeout);
+        pageBuffer = new FSFTBuffer<>(capacity, timeout);
         queryLog = new ArrayList<>();
         totalFrequency = new ConcurrentHashMap<>();
         File file = new File(".\\local\\backlog.txt");
@@ -85,7 +85,7 @@ public class WikiMediator {
     }
 
     public WikiMediator(int capacity, int timeout, String filename) throws IllegalArgumentException {
-        pageBuffer = new FSFTBuffer(capacity, timeout);
+        pageBuffer = new FSFTBuffer<>(capacity, timeout);
         queryLog = new ArrayList<>();
         totalFrequency = new ConcurrentHashMap<>();
         File file = new File(filename);
@@ -101,7 +101,7 @@ public class WikiMediator {
     }
 
     public WikiMediator(String filename) {
-        pageBuffer = new FSFTBuffer();
+        pageBuffer = new FSFTBuffer<>();
         queryLog = new ArrayList<>();
         totalFrequency = new ConcurrentHashMap<>();
         File file = new File(filename);
@@ -154,7 +154,7 @@ public class WikiMediator {
                 totalFrequency.put(arrStr[0],Integer.parseInt(arrStr[1]));
             }else if (stage == 2){
                 String[] arrStr = line.split(": ", 3);
-                queryLog.add(new Pair(Long.parseLong(arrStr[0]),arrStr[1]));
+                queryLog.add(new Pair<>(Long.parseLong(arrStr[0]),arrStr[1]));
             }else if (stage == 3){
                 String[] arrStr = line.split(": ", 3);
                 max = Integer.parseInt(arrStr[1]);
@@ -175,8 +175,7 @@ public class WikiMediator {
     public List<String> search(String query, int limit) {
         trackWorkload();
         trackQuery(query);
-        List<String> searched = wiki.search(query, limit, NS.MAIN);
-        return searched;
+        return wiki.search(query, limit, NS.MAIN);
     }
 
     /**
@@ -192,7 +191,7 @@ public class WikiMediator {
         trackWorkload();
         String page;
         try {
-            page = ((WKBuffer) pageBuffer.get(pageTitle)).getText();
+            page = pageBuffer.get(pageTitle).getText();
         } catch (InvalidKeyException e) {
             page = wiki.getPageText(pageTitle);
             pageBuffer.put(new WKBuffer(pageTitle));
@@ -202,7 +201,7 @@ public class WikiMediator {
 
     private void trackQuery(String query) {
         synchronized (queryLog){
-            queryLog.add(new Pair(System.currentTimeMillis(), query));
+            queryLog.add(new Pair<>(System.currentTimeMillis(), query));
         }
         synchronized (totalFrequency){
             if (totalFrequency.containsKey(query))
@@ -229,13 +228,12 @@ public class WikiMediator {
     public List<String> zeitgeist(int limit) {
         trackWorkload();
         synchronized (totalFrequency){
-            List<String> commonStrings = totalFrequency.entrySet()
+            return totalFrequency.entrySet()
                     .stream()
                     .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
                     .map(e -> e.getKey())
                     .limit(limit)
                     .collect(Collectors.toList());
-            return commonStrings;
         }
     }
 

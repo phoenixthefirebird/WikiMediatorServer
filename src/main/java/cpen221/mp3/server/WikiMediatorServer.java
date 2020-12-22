@@ -1,6 +1,10 @@
 package cpen221.mp3.server;
 
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import cpen221.mp3.wikimediator.WikiMediator;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.net.ServerSocket;
@@ -26,6 +30,7 @@ public class WikiMediatorServer {
 
     private ServerSocket serverSocket;
     private int limit;
+    private WikiMediator backend;
 
     /**
      * Start a server at a given port number, with the ability to process
@@ -38,6 +43,7 @@ public class WikiMediatorServer {
     public WikiMediatorServer(int port, int n) throws IOException{
         serverSocket = new ServerSocket(port);
         limit = n;
+        backend = new WikiMediator();
     }
 
 
@@ -82,20 +88,20 @@ public class WikiMediatorServer {
      *             if connection encounters an error
      */
     private void handle(Socket socket) throws IOException {
-//        System.err.println("client connected");
-//
-//        // get the socket's input stream, and wrap converters around it
-//        // that convert it from a byte stream to a character stream,
-//        // and that buffer it so that we can read a line at a time
-//        BufferedReader in = new BufferedReader(new InputStreamReader(
-//                socket.getInputStream()));
-//
-//        // similarly, wrap character=>bytestream converter around the
-//        // socket output stream, and wrap a PrintWriter around that so
-//        // that we have more convenient ways to write Java primitive
-//        // types to it.
-//        PrintWriter out = new PrintWriter(new OutputStreamWriter(
-//                socket.getOutputStream()), true);
+        System.err.println("client connected");
+
+        // get the socket's input stream, and wrap converters around it
+        // that convert it from a byte stream to a character stream,
+        // and that buffer it so that we can read a line at a time
+        BufferedReader in = new BufferedReader(new InputStreamReader(
+                socket.getInputStream()));
+
+        // similarly, wrap character=>bytestream converter around the
+        // socket output stream, and wrap a PrintWriter around that so
+        // that we have more convenient ways to write Java primitive
+        // types to it.
+        PrintWriter out = new PrintWriter(new OutputStreamWriter(
+                socket.getOutputStream()), true);
 //
 //        try {
 //            // each request is a single line containing a number
@@ -128,7 +134,14 @@ public class WikiMediatorServer {
 //
 //}
 
+
     }
+
+        public static void main(String[] args) {
+            String jsonString = "{ \"id\": \"two\", \"type\": \"trending\", \"limit\": \"5\" }";
+            JsonObject jsonObject = new Gson().fromJson(jsonString, JsonObject.class);
+            System.out.println(jsonObject);
+        }
 
 }
 
