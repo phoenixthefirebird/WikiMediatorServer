@@ -1,7 +1,7 @@
 totalFrequency
+Christmas gift ideas: 3
 ubc: 6
 how to cram for finals: 4
-Christmas gift ideas: 3
 birb: 1
 queryLog
 12349384617: ubc
@@ -28,4 +28,5 @@ startlog
 1
 1
 1
-
+0
+0
