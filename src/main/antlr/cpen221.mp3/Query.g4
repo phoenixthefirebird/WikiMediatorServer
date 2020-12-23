@@ -36,12 +36,14 @@ GET : 'get';
 ITEM : 'page'|'author'|'category';
 WHERE : 'where';
 COND_TYPE : 'title is' | 'author is' | 'category is';
-STRING:  '\'' ( ~'\'' | '\\\'' )* '\'' ;
+STRING : '\'' ( ~'\'' | '\\\'' )* '\'' ;
 LPAREN : '(';
 RPAREN : ')';
 SORTED : 'asc'|'desc';
 CONNECTIVE : 'and' | 'or';
 WHITESPACE : [ \t\r\n]+ -> skip ;
+
+
 
 
 /*
