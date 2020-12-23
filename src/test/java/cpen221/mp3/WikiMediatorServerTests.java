@@ -10,6 +10,5 @@ public class WikiMediatorServerTests {
     public void test1() throws IOException {
         WikiMediatorServer server = new WikiMediatorServer(2, 5);
         server.serve();
-
     }
 }
