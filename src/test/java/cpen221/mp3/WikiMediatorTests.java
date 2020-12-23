@@ -4,7 +4,6 @@ import cpen221.mp3.wikimediator.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
 
 import java.io.IOException;
 import java.util.*;
@@ -258,115 +257,33 @@ public class WikiMediatorTests {
         wiki.closeWiki("wikimediator2.txt");
     }
 
+//    //concurrent junit runner test
 //    @RunWith(ConcurrentJunitRunner.class)
 //    @Concurrent(threads = 6)
 //    public final class ATest {
-//        WikiMediator wiki = new WikiMediator(1,1,"wikimediator.txt");
 //
-//        @Test public void test0() throws Throwable {
-//            for(int i = 0; i < 20; i++){
-//                try {
-//                    Thread.sleep(500);
-//                    System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
-//                } catch (Exception InterruptedException) {
-//                    return;
-//                }
-//            }
-//        }
-//        @Test public void test1() throws Throwable {
-//            for(int i = 0; i < 10; i++){
-//                try {
-//                    Thread.sleep(500);
-//                    System.out.println(Arrays.toString(wiki.search("computer", 1).toArray()));
-//                } catch (Exception InterruptedException) {
-//                    return;
-//                }
-//            }
-//        }
-//        @Test public void test2() throws Throwable {
-//            for(int i = 0; i < 9; i++){
-//                try {
-//                    Thread.sleep(500);
-//                    System.out.println(Arrays.toString(wiki.search("engineering", 1).toArray()));
-//                } catch (Exception InterruptedException) {
-//                    return;
-//                }
-//            }
-//        }
-//        @Test public void test3() throws Throwable {
-//            for(int i = 0; i < 8; i++){
-//                try {
-//                    Thread.sleep(500);
-//                    System.out.println(Arrays.toString(wiki.search("vancouver", 1).toArray()));
-//                } catch (Exception InterruptedException) {
-//                    return;
-//                }
-//            }
-//        }
-//        @Test public void test4() throws Throwable {
-//            for(int i = 0; i < 7; i++){
-//                try {
-//                    Thread.sleep(500);
-//                    System.out.println(Arrays.toString(wiki.search("canada", 1).toArray()));
-//                } catch (Exception InterruptedException) {
-//                    return;
-//                }
-//            }
-//        }
-//        @Test public void test5() throws Throwable {
-//            for(int i = 0; i < 6; i++){
-//                try {
-//                    Thread.sleep(500);
-//                    System.out.println(Arrays.toString(wiki.search("christmas", 1).toArray()));
-//                } catch (Exception InterruptedException) {
-//                    return;
-//                }
-//            }
-//        }
-//        @Test public void test6() throws Throwable {
-//            for(int i = 0; i < 5; i++){
-//                try {
-//                    Thread.sleep(500);
-//                    System.out.println(Arrays.toString(wiki.search("tree", 1).toArray()));
-//                } catch (Exception InterruptedException) {
-//                    return;
-//                }
-//            }
-//        }
-//        @Test public void test7() throws Throwable {
-//            for(int i = 0; i < 4; i++){
-//                try {
-//                    Thread.sleep(500);
-//                    System.out.println(Arrays.toString(wiki.search("snow", 1).toArray()));
-//                } catch (Exception InterruptedException) {
-//                    return;
-//                }
-//            }
-//        }
-//        @Test public void test8() throws Throwable {
-//            for(int i = 0; i < 3; i++){
-//                try {
-//                    Thread.sleep(500);
-//                    System.out.println(Arrays.toString(wiki.search("frozen", 1).toArray()));
-//                } catch (Exception InterruptedException) {
-//                    return;
-//                }
-//            }
-//        }
-//        @Test public void test9() throws Throwable {
-//            for(int i = 0; i < 2; i++){
-//                try {
-//                    Thread.sleep(500);
-//                    System.out.println(Arrays.toString(wiki.search("winter", 1).toArray()));
-//                } catch (Exception InterruptedException) {
-//                    return;
-//                }
-//            }
-//        }
-//        void printAndWait() throws Throwable {
+//        @Test public void test0() throws Throwable { executeAndWait("ubc"); }
+//        @Test public void test1() throws Throwable { executeAndWait("computer"); }
+//        @Test public void test2() throws Throwable { executeAndWait("engineer"); }
+//        @Test public void test3() throws Throwable { executeAndWait("vancouver"); }
+//        @Test public void test4() throws Throwable { executeAndWait("university"); }
+//        @Test public void test5() throws Throwable { executeAndWait("canada"); }
+//        @Test public void test6() throws Throwable { executeAndWait("christmaas"); }
+//        @Test public void test7() throws Throwable { executeAndWait("tree"); }
+//        @Test public void test8() throws Throwable { executeAndWait("snow"); }
+//        @Test public void test9() throws Throwable { executeAndWait("winter"); }
+//
+//        void executeAndWait(String query) throws Throwable {
 //            int w = new Random().nextInt(1000);
 //            System.out.println(String.format("[%s] %s %s %s", Thread.currentThread().getName(), getClass().getName(), new Throwable().getStackTrace()[1].getMethodName(), w));
-//            Thread.sleep(w);
+//            try {
+//                WikiMediator wiki = new WikiMediator();
+//                Thread.sleep(w);
+//                System.out.println(Arrays.toString(wiki.search(query, 1).toArray()));
+//                wiki.closeWiki();
+//            } catch (Exception InterruptedException) {
+//                return;
+//            }
 //        }
 //    }
 }
