@@ -38,10 +38,10 @@ public class WikiMediatorClient {
                 System.out.println("sending request" + x.id + x.type + x.timeout);
 
             // collect the replies
-            for (int x = 1; x <= N; ++x) {
-                BigInteger y = client.getReply();
-                System.out.println("fibonacci(" + x + ") = " + y);
-            }
+//            for (int x = 1; x <= N; ++x) {
+//                BigInteger y = client.getReply();
+//                System.out.println("fibonacci(" + x + ") = " + y);
+//            }
 
             client.close();
         }
