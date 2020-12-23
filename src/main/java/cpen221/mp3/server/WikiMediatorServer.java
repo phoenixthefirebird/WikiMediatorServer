@@ -2,13 +2,11 @@ package cpen221.mp3.server;
 
 
 import com.google.gson.Gson;
-import cpen221.mp3.wikimediator.InvalidQueryException;
 import cpen221.mp3.wikimediator.WikiMediator;
 
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -152,7 +150,6 @@ public class WikiMediatorServer {
                     response = new Response<>(request.id, "Invalid input, please try again!");
             }
             out.println(new Gson().toJson(response));
-
         }
         out.close();
         in.close();

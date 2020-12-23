@@ -62,15 +62,9 @@
 //        List<SimpleCondition> conditions = new ArrayList<>();
 //
 //        @Override
-//        public void exitQuery(QueryParser.QueryContext ctx) {
+//        public void exitSimple_condition(QueryParser.Simple_conditionContext ctx){
 //            String condition;
 //            String item;
-//            if(ctx.GET() != null){
-//                if(ctx.STRING() != null){
-//
-//                }
-//            }
-//
 //        }
 //
 //        @Override

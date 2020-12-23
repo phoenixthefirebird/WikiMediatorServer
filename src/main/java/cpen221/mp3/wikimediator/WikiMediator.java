@@ -341,7 +341,7 @@ public class WikiMediator {
      */
     synchronized public boolean closeWiki(String filename) {
         try {
-            FileWriter writer = new FileWriter(".\\local\\" + filename);
+            FileWriter writer = new FileWriter("." + File.separator +  "local" + File.separator  + filename);
             writer.write("totalFrequency" + System.lineSeparator());
             for (String query : totalFrequency.keySet()) {
                 writer.write(query + ": " + totalFrequency.get(query) + System.lineSeparator());
@@ -369,7 +369,7 @@ public class WikiMediator {
      */
     synchronized public boolean closeWiki() {
         try {
-            FileWriter writer = new FileWriter(".\\local\\backlog.txt");
+            FileWriter writer = new FileWriter("." + File.separator +  "local" + File.separator + "backlog.txt");
             writer.write("totalFrequency" + System.lineSeparator());
             for (String query : totalFrequency.keySet()) {
                 writer.write(query + ": " + totalFrequency.get(query) + System.lineSeparator());
