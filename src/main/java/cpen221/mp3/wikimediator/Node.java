@@ -1,6 +1,6 @@
 package cpen221.mp3.wikimediator;
 
-import java.math.BigDecimal;
+
 import java.util.List;
 
 
@@ -27,8 +27,8 @@ public abstract class Node {
         /**
          * A constructor that takes two child nodes and creates a node.
          *
-         * @param leftChild
-         * @param rightChild
+         * @param leftChild one of the expression to evaluate
+         * @param rightChild another expression to evaluate
          */
         public Node(Node leftChild, Node rightChild) {
             this.numChildren = 2;

@@ -3,6 +3,7 @@ package cpen221.mp3.wikimediator;
 import org.fastily.jwiki.core.NS;
 import org.fastily.jwiki.core.Wiki;
 import org.fastily.jwiki.dwrap.Contrib;
+import org.fastily.jwiki.dwrap.DataEntry;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,10 +11,10 @@ import java.util.stream.Collectors;
 public class OperandNode extends Node {
 
     static final int numChildren = 0;
-    private Wiki wiki;
-    private String item;
-    private NS condition_type;
-    private String string;
+    private final Wiki wiki;
+    private final String item;
+    private final NS condition_type;
+    private final String string;
 
     /**
      * Create a new OperandNode to hold and evaluate a simple condition in structured query
@@ -25,7 +26,7 @@ public class OperandNode extends Node {
 
     public OperandNode(String item, String condition_type, String string) throws InvalidQueryException {
         super( );
-        this.wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();;
+        this.wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
         this.item = item;
         if(condition_type.compareTo("title is")==0){
             this.condition_type = NS.MAIN;
@@ -49,7 +50,7 @@ public class OperandNode extends Node {
             return wiki.search(string,-1, condition_type);
         } else if (item.contains("author")){
             List<Contrib> result = wiki.getContribs(string,-1,false,false, condition_type);
-            return result.stream().map(e->e.toString()).collect(Collectors.toList());
+            return result.stream().map(DataEntry::toString).collect(Collectors.toList());
         } else if(item.contains("category")){
             return wiki.getCategoryMembers(string,condition_type);
         }

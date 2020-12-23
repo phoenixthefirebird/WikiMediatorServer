@@ -9,8 +9,8 @@ public class AndNode extends Node {
      * of this node represent the two operands, although they may be
      * subexpressions that need to be evaluated.
      *
-     * @param leftNode
-     * @param rightNode
+     * @param leftNode one of the expression to evaluate
+     * @param rightNode another expression to evaluate
      */
     public AndNode(Node leftNode, Node rightNode){
         super(leftNode,rightNode);
@@ -36,6 +36,6 @@ public class AndNode extends Node {
     public List<String> evaluate() throws InvalidQueryException{
         List<String> left = super.getChild(0).evaluate();
         List<String> right = super.getChild(1).evaluate();
-        return left.stream().filter(x-> right.contains(x)).collect(Collectors.toList());
+        return left.stream().filter(right::contains).collect(Collectors.toList());
     }
 }

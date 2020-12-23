@@ -112,6 +112,8 @@ public class WikiMediatorServer {
                     ((request.type.compareTo("zeitgeist") == 0 ||request.type.compareTo("trending") == 0) && request.limit == 0 )){
                 assert request != null;
                 response = new Response<>(request.id, "failure","Bad request!");
+                out.println(response);
+                continue;
             }
 
             switch (request.type) {

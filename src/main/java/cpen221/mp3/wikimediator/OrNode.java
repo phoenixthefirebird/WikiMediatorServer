@@ -8,8 +8,8 @@ public class OrNode extends Node {
      * of this node represent the two operands, although they may be
      * subexpressions that need to be evaluated.
      *
-     * @param leftNode
-     * @param rightNode
+     * @param leftNode one of the nodes to evaluate
+     * @param rightNode another node to evaluate
      */
     public OrNode(Node leftNode, Node rightNode){
         super(leftNode,rightNode);

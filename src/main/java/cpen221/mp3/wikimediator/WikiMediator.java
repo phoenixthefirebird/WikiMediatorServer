@@ -36,7 +36,7 @@ public class WikiMediator {
      * Function log is not null
      */
     private final Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
-    private FSFTBuffer<WKBuffer> pageBuffer;
+    private final FSFTBuffer<WKBuffer> pageBuffer;
     private static ConcurrentHashMap<String, Integer> totalFrequency;
     private static List<Pair<Long,String>> queryLog;
     private static loadTracker functionLog;
