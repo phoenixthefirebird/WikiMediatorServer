@@ -94,4 +94,48 @@ public class WikiMediatorClient {
         out.close();
         socket.close();
     }
+
+    private class Request <T>{
+        String id;
+        String type;
+        String query;
+        String getPage;
+        int limit;
+        int timeout;
+
+        public Request(String id, String type, int timeout){
+            this.id = id;
+            this.type = type;
+            this.timeout = timeout;
+        }
+
+        public Request(String id, String type, String query, int timeout){
+            this.id = id;
+            this.type = type;
+            this.query = query;
+            this.timeout = timeout;
+        }
+        public Request(String id, String type, int limit, int timeout){
+            this.id = id;
+            this.type = type;
+            this.limit = limit;
+            this.timeout = timeout;
+        }
+
+        public Request(String id, String type, String query, int limit, int timeout){
+            this.id = id;
+            this.type = type;
+            this.query = query;
+            this.limit = limit;
+            this.timeout = timeout;
+        }
+
+        //TODO: add more constructors to this class for testing different requests
+    }
+
+    private class Response{
+        String id;
+        String status;
+        String response;
+    }
 }
