@@ -1,11 +1,8 @@
 package cpen221.mp3;
 
-import cpen221.mp3.fsftbuffer.Bufferable;
 import cpen221.mp3.fsftbuffer.FSFTBuffer;
 import cpen221.mp3.fsftbuffer.intBuffers;
 import org.junit.Test;
-import java.util.*;
-import java.util.concurrent.*;
 
 /** sequential tests */
 public class Tests {
@@ -14,8 +11,8 @@ public class Tests {
     @Test
     public void test() {
 
-        Timer timer = new Timer();
-        FSFTBuffer buffer= new FSFTBuffer(7,4);
+
+        FSFTBuffer<intBuffers> buffer= new FSFTBuffer<>(7,4);
         for(int i = 0; i < 10; i ++){
             buffer.put(new intBuffers(i));
             try {
@@ -29,8 +26,7 @@ public class Tests {
     @Test
     public void testDefault() {
 
-        Timer timer = new Timer();
-        FSFTBuffer buffer= new FSFTBuffer();
+        FSFTBuffer<intBuffers> buffer= new FSFTBuffer<>();
         for(int i = 0; i < 10; i ++){
             buffer.put(new intBuffers(i));
             try {
@@ -44,8 +40,7 @@ public class Tests {
     @Test
     public void test1() {
 
-        Timer timer = new Timer();
-        FSFTBuffer buffer= new FSFTBuffer(7,7);
+        FSFTBuffer<intBuffers> buffer= new FSFTBuffer<>(7,7);
         for(int i = 0; i < 20; i++){
             buffer.put(new intBuffers(i));
             try {
@@ -59,8 +54,7 @@ public class Tests {
      @Test
     public void test5() {
 
-        Timer timer = new Timer();
-        FSFTBuffer buffer= new FSFTBuffer(4,5);
+        FSFTBuffer<intBuffers> buffer= new FSFTBuffer<>(4,5);
         for(int i = 0; i < 20; i++){
             buffer.put(new intBuffers(i));
             try {
@@ -75,8 +69,7 @@ public class Tests {
     @Test
     public void testTouch() {
 
-        Timer timer = new Timer();
-        FSFTBuffer buffer= new FSFTBuffer(5,7);
+        FSFTBuffer<intBuffers> buffer= new FSFTBuffer<>(5,7);
         intBuffers target = new intBuffers(1);
         buffer.put(target);
 
@@ -91,12 +84,10 @@ public class Tests {
     }
     //testing the update function
 
-    //testing
     @Test
     public void testUpdate() {
 
-        Timer timer = new Timer();
-        FSFTBuffer buffer= new FSFTBuffer(5,7);
+        FSFTBuffer<intBuffers> buffer= new FSFTBuffer<>(5,7);
         intBuffers target = new intBuffers(1);
         buffer.put(target);
 
@@ -114,8 +105,7 @@ public class Tests {
     @Test
     public void testGet() {
 
-        Timer timer = new Timer();
-        FSFTBuffer buffer= new FSFTBuffer(5,7);
+        FSFTBuffer<intBuffers> buffer= new FSFTBuffer<>(5,7);
         intBuffers target = new intBuffers(1);
         buffer.put(target);
 

@@ -104,13 +104,14 @@ public class WikiMediatorServer {
             System.out.println("request: " + line);
             Request request = new Gson().fromJson(line, Request.class);
             Response<?> response;
-            if(request.id == null ||request.id.compareTo(" ") == 0 || request.type == null ||
+            if(request == null ||request.id == null ||request.id.compareTo(" ") == 0 || request.type == null ||
                     request.type.compareTo(" ") == 0|| (request.type.compareTo("query") == 0 && request.query == null)
                      ||(request.type.compareTo("query") == 0 && request.query.compareTo("") == 0)||
                     (request.type.compareTo("getPage") == 0 && request.getPage.compareTo("") == 0) ||
                     (request.type.compareTo("getPage") == 0 && request.getPage == null) ||
                     ((request.type.compareTo("zeitgeist") == 0 ||request.type.compareTo("trending") == 0) && request.limit == 0 )){
-                response = new Response<String>(request.id, "failure","Bad request!");
+                assert request != null;
+                response = new Response<>(request.id, "failure","Bad request!");
             }
 
             switch (request.type) {
@@ -137,6 +138,7 @@ public class WikiMediatorServer {
                 case "query":
                     Future<List<String>> future_q = executor.submit(()->wiki.executeQuery(request.query));
                     response = execute(request,future_q);
+                    break;
                 case "stop":
                     executor.shutdown();
                     try {
