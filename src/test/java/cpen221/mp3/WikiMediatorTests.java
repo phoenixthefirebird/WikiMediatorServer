@@ -323,14 +323,19 @@ public class WikiMediatorTests {
         t1.start();
         t2.start();
         t3.start();
-
-
-
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+        }catch (InterruptedException e){
+            return;
+        }
         int peak = wiki.peakLoad30s();
         System.out.println(peak);
         assertEquals(52, peak);
         wiki.closeWiki();
     }
+
     //testing with diferent threads running at different intervals
     @Test
     public void test13() {
