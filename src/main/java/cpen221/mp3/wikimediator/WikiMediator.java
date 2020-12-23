@@ -24,6 +24,7 @@ public class WikiMediator {
      * AF:
      * Wiki mediator service cache wikipedia pages to minimize network accesses
      * Wiki mediator service collect statistical information about requests
+     * Wiki mediator service takes file name input in "filename.txt" format then scan and write on the file
      * queryLog tracks queries used in methods
      * functionLog tracks Strings used in search and getPage requests with number of time used
      * maxRequest tracks number of times specific String is used
@@ -32,7 +33,6 @@ public class WikiMediator {
      * queryLog is not null
      * Pair in queryLog is Long, String pair
      * functionLog is not null
-     * window //TODO: describe representation of window
      * Function log is not null
      */
     private final Wiki wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
