@@ -1,9 +1,365 @@
 totalFrequency
 Christmas gift idea: 2
-animal: 2
+animal: 3
 birds: 1
-Fibonacci number: 2
+Fibonacci number: 3
 queryLog
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765276478: Fibonacci number
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765276478: Fibonacci number
+1608765276478: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765276478: Fibonacci number
+1608765276478: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765276478: Fibonacci number
+1608765380723: animal
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765380772: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765380723: animal
+1608765380723: birds
+1608765209292: animal
+1608765380772: Christmas gift idea
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765380723: animal
+1608765380723: birds
+1608765380772: Christmas gift idea
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765276478: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765380723: animal
+1608765380723: birds
+1608765380772: Christmas gift idea
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765276478: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765380723: animal
+1608765380723: birds
+1608765380772: Christmas gift idea
 1608765209247: Christmas gift idea
 1608765209247: Christmas gift idea
 1608765209247: Christmas gift idea
@@ -79,10 +435,240 @@ queryLog
 1608765380723: animal
 1608765380723: birds
 1608765380772: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765276478: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765380723: animal
+1608765380723: birds
+1608765380772: Christmas gift idea
+1608765209292: Fibonacci number
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765276478: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765276478: Fibonacci number
+1608765209292: Fibonacci number
+1608765380723: animal
+1608765209292: Fibonacci number
+1608765380723: birds
+1608765209292: Fibonacci number
+1608765380772: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: Fibonacci number
+1608765276478: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209247: Christmas gift idea
+1608765276478: Fibonacci number
+1608765209247: Christmas gift idea
+1608765209247: Christmas gift idea
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: Fibonacci number
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765209292: animal
+1608765276478: Fibonacci number
+1608765380723: animal
+1608765380723: birds
+1608765380772: Christmas gift idea
+1608766273131: Christmas gift idea
+1608766273138: animal
+1608766273138: Fibonacci number
+1608766273139: UBC
 functionLog
-maxLoad: 12
+maxLoad: 18
 startlog
 0
 5
 2
 5
+6

@@ -26,11 +26,13 @@ public class WikiMediator {
      * Wiki mediator service collect statistical information about requests
      * Wiki mediator service takes file name input in "filename.txt" format then scan and write on the file
      * queryLog tracks queries used in methods
+     * pagebuffer used to cache a page into the buffer
      * functionLog tracks Strings used in search and getPage requests with number of time used
      * maxRequest tracks number of times specific String is used
      * <p>
      * RI:
      * queryLog is not null
+     * pageBuffer is not null
      * Pair in queryLog is Long, String pair
      * functionLog is not null
      * Function log is not null

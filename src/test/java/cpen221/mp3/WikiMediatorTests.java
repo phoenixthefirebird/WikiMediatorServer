@@ -214,7 +214,7 @@ public class WikiMediatorTests {
         wiki.closeWiki();
     }
 
-    //testing peakLoad30s method with single element search - TODO: might be some errors in peakload30s?
+    //testing peakLoad30s method with single element search - needs to clear backlog in order to get correct answer
     @Test
     public void test6a() {
         WikiMediator wiki = new WikiMediator();
