@@ -56,70 +56,94 @@ public class WikiMediator {
 
     public WikiMediator() {
         pageBuffer = new FSFTBuffer<>();
-        queryLog = new ArrayList<>();
-        totalFrequency = new ConcurrentHashMap<>();
-        File file = new File(".\\local\\backlog.txt");
-        Scanner sc;
-        try {
-            sc = new Scanner(file);
-        }catch (IOException e){
-            System.err.println("cannot open file");
-            sc = null;
+        if(queryLog == null){
+            queryLog = new ArrayList<>();
         }
-        if(sc != null){
-            scanToIndex(sc);
+        if(totalFrequency == null){
+            totalFrequency = new ConcurrentHashMap<>();
+        }
+        if(functionLog == null){
+            File file = new File(".\\local\\backlog.txt");
+            Scanner sc;
+            try {
+                sc = new Scanner(file);
+            }catch (IOException e){
+                System.err.println("cannot open file");
+                sc = null;
+            }
+            if(sc != null){
+                scanToIndex(sc);
+            }
         }
     }
 
     public WikiMediator(int capacity, int timeout) {
         pageBuffer = new FSFTBuffer<>(capacity, timeout);
-        queryLog = new ArrayList<>();
-        totalFrequency = new ConcurrentHashMap<>();
-        File file = new File(".\\local\\backlog.txt");
-        Scanner sc;
-        try {
-            sc = new Scanner(file);
-        }catch (IOException e){
-            System.err.println("cannot open file");
-            sc = null;
+        if(queryLog == null){
+            queryLog = new ArrayList<>();
         }
-        if(sc != null){
-            scanToIndex(sc);
+        if(totalFrequency == null){
+            totalFrequency = new ConcurrentHashMap<>();
+        }
+        if(functionLog == null){
+            File file = new File(".\\local\\backlog.txt");
+            Scanner sc;
+            try {
+                sc = new Scanner(file);
+            }catch (IOException e){
+                System.err.println("cannot open file");
+                sc = null;
+            }
+            if(sc != null){
+                scanToIndex(sc);
+            }
         }
     }
 
     public WikiMediator(int capacity, int timeout, String filename) throws IllegalArgumentException {
         pageBuffer = new FSFTBuffer<>(capacity, timeout);
-        queryLog = new ArrayList<>();
-        totalFrequency = new ConcurrentHashMap<>();
-        File file = new File(".\\local\\" +filename);
-        Scanner sc;
-        try {
-            sc = new Scanner(file);
-        }catch (IOException e){
-            System.err.println("cannot open file");
-            sc = null;
+        if(queryLog == null){
+            queryLog = new ArrayList<>();
         }
-        if(sc != null){
-            scanToIndex(sc);
+        if(totalFrequency == null){
+            totalFrequency = new ConcurrentHashMap<>();
+        }
+        if(functionLog == null){
+            File file = new File(".\\local\\" +filename);
+            Scanner sc;
+            try {
+                sc = new Scanner(file);
+            }catch (IOException e){
+                System.err.println("cannot open file");
+                sc = null;
+            }
+            if(sc != null){
+                scanToIndex(sc);
+            }
         }
 
     }
 
     public WikiMediator(String filename) {
         pageBuffer = new FSFTBuffer<>();
-        queryLog = new ArrayList<>();
-        totalFrequency = new ConcurrentHashMap<>();
-        File file = new File(".\\local\\" +filename);
-        Scanner sc;
-        try {
-            sc = new Scanner(file);
-        }catch (IOException e){
-            System.err.println("cannot open file");
-            sc = null;
+        if(queryLog == null){
+            queryLog = new ArrayList<>();
         }
-        if(sc != null){
-            scanToIndex(sc);
+        if(totalFrequency == null){
+            totalFrequency = new ConcurrentHashMap<>();
+        }
+        if(functionLog == null){
+            File file = new File(".\\local\\" +filename);
+            Scanner sc;
+            try {
+                sc = new Scanner(file);
+            }catch (IOException e){
+                System.err.println("cannot open file");
+                sc = null;
+            }
+            if(sc != null){
+                scanToIndex(sc);
+            }
         }
     }
 
