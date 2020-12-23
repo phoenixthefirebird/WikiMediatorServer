@@ -268,7 +268,7 @@ public class WikiMediatorServerTests {
         client4.close();
         client5.close();
         client6.close();
-        client7.close();
+//        client7.close();
         client8.close();
         client9.close();
         client10.close();

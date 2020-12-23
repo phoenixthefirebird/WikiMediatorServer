@@ -148,7 +148,7 @@ public class WikiMediatorServer {
                     out.println(new Gson().toJson(response));
                     try {
                         // Wait a while for existing tasks to terminate
-                        if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
+                        if (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
                             executor.shutdownNow(); // Cancel currently executing tasks
 
                             // Wait a while for tasks to respond to being cancelledif (!executor.awaitTermination(5, TimeUnit.SECONDS))
@@ -160,7 +160,7 @@ public class WikiMediatorServer {
                         // Preserve interrupt status
                         Thread.currentThread().interrupt();
                     }
-                    response = new Response<>(request.id, "bye");
+                    socket.close();
                     break;
                 default:
                     response = new Response<>(request.id, "Invalid input, please try again!");
