@@ -36,7 +36,7 @@ GET : 'get';
 ITEM : 'page'|'author'|'category';
 WHERE : 'where';
 SIMPLE_CONDITION : 'title is' + STRING | 'author is' + STRING | 'category is' + STRING;
-STRING:  '\'' ( ~'\'' | '\'\'' )* '\'';
+STRING:  '\'' ( ~'\'' | '\\\'' )* '\'' ;
 LPAREN : '(';
 RPAREN : ')';
 SORTED : 'asc'|'desc';
