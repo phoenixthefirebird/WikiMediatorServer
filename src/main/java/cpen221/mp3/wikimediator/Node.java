@@ -84,6 +84,6 @@ public abstract class Node {
          *
          * @return the value of the arithmetic expression represented by this node
          */
-        public abstract List<String> evaluate() throws InvalidQueryException;
+        public abstract List<String> evaluate(String item) throws InvalidQueryException;
 
 }

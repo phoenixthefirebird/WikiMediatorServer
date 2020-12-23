@@ -8,6 +8,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class QueryFactory{
 
@@ -30,7 +31,7 @@ public class QueryFactory{
         ParseTree tree = parser.query(); // "root" is the starter rule.
 
         // debugging option #1: print the tree to the console
-        System.err.println(tree.toStringTree(parser));
+        System.out.println(tree.toStringTree(parser));
 
         // Finally, construct a Poly value by walking over the parse tree.
         ParseTreeWalker walker = new ParseTreeWalker();
@@ -62,13 +63,13 @@ public class QueryFactory{
             if(ctx.COND_TYPE()!= null){
                 if(ctx.STRING() != null){
                     try{
-                        makingTree.push(new OperandNode(item,ctx.COND_TYPE().getText(),ctx.STRING().getText()));
+                        makingTree.push(new OperandNode(ctx.COND_TYPE().getText(),ctx.STRING().getText()));
                     } catch (InvalidQueryException e){
-                        success = false;
+                        success = true;
                     }
                 }
             }else{
-                success = false;
+                success = true;
             }
         }
 
@@ -83,7 +84,6 @@ public class QueryFactory{
                 if(ctx.RPAREN() != null){
                     if(ctx.CONNECTIVE() != null){
                         if(ctx.condition() != null) {
-                            assert ctx.condition().size() == 2;
                             if(ctx.CONNECTIVE().getText().compareTo("and") == 0){
                                 AndNode and = new AndNode(makingTree.pop(),makingTree.pop());
                                 makingTree.push(and);
@@ -92,10 +92,12 @@ public class QueryFactory{
                                 makingTree.push(or);
                             }
                         }
+                    }else if(ctx.condition() != null){
+                        expression = makingTree.pop();
                     }
                 }
             } else{
-                success = false;
+                success = true;
             }
         }
 
@@ -125,9 +127,16 @@ public class QueryFactory{
         public List<String> evaluate(){
             List<String> result;
             try{
-                result = expression.evaluate();
+                result = expression.evaluate(item);
             }catch (InvalidQueryException e){
                 result = null;
+            }
+            if(sorted != null){
+                if(sorted.compareTo("asc") == 0){
+                    result = result.stream().sorted().collect(Collectors.toList());
+                }else{
+                    result = result.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
+                }
             }
             return result;
         }
@@ -136,5 +145,7 @@ public class QueryFactory{
             return success;
         }
     }
+
+
 
 }

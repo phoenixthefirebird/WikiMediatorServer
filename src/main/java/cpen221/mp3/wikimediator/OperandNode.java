@@ -12,22 +12,19 @@ public class OperandNode extends Node {
 
     static final int numChildren = 0;
     private final Wiki wiki;
-    private final String item;
     private final NS condition_type;
     private final String string;
 
     /**
      * Create a new OperandNode to hold and evaluate a simple condition in structured query
-     * @param item the item to search for
      * @param condition_type the type of condition to restrict the output of
      * @param string what the condition actually is
      * @throws InvalidQueryException with bad input
      */
 
-    public OperandNode(String item, String condition_type, String string) throws InvalidQueryException {
+    public OperandNode(String condition_type, String string) throws InvalidQueryException {
         super( );
         this.wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
-        this.item = item;
         if(condition_type.compareTo("title is")==0){
             this.condition_type = NS.MAIN;
         } else if(condition_type.compareTo("author is") == 0){
@@ -45,7 +42,7 @@ public class OperandNode extends Node {
      * @return List of Strings representing the results
      * @throws InvalidQueryException with bad input
      */
-    public List<String> evaluate() throws InvalidQueryException {
+    public List<String> evaluate(String item) throws InvalidQueryException {
         if(item.compareTo("page") == 0){
             return wiki.search(string,-1, condition_type);
         } else if (item.contains("author")){

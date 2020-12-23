@@ -33,9 +33,9 @@ public class AndNode extends Node {
      * @throws InvalidQueryException with bad input
      */
     @Override
-    public List<String> evaluate() throws InvalidQueryException{
-        List<String> left = super.getChild(0).evaluate();
-        List<String> right = super.getChild(1).evaluate();
+    public List<String> evaluate(String item) throws InvalidQueryException{
+        List<String> left = super.getChild(0).evaluate(item);
+        List<String> right = super.getChild(1).evaluate(item);
         return left.stream().filter(right::contains).collect(Collectors.toList());
     }
 }

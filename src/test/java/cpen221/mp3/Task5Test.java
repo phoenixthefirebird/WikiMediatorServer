@@ -13,7 +13,7 @@ public class Task5Test {
     @Test
     public void test1() throws InvalidQueryException {
         WikiMediator wiki = new WikiMediator();
-        List<String> result = QueryFactory.evaluate("get page where category is 'Illinois State Senators'");
+        List<String> result = QueryFactory.evaluate("get page where category is 'Illinois State Senators' asc");
 
     }
 }

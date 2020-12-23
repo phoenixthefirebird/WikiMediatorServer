@@ -32,9 +32,9 @@ public class OrNode extends Node {
      * @throws InvalidQueryException with bad input
      */
     @Override
-    public List<String> evaluate() throws InvalidQueryException{
-        List<String> left = super.getChild(0).evaluate();
-        left.addAll(super.getChild(1).evaluate());
+    public List<String> evaluate(String item) throws InvalidQueryException{
+        List<String> left = super.getChild(0).evaluate(item);
+        left.addAll(super.getChild(1).evaluate(item));
         return left;
     }
 }
