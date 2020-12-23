@@ -21,11 +21,14 @@ public class WikiMediatorServer {
      * AF:
      * A server that handles upward n number of clients concurrently,
      * process network requests written in json, and returns response in json.
-     * <p>
      * RI:
      * serverSocket is not null
      * executor is not null
      * executor can hold n threads maximum
+     * Thread-safety Argument:
+     * the only two shared resources, ServerSocket serverSocket and ExecutorService executor,
+     * are thread-safe.
+     * TODO: might need to write more
      */
 
     private final ServerSocket serverSocket;
@@ -152,7 +155,13 @@ public class WikiMediatorServer {
         in.close();
     }
 
-
+    /**
+     * this methods generates the response for requests
+     * @param request the request object holding information from client input json
+     * @param future the Future object to obtain the results from
+     * @param <T> the type Future object returns
+     * @return a Response either holding the results of the client request or indicating error
+     */
     private <T> Response<?> execute(Request request, Future<T> future) {
         T result;
         if (request.timeout != 0) {
