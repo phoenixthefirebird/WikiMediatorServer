@@ -30,6 +30,24 @@ public class WikiMediatorTests {
         wiki.closeWiki();
     }
 
+    //search method with parameterized constructor testing with filename
+    @Test
+    public void test1a() {
+        WikiMediator wiki = new WikiMediator("wikimediator.txt");
+        List<String> searchResult;
+        List<String> expected = new ArrayList<>();
+        expected.add("University of British Columbia");
+        expected.add("UBC (disambiguation)");
+
+        searchResult = wiki.search("ubc", 1);
+        System.out.println(Arrays.toString(searchResult.toArray()));
+
+        searchResult = wiki.search("ubc", 2);
+        System.out.println(Arrays.toString(searchResult.toArray()));
+        assertEquals(expected, searchResult);
+        wiki.closeWiki("wikimediator.txt");
+    }
+
     //testing getpage method with unparameterized constructor
     @Test
     public void test2() {
@@ -40,6 +58,18 @@ public class WikiMediatorTests {
         System.out.println(page);
         assertEquals(expected, page);
         wiki.closeWiki();
+    }
+
+    //getpage method with parameterized constructor testing
+    @Test
+    public void test2a() {
+        WikiMediator wiki = new WikiMediator(10, 30, "wikimediator.txt");
+        String page = wiki.getPage("ubc");
+        String expected = "#REDIRECT [[University of British Columbia]] {{R from other capitalisation}}";
+
+        System.out.println(page);
+        assertEquals(expected, page);
+        wiki.closeWiki("wikimediator.txt");
     }
 
     //testing getpage method with parameterized constructor
@@ -181,23 +211,32 @@ public class WikiMediatorTests {
                 return;
             }
         }
-
-        System.out.println(wiki.peakLoad30s());
+        int peak = wiki.peakLoad30s();
+        System.out.println(peak);
+        assertEquals(52, peak);
         wiki.closeWiki();
     }
 
-    //wikimediator parameterized constructor testing
+    //testing peakLoad30s method with single element search - TODO: might be some errors in peakload30s?
     @Test
-    public void test7() {
-        WikiMediator wiki = new WikiMediator(10, 30, "wikimediator.txt");
-        wiki.closeWiki("wikimediator.txt");
-    }
+    public void test6a() {
+        WikiMediator wiki = new WikiMediator();
+        Timer timer = new Timer();
+        int flag = 0;
 
-    //wikimediator parameterized constructor testing with filename
-    @Test
-    public void test8() {
-        WikiMediator wiki = new WikiMediator("wikimediator.txt");
-        wiki.closeWiki("wikimediator.txt");
+        for(int i = 0; i < 30; i++){
+            try {
+                System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
+                Thread.sleep(1000);
+            } catch (Exception InterruptedException){
+                return;
+            }
+        }
+
+        int peak = wiki.peakLoad30s();
+        System.out.println(peak);
+        assertTrue(peak <= 30);
+        wiki.closeWiki();
     }
 
     //error opening a file testing
@@ -206,7 +245,7 @@ public class WikiMediatorTests {
         WikiMediator wiki = new WikiMediator("wikimediator1.txt");
     }
 
-    //error opening a file testing
+    //error opening a file testing with capacity and timeout parameter
     @Test
     public void test10() throws IOException {
         WikiMediator wiki = new WikiMediator(1,1,"wikimediator1.txt");
