@@ -1,5 +1,7 @@
 package cpen221.mp3.client;
 
+import com.google.gson.Gson;
+
 import java.io.*;
 import java.math.BigInteger;
 import java.net.Socket;
@@ -57,7 +59,8 @@ public class WikiMediatorClient {
      * @throws IOException if network or server failure
      */
     public void sendRequest(Request x) throws IOException {
-        out.print(x + "\n");
+        String json = new Gson().toJson(x);
+        out.print(json + System.lineSeparator());
         out.flush(); // important! make sure x actually gets sent
     }
 
@@ -68,14 +71,14 @@ public class WikiMediatorClient {
      * @return the requested Fibonacci number
      * @throws IOException if network or server failure
      */
-    public BigInteger getReply() throws IOException {
+    public String getReply() throws IOException {
         String reply = in.readLine();
         if (reply == null) {
             throw new IOException("connection terminated unexpectedly");
         }
 
         try {
-            return new BigInteger(reply);
+            return reply;
         }
         catch (NumberFormatException nfe) {
             throw new IOException("misformatted reply: " + reply);
@@ -94,7 +97,7 @@ public class WikiMediatorClient {
         socket.close();
     }
 
-    private static class Request <T>{
+    public static class Request <T>{
         String id;
         String type;
         String query;
@@ -107,12 +110,21 @@ public class WikiMediatorClient {
             this.type = type;
             this.timeout = timeout;
         }
-
-        public Request(String id, String type, String query, int timeout){
+        
+        public Request(String id, String type){
+                    this.id = id;
+                    this.type = type;
+        }
+        
+        public Request(String id, String type, String query, int limit){
             this.id = id;
             this.type = type;
-            this.query = query;
-            this.timeout = timeout;
+            if(type.compareTo("search") == 0) {
+                this.query = query;
+            } else if(type.compareTo("getPage") == 0) {
+                this.getPage = query;
+            }
+           this.limit = limit;
         }
 
         public Request(String id, String type, int limit, int timeout){
@@ -125,17 +137,16 @@ public class WikiMediatorClient {
         public Request(String id, String type, String query, int limit, int timeout){
             this.id = id;
             this.type = type;
-            this.query = query;
+            if(type.compareTo("search") == 0) {
+                this.query = query;
+            } else if(type.compareTo("getPage") == 0) {
+                this.getPage = query;
+            }
+
             this.limit = limit;
             this.timeout = timeout;
         }
 
         //TODO: add more constructors to this class for testing different requests
-    }
-
-    private class Response{
-        String id;
-        String status;
-        String response;
     }
 }

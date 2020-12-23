@@ -142,12 +142,15 @@ public class WikiMediatorServer {
                     response = execute(request,future_q);
                     break;
                 case "stop":
+                    wiki.closeWiki();
                     executor.shutdown();
+                    response = new Response<>(request.id, "bye");
+                    out.println(new Gson().toJson(response));
                     try {
                         // Wait a while for existing tasks to terminate
                         if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
                             executor.shutdownNow(); // Cancel currently executing tasks
-                            wiki.closeWiki();
+
                             // Wait a while for tasks to respond to being cancelledif (!executor.awaitTermination(5, TimeUnit.SECONDS))
                                 System.err.println("Server did not terminate");
                         }
@@ -177,7 +180,7 @@ public class WikiMediatorServer {
      */
     private <T> Response<?> execute(Request request, Future<T> future) {
         T result;
-        if (request.timeout != 0) {
+        if (request.timeout == 0) {
             try {
                 result = future.get();
             } catch (InterruptedException | ExecutionException e) {
