@@ -286,4 +286,21 @@ public class WikiMediatorTests {
 //            }
 //        }
 //    }
+
+//    public static final class concurrentTest {
+//        public static void main(String[] args) throws Exception {
+//            WikiMediator wiki = new WikiMediator();
+//            Thread t1 = new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
+//                        Thread.sleep(1000);
+//                    } catch (InterruptedException x) {
+//                    }
+//                }
+//            });
+//
+//        }
+//    }
 }
