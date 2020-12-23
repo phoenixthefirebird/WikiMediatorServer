@@ -157,6 +157,7 @@ public class WikiMediatorServer {
                     } catch (InterruptedException ie) {
                         // (Re-)Cancel if current thread also interrupted
                         executor.shutdownNow();
+                        socket.close();
                         // Preserve interrupt status
                         Thread.currentThread().interrupt();
                     }
