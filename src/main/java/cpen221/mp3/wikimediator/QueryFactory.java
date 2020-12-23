@@ -6,10 +6,14 @@ import cpen221.mp3.QueryParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.w3c.dom.Node;
 
 import java.util.*;
 
 public class QueryFactory{
+
+    private String item;
+    private Node expression;
 
     /**
      * @param string must contain a well-formed poly string
