@@ -328,4 +328,81 @@ public class WikiMediatorTests {
         assertEquals(52, peak);
         wiki.closeWiki();
     }
+    //testing with diferent threads running at different intervals
+    @Test
+    public void test13() {
+        WikiMediator wiki = new WikiMediator();
+
+        try {
+            Thread t1 = new Thread();
+            int flag = 0;
+            for (int i = 0; i < 30; i++) {
+                try {
+                    t1.wait(1000);
+                    System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
+                    if (flag == 0) {
+                        System.out.println(Arrays.toString(wiki.search("engineer", 1).toArray()));
+                        flag = 1;
+                    } else {
+                        System.out.println(Arrays.toString(wiki.search("computer", 1).toArray()));
+                        flag = 0;
+                    }
+                } catch (Exception InterruptedException) {
+                    return;
+                }
+            }
+        } catch (Exception InterruptedException) {
+            return;
+        }
+
+        try {
+            Thread t2 = new Thread();
+            int flag = 0;
+            for (int i = 0; i < 15; i++) {
+                try {
+                    t2.wait(1000);
+                    System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
+                    if (flag == 0) {
+                        System.out.println(Arrays.toString(wiki.search("engineer", 1).toArray()));
+                        flag = 1;
+                    } else {
+                        System.out.println(Arrays.toString(wiki.search("computer", 1).toArray()));
+                        flag = 0;
+                    }
+                } catch (Exception InterruptedException) {
+                    return;
+                }
+            }
+        } catch (Exception InterruptedException) {
+            return;
+        }
+
+        try {
+            Thread t3 = new Thread();
+            int flag = 0;
+            for (int i = 0; i < 20; i++) {
+                try {
+                    t3.wait(1000);
+                    System.out.println(Arrays.toString(wiki.search("dog", 1).toArray()));
+                    if (flag == 0) {
+                        System.out.println(Arrays.toString(wiki.search("cat", 1).toArray()));
+                        flag = 1;
+                    } else {
+                        System.out.println(Arrays.toString(wiki.search("animal", 1).toArray()));
+                        flag = 0;
+                    }
+                } catch (Exception InterruptedException) {
+                    return;
+                }
+            }
+        } catch (Exception InterruptedException) {
+            return;
+        }
+
+        int peak = wiki.peakLoad30s();
+        System.out.println(peak);
+        assertEquals(52, peak);
+        wiki.closeWiki();
+    }
 }
+
