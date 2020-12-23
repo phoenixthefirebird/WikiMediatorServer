@@ -35,13 +35,12 @@ package query;
 GET : 'get';
 ITEM : 'page'|'author'|'category';
 WHERE : 'where';
-SIMPLE_CONDITION : 'title is' + STRING | 'author is' + STRING | 'category is' + STRING;
+COND_TYPE : 'title is' | 'author is' | 'category is';
 STRING:  '\'' ( ~'\'' | '\\\'' )* '\'' ;
 LPAREN : '(';
 RPAREN : ')';
 SORTED : 'asc'|'desc';
-AND : 'and';
-OR: 'or';
+CONNECTIVE : 'and' | 'or';
 WHITESPACE : [ \t\r\n]+ -> skip ;
 
 
@@ -49,5 +48,6 @@ WHITESPACE : [ \t\r\n]+ -> skip ;
  * These are the parser rules. They define the structures used by the parser.
  * Antlr requires grammar nonterminals to be lowercase,
  */
-query : GET ITEM WHERE condition SORTED? EOF ;
-condition : LPAREN condition AND condition RPAREN | LPAREN condition OR condition RPAREN | SIMPLE_CONDITION;
+query : GET ITEM WHERE condition SORTED?;
+condition : LPAREN condition CONNECTIVE condition RPAREN | simple_condition;
+simple_condition : COND_TYPE STRING;
