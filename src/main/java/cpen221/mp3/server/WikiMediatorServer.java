@@ -2,6 +2,7 @@ package cpen221.mp3.server;
 
 
 import com.google.gson.Gson;
+import cpen221.mp3.wikimediator.InvalidQueryException;
 import cpen221.mp3.wikimediator.WikiMediator;
 
 import java.io.*;
@@ -126,6 +127,9 @@ public class WikiMediatorServer {
                     Future<Integer> future_p = executor.submit(wiki::peakLoad30s);
                     response = execute(request, future_p);
                     break;
+                case "query":
+                    Future<List<String>> future_q = executor.submit(()->wiki.executeQuery(request.query));
+                    response = execute(request,future_q);
                 case "stop":
                     executor.shutdown();
                     try {

@@ -313,6 +313,11 @@ public class WikiMediator {
      * TODO
      */
     synchronized public List<String> executeQuery(String query) throws InvalidQueryException {
+        trackWorkload();
+        int a = 0;
+        if(a == 0){
+            throw new InvalidQueryException();
+        }
         return null;
     }
 
