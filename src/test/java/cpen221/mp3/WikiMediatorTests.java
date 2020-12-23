@@ -92,18 +92,69 @@ public class WikiMediatorTests {
     public void test5() {
         WikiMediator wiki = new WikiMediator();
         Timer timer = new Timer();
+        int flag = 0;
 
-        for(int i = 0; i < 30; i++){
+        for(int i = 0; i < 10; i++){
             try {
                 Thread.sleep(1000);
                 System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
 
+                if(flag == 0 || flag == 1) {
+                    System.out.println(Arrays.toString(wiki.search("engineer", 1).toArray()));
+                    flag++;
+                }
+                else if (flag == 2) {
+                    System.out.println(Arrays.toString(wiki.search("computer", 1).toArray()));
+                    flag = 0;
+                }
             } catch (Exception InterruptedException){
                 return;
             }
         }
 
-        System.out.println(Arrays.toString((wiki.trending(2)).toArray()));
+        List<String> trending = wiki.trending(3);
+        System.out.println(Arrays.toString(trending.toArray()));
+
+        List<String> expected = new ArrayList<>();
+        expected.add("ubc");
+        expected.add("engineer");
+        expected.add("computer");
+        assertEquals(expected, trending);
+        wiki.closeWiki();
+    }
+
+    //testing trending method with smaller limit
+    @Test
+    public void test5a() {
+        WikiMediator wiki = new WikiMediator();
+        Timer timer = new Timer();
+        int flag = 0;
+
+        for(int i = 0; i < 10; i++){
+            try {
+                Thread.sleep(1000);
+                System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
+
+                if(flag == 0 || flag == 1) {
+                    System.out.println(Arrays.toString(wiki.search("engineer", 1).toArray()));
+                    flag++;
+                }
+                else if (flag == 2) {
+                    System.out.println(Arrays.toString(wiki.search("computer", 1).toArray()));
+                    flag = 0;
+                }
+            } catch (Exception InterruptedException){
+                return;
+            }
+        }
+
+        List<String> trending2 = wiki.trending(2);
+        System.out.println(Arrays.toString(trending2.toArray()));
+
+        List<String> expected = new ArrayList<>();
+        expected.add("ubc");
+        expected.add("engineer");
+        assertEquals(expected, trending2);
         wiki.closeWiki();
     }
 
