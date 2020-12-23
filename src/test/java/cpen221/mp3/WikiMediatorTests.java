@@ -364,7 +364,7 @@ public class WikiMediatorTests {
 
         Runnable task2 = () -> {
             int flag = 0;
-            for (int i = 0; i < 15; i++) {
+            for (int i = 0; i < 30; i++) {
                 try {
                     Thread.sleep(1000);
                     System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
@@ -386,7 +386,7 @@ public class WikiMediatorTests {
 
         Runnable task3 = () -> {
             int flag = 0;
-            for (int i = 0; i < 20; i++) {
+            for (int i = 0; i < 30; i++) {
                 try {
                    Thread.sleep(1000);
                     System.out.println(Arrays.toString(wiki.search("dog", 1).toArray()));
@@ -406,6 +406,13 @@ public class WikiMediatorTests {
         t1.start();
         t2.start();
         t3.start();
+        try {
+            t1.join();
+            t2.join();
+            t3.join();
+        }catch (InterruptedException e){
+            return;
+        }
         int peak = wiki.peakLoad30s();
         System.out.println(peak);
         assertEquals(52, peak);
