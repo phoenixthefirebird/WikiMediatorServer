@@ -104,6 +104,15 @@ public class WikiMediatorServer {
             System.out.println("request: " + line);
             Request request = new Gson().fromJson(line, Request.class);
             Response<?> response;
+            if(request.id == null ||request.id.compareTo(" ") == 0 || request.type == null ||
+                    request.type.compareTo(" ") == 0|| (request.type.compareTo("query") == 0 && request.query == null)
+                     ||(request.type.compareTo("query") == 0 && request.query.compareTo("") == 0)||
+                    (request.type.compareTo("getPage") == 0 && request.getPage.compareTo("") == 0) ||
+                    (request.type.compareTo("getPage") == 0 && request.getPage == null) ||
+                    ((request.type.compareTo("zeitgeist") == 0 ||request.type.compareTo("trending") == 0) && request.limit == 0 )){
+                response = new Response<String>(response.id, "failure","Bad request!");
+            }
+
             switch (request.type) {
                 case "search":
                     Future<List<String>> future_s = executor.submit(() -> wiki.search(request.query, request.limit));
