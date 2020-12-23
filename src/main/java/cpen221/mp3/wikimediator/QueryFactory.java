@@ -6,20 +6,16 @@ import cpen221.mp3.QueryParser;
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.w3c.dom.Node;
 
 import java.util.*;
 
 public class QueryFactory{
 
-    private String item;
-    private Node expression;
-
     /**
      * @param string must contain a well-formed poly string
-     * @return a Poly corresponding to the string in canonical form
+     * @return a List of String representing the result of a structured query
      */
-    public static QueryListener_QueryCreator parse(String string) {
+    public static List<String> evaluate(String string) {
         // Create a stream of tokens using the lexer.
         CharStream stream = new ANTLRInputStream(string);
         QueryLexer lexer = new QueryLexer(stream);
@@ -41,13 +37,20 @@ public class QueryFactory{
         QueryListener_QueryCreator listener = new QueryListener_QueryCreator();
         walker.walk(listener, tree);
 
-        // return the Document value that the listener created
-        return listener; //TODO
+        if(!listener.valid()){
+            return null;
+        }
+
+        return listener.evaluate();
     }
 
 
     private static class QueryListener_QueryCreator extends QueryBaseListener {
-        List<SimpleCondition> conditions = new ArrayList<>();
+        Stack<Node> makingTree = new Stack<>();
+        String item;
+        boolean success = true;
+        String sorted;
+        private Node expression;
 
         /**
          * Exit a parse tree produced by {@link QueryParser#simple_condition}.
@@ -56,7 +59,17 @@ public class QueryFactory{
          */
         @Override
         public void exitSimple_condition(QueryParser.Simple_conditionContext ctx) {
-            //TODO
+            if(ctx.COND_TYPE()!= null){
+                if(ctx.STRING() != null){
+                    try{
+                        makingTree.push(new OperandNode(item,ctx.COND_TYPE().getText(),ctx.STRING().getText()));
+                    } catch (InvalidQueryException e){
+                        success = false;
+                    }
+                }
+            }else{
+                success = false;
+            }
         }
 
         /**
@@ -66,7 +79,24 @@ public class QueryFactory{
          */
         @Override
         public void exitCondition(QueryParser.ConditionContext ctx) {
-
+            if(ctx.LPAREN() != null){
+                if(ctx.RPAREN() != null){
+                    if(ctx.CONNECTIVE() != null){
+                        if(ctx.condition() != null) {
+                            assert ctx.condition().size() == 2;
+                            if(ctx.CONNECTIVE().getText().compareTo("and") == 0){
+                                AndNode and = new AndNode(makingTree.pop(),makingTree.pop());
+                                makingTree.push(and);
+                            }else if(ctx.CONNECTIVE().getText().compareTo("or") == 0){
+                                OrNode or = new OrNode(makingTree.pop(),makingTree.pop());
+                                makingTree.push(or);
+                            }
+                        }
+                    }
+                }
+            } else{
+                success = false;
+            }
         }
 
 
@@ -77,7 +107,33 @@ public class QueryFactory{
          */
         @Override
         public void exitQuery(QueryParser.QueryContext ctx) {
-            // nothing to do
+            if(ctx.GET() != null){
+                if(ctx.ITEM() != null){
+                    if(ctx.WHERE() != null){
+                        if(ctx.condition() != null){
+                            if(ctx.SORTED() != null){
+                                sorted = ctx.SORTED().getText();
+                            }
+                            item = ctx.ITEM().getText();
+                            expression = makingTree.pop();
+                        }
+                    }
+                }
+            }
+        }
+
+        public List<String> evaluate(){
+            List<String> result;
+            try{
+                result = expression.evaluate();
+            }catch (InvalidQueryException e){
+                result = null;
+            }
+            return result;
+        }
+
+        public boolean valid(){
+            return success;
         }
     }
 

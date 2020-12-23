@@ -310,25 +310,16 @@ public class WikiMediator {
      * @param query the query input for the search
      * @return a list of relevant Strings for the search
      * throws InvalidQueryException for queries that are invalid (cannot be parsed).
-     * TODO
      */
     synchronized public List<String> executeQuery(String query) throws InvalidQueryException {
         trackWorkload();
-        int a = 0;
-        if(a == 0){
+        List<String> result = QueryFactory.evaluate(query);
+        if(result == null){
             throw new InvalidQueryException();
         }
-        return null;
+        return result;
     }
 
-    /**
-     * TODO
-     * @param query
-     * @return
-     */
-    synchronized private boolean validateQuery(String query){
-        return false;
-    }
 
     /**
      * this function saves the states of the WikiMediator to an existing file,
