@@ -137,8 +137,7 @@ public class WikiMediatorServer {
                         if (!executor.awaitTermination(5, TimeUnit.SECONDS)) {
                             executor.shutdownNow(); // Cancel currently executing tasks
                             wiki.closeWiki();
-                            // Wait a while for tasks to respond to being cancelled
-                            if (!executor.awaitTermination(5, TimeUnit.SECONDS))
+                            // Wait a while for tasks to respond to being cancelledif (!executor.awaitTermination(5, TimeUnit.SECONDS))
                                 System.err.println("Server did not terminate");
                         }
                     } catch (InterruptedException ie) {

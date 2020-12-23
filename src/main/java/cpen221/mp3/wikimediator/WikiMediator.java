@@ -63,7 +63,7 @@ public class WikiMediator {
             totalFrequency = new ConcurrentHashMap<>();
         }
         if(functionLog == null){
-            File file = new File(".\\local\\backlog.txt");
+            File file = new File("."+ File.separator + "local" + File.separator + "backlog.txt");
             Scanner sc;
             try {
                 sc = new Scanner(file);
@@ -87,7 +87,7 @@ public class WikiMediator {
             totalFrequency = new ConcurrentHashMap<>();
         }
         if(functionLog == null){
-            File file = new File(".\\local\\backlog.txt");
+            File file = new File("."+ File.separator + "local" + File.separator + "backlog.txt");
             Scanner sc;
             try {
                 sc = new Scanner(file);
@@ -110,7 +110,7 @@ public class WikiMediator {
             totalFrequency = new ConcurrentHashMap<>();
         }
         if(functionLog == null){
-            File file = new File(".\\local\\" +filename);
+            File file = new File("."+ File.separator + "local" + File.separator + filename);
             Scanner sc;
             try {
                 sc = new Scanner(file);
@@ -134,7 +134,7 @@ public class WikiMediator {
             totalFrequency = new ConcurrentHashMap<>();
         }
         if(functionLog == null){
-            File file = new File(".\\local\\" +filename);
+            File file = new File("."+ File.separator + "local" + File.separator + filename);
             Scanner sc;
             try {
                 sc = new Scanner(file);
