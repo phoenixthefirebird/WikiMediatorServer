@@ -110,7 +110,7 @@ public class WikiMediatorServer {
                     (request.type.compareTo("getPage") == 0 && request.getPage.compareTo("") == 0) ||
                     (request.type.compareTo("getPage") == 0 && request.getPage == null) ||
                     ((request.type.compareTo("zeitgeist") == 0 ||request.type.compareTo("trending") == 0) && request.limit == 0 )){
-                response = new Response<String>(response.id, "failure","Bad request!");
+                response = new Response<String>(request.id, "failure","Bad request!");
             }
 
             switch (request.type) {
