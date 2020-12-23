@@ -31,12 +31,11 @@ public class WikiMediatorClient {
         try {
             WikiMediatorClient client = new WikiMediatorClient("35.236.3.212",
                     8090);
+            Request x = new Request("id","search", 30);
 
             // send the requests to find the first N Fibonacci numbers
-            for (int x = 1; x <= N; ++x) {
                 client.sendRequest(x);
-                System.out.println("fibonacci(" + x + ") = ?");
-            }
+                System.out.println("sending request" + x.id + x.type + x.timeout);
 
             // collect the replies
             for (int x = 1; x <= N; ++x) {
@@ -54,10 +53,10 @@ public class WikiMediatorClient {
     /**
      * Send a request to the server. Requires this is "open".
      *
-     * @param x to find Fibonacci(x)
+     * @param x to request wikimediator server to open
      * @throws IOException if network or server failure
      */
-    public void sendRequest(int x) throws IOException {
+    public void sendRequest(Request x) throws IOException {
         out.print(x + "\n");
         out.flush(); // important! make sure x actually gets sent
     }
@@ -95,7 +94,7 @@ public class WikiMediatorClient {
         socket.close();
     }
 
-    private class Request <T>{
+    private static class Request <T>{
         String id;
         String type;
         String query;
@@ -115,6 +114,7 @@ public class WikiMediatorClient {
             this.query = query;
             this.timeout = timeout;
         }
+
         public Request(String id, String type, int limit, int timeout){
             this.id = id;
             this.type = type;
