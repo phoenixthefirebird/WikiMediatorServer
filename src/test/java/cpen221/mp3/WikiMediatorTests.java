@@ -156,7 +156,6 @@ public class WikiMediatorTests {
     @Test
     public void test5a() {
         WikiMediator wiki = new WikiMediator();
-        Timer timer = new Timer();
         int flag = 0;
 
         for(int i = 0; i < 10; i++){
@@ -191,7 +190,6 @@ public class WikiMediatorTests {
     @Test
     public void test6() {
         WikiMediator wiki = new WikiMediator();
-        Timer timer = new Timer();
         int flag = 0;
 
         for(int i = 0; i < 30; i++){
@@ -220,9 +218,6 @@ public class WikiMediatorTests {
     @Test
     public void test6a() {
         WikiMediator wiki = new WikiMediator();
-        Timer timer = new Timer();
-        int flag = 0;
-
         for(int i = 0; i < 30; i++){
             try {
                 System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
@@ -257,50 +252,80 @@ public class WikiMediatorTests {
         wiki.closeWiki("wikimediator2.txt");
     }
 
-//    //concurrent junit runner test
-//    @RunWith(ConcurrentJunitRunner.class)
-//    @Concurrent(threads = 6)
-//    public final class ATest {
-//
-//        @Test public void test0() throws Throwable { executeAndWait("ubc"); }
-//        @Test public void test1() throws Throwable { executeAndWait("computer"); }
-//        @Test public void test2() throws Throwable { executeAndWait("engineer"); }
-//        @Test public void test3() throws Throwable { executeAndWait("vancouver"); }
-//        @Test public void test4() throws Throwable { executeAndWait("university"); }
-//        @Test public void test5() throws Throwable { executeAndWait("canada"); }
-//        @Test public void test6() throws Throwable { executeAndWait("christmaas"); }
-//        @Test public void test7() throws Throwable { executeAndWait("tree"); }
-//        @Test public void test8() throws Throwable { executeAndWait("snow"); }
-//        @Test public void test9() throws Throwable { executeAndWait("winter"); }
-//
-//        void executeAndWait(String query) throws Throwable {
-//            int w = new Random().nextInt(1000);
-//            System.out.println(String.format("[%s] %s %s %s", Thread.currentThread().getName(), getClass().getName(), new Throwable().getStackTrace()[1].getMethodName(), w));
-//            try {
-//                WikiMediator wiki = new WikiMediator();
-//                Thread.sleep(w);
-//                System.out.println(Arrays.toString(wiki.search(query, 1).toArray()));
-//                wiki.closeWiki();
-//            } catch (Exception InterruptedException) {
-//                return;
-//            }
-//        }
-//    }
+    //multiple thread testing
+    @Test
+    public void test12() {
+        WikiMediator wiki = new WikiMediator();
 
-//    public static final class concurrentTest {
-//        public static void main(String[] args) throws Exception {
-//            WikiMediator wiki = new WikiMediator();
-//            Thread t1 = new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    try {
-//                        System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
-//                        Thread.sleep(1000);
-//                    } catch (InterruptedException x) {
-//                    }
-//                }
-//            });
-//
-//        }
-//    }
+            try {
+                Thread t1 = new Thread();
+                int flag = 0;
+                for (int i = 0; i < 30; i++) {
+                    try {
+                        t1.wait(1000);
+                        System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
+                        if (flag == 0) {
+                            System.out.println(Arrays.toString(wiki.search("engineer", 1).toArray()));
+                            flag = 1;
+                        } else {
+                            System.out.println(Arrays.toString(wiki.search("computer", 1).toArray()));
+                            flag = 0;
+                        }
+                    } catch (Exception InterruptedException) {
+                        return;
+                    }
+                }
+            } catch (Exception InterruptedException) {
+                return;
+            }
+
+        try {
+            Thread t2 = new Thread();
+            int flag = 0;
+            for (int i = 0; i < 30; i++) {
+                try {
+                    t2.wait(1000);
+                    System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
+                    if (flag == 0) {
+                        System.out.println(Arrays.toString(wiki.search("engineer", 1).toArray()));
+                        flag = 1;
+                    } else {
+                        System.out.println(Arrays.toString(wiki.search("computer", 1).toArray()));
+                        flag = 0;
+                    }
+                } catch (Exception InterruptedException) {
+                    return;
+                }
+            }
+        } catch (Exception InterruptedException) {
+            return;
+        }
+
+        try {
+            Thread t3 = new Thread();
+            int flag = 0;
+            for (int i = 0; i < 30; i++) {
+                try {
+                    t3.wait(1000);
+                    System.out.println(Arrays.toString(wiki.search("ubc", 1).toArray()));
+                    if (flag == 0) {
+                        System.out.println(Arrays.toString(wiki.search("engineer", 1).toArray()));
+                        flag = 1;
+                    } else {
+                        System.out.println(Arrays.toString(wiki.search("computer", 1).toArray()));
+                        flag = 0;
+                    }
+                } catch (Exception InterruptedException) {
+                    return;
+                }
+            }
+        } catch (Exception InterruptedException) {
+            return;
+        }
+
+        int peak = wiki.peakLoad30s();
+        System.out.println(peak);
+        assertEquals(52, peak);
+        wiki.closeWiki();
+    }
 }
