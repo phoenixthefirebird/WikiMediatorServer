@@ -79,6 +79,7 @@ public class WikiMediator {
 
     public WikiMediator(int capacity, int timeout) {
         pageBuffer = new FSFTBuffer<>(capacity, timeout);
+
         if(queryLog == null){
             queryLog = new ArrayList<>();
         }

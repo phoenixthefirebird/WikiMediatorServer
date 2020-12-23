@@ -38,16 +38,6 @@ public class loadTracker {
 
     private Timer time;
 
-    public loadTracker(){
-        this.window = DEFAULT_WINDOW;
-        time = new Timer();
-        ScheduledTask st = new ScheduledTask();
-        time.schedule(st, 1000, 1000);
-        currentLoad = 0;
-        secondLoad = 0;
-        log = new ArrayList<>();
-    }
-
     public loadTracker(int max, ArrayList<Integer> previousLog){
         this.window = DEFAULT_WINDOW;
         this.maxLoad = max;
