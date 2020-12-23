@@ -7,25 +7,25 @@ import cpen221.mp3.wikimediator.WikiMediator;
 import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 
 /**
- * WikiMediatorServer is a server that finds the n^th Fibonacci number given n. It
- * accepts requests of the correct form of queries and
- * for each request, returns a reply of the form: Reply ::= (Number | "err")
- * "\n" where a Number is the requested Fibonacci number, or "err" is used to
- * indicate a misformatted request. FibonacciServer can handle only one client
- * at a time.
- * <p>
- * TODO: change the description to match that of WikiMediatorServer^
+ * WikiMediatorServer is a server that allows multiple clients to query over Wikipedia,
+ * it accepts requests of the correct form in json and
+ * for each request, returns a reply of the form id: , status:, and response: in json
  */
 public class WikiMediatorServer {
     /**
      * AF:
+     * A server that handles upward n number of clients concurrently,
+     * process network requests written in json, and returns response in json.
      * <p>
      * RI:
      * serverSocket is not null
+     * executor is not null
+     * executor can hold n threads maximum
      */
 
     private final ServerSocket serverSocket;
@@ -84,7 +84,6 @@ public class WikiMediatorServer {
         System.err.println("client connected");
         WikiMediator wiki = new WikiMediator();
 
-
         // get the socket's input stream, and wrap converters around it
         // that convert it from a byte stream to a character stream,
         // and that buffer it so that we can read a line at a time
@@ -106,23 +105,23 @@ public class WikiMediatorServer {
             switch (request.type) {
                 case "search":
                     Future<List<String>> future_s = executor.submit(() -> wiki.search(request.query, request.limit));
-                    response = execute(request,future_s);
+                    response = execute(request, future_s);
                     break;
                 case "getPage":
                     Future<String> future_g = executor.submit(() -> wiki.getPage(request.getPage));
-                    response = execute(request,future_g);
+                    response = execute(request, future_g);
                     break;
                 case "zeitgeist":
                     Future<List<String>> future_z = executor.submit(() -> wiki.zeitgeist(request.limit));
-                    response = execute(request,future_z);
+                    response = execute(request, future_z);
                     break;
                 case "trending":
                     Future<List<String>> future_t = executor.submit(() -> wiki.trending(request.limit));
-                    response = execute(request,future_t);
+                    response = execute(request, future_t);
                     break;
                 case "peakLoad30s":
                     Future<Integer> future_p = executor.submit(wiki::peakLoad30s);
-                    response = execute(request,future_p);
+                    response = execute(request, future_p);
                     break;
                 case "stop":
                     executor.shutdown();
@@ -144,7 +143,7 @@ public class WikiMediatorServer {
                     response = new Response<>(request.id, "bye");
                     break;
                 default:
-                    response = new Response<>(request.id,"Invalid input, please try again!");
+                    response = new Response<>(request.id, "Invalid input, please try again!");
             }
             out.println(new Gson().toJson(response));
 
@@ -178,7 +177,7 @@ public class WikiMediatorServer {
     /**
      * this class holds the information parsed from json in the requests
      */
-    class Request {
+    private class Request {
         String id;
         String type;
         String query;
@@ -190,8 +189,7 @@ public class WikiMediatorServer {
     /**
      * this class holds the information parsed from response object
      */
-
-    class Response<T> {
+    private class Response<T> {
         String id;
         String status;
         T response;
@@ -201,24 +199,13 @@ public class WikiMediatorServer {
             this.status = status;
             this.response = response;
         }
+
         public Response(String id, T response) {
             this.id = id;
             this.response = response;
         }
     }
 
-//        //sample program
-//        public static void main (String[] args){
-//            String jsonString = "{ \"id\": \"two\", \"type\": \"trending\", \"limit\": \"5\" }";
-//            Request request = new Gson().fromJson(jsonString, Request.class);
-//            System.out.println(request.limit);
-//            String[] seed = {"Barack Obama", "Barack Obama in comics", "Barack Obama Sr.", "List of things named after Barack Obama", "Speeches of Barack Obama"};
-//            List<String> result = Arrays.asList(seed);
-//            Response response = new Response("2", "success", 5);
-//            String json = new Gson().toJson(response);
-//            System.out.println(json);
-//        }
-//
 }
 
 
