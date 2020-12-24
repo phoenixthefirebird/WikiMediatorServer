@@ -45,10 +45,10 @@ public class OperandNode extends Node {
     public List<String> evaluate(String item) throws InvalidQueryException {
         if(item.compareTo("page") == 0){
             return wiki.search(string,-1, condition_type);
-        } else if (item.contains("author")){
+        } else if (item.compareTo("author") == 0){
             List<Contrib> result = wiki.getContribs(string,-1,false,false, condition_type);
             return result.stream().map(DataEntry::toString).collect(Collectors.toList());
-        } else if(item.contains("category")){
+        } else if(item.compareTo("category")==0){
             return wiki.getCategoryMembers(string,condition_type);
         }
         throw new InvalidQueryException();

@@ -46,4 +46,5 @@ public class Task5Test {
         List<String> result = QueryFactory.evaluate("get page where (author is 'AndrewOne' and author is 'Sylas')");
         System.out.println(Arrays.toString(result.toArray()));
     }
+
 }
