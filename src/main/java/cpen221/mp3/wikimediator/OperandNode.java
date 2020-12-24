@@ -27,7 +27,7 @@ public class OperandNode extends Node {
         super( );
         this.wiki = new Wiki.Builder().withDomain("en.wikipedia.org").build();
         this.condition_type = condition_type;
-        this.string = string;
+        this.string = string.substring(1,string.length()-1);
     }
 
     /**

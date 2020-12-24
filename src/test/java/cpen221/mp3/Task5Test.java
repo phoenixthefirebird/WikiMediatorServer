@@ -4,6 +4,8 @@ import cpen221.mp3.wikimediator.InvalidQueryException;
 import cpen221.mp3.wikimediator.QueryFactory;
 import cpen221.mp3.wikimediator.WikiMediator;
 import static org.junit.Assert.*;
+
+import org.fastily.jwiki.core.Wiki;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -29,6 +31,8 @@ public class Task5Test {
     @Test
     public void test2() throws InvalidQueryException {
         WikiMediator wiki = new WikiMediator();
+        Wiki wiki1 = new Wiki.Builder().withDomain("en.wikipedia.org").build();
+        String author = wiki1.getPageCreator("Barack Obama");
         List<String> result = QueryFactory.evaluate("get author where (title is 'Barack Obama' or category is 'Illinois State Senators')");
         System.out.println(Arrays.toString(result.toArray()));
     }
