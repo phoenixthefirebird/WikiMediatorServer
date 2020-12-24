@@ -65,11 +65,11 @@ public class QueryFactory{
                     try{
                         makingTree.push(new OperandNode(ctx.COND_TYPE().getText(),ctx.STRING().getText()));
                     } catch (InvalidQueryException e){
-                        success = true;
+                        success = false;
                     }
                 }
             }else{
-                success = true;
+                success = false;
             }
         }
 
@@ -92,12 +92,12 @@ public class QueryFactory{
                                 makingTree.push(or);
                             }
                         }
-                    }else if(ctx.condition() != null){
-                        expression = makingTree.pop();
                     }
                 }
-            } else{
+            } else if(ctx.condition() != null){
                 success = true;
+            }else{
+                success = false;
             }
         }
 
@@ -121,6 +121,8 @@ public class QueryFactory{
                         }
                     }
                 }
+            } else {
+                success = false;
             }
         }
 
