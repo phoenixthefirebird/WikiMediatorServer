@@ -14,7 +14,7 @@ public class Task5Test {
 
 
     @Test
-    public void test1() {
+    public void test1() throws InvalidQueryException{
         WikiMediator wiki = new WikiMediator();
         List<String> result = QueryFactory.evaluate("get page where category is 'Illinois State Senators' asc");
         List<String> expected = new ArrayList<>();
@@ -27,20 +27,23 @@ public class Task5Test {
     }
 
     @Test
-    public void test2() {
+    public void test2() throws InvalidQueryException {
         WikiMediator wiki = new WikiMediator();
         List<String> result = QueryFactory.evaluate("get author where (title is 'Barack Obama' or category is 'Illinois State Senators')");
+        System.out.println(Arrays.toString(result.toArray()));
     }
 
     @Test
-    public void test3() {
+    public void test3() throws InvalidQueryException {
         WikiMediator wiki = new WikiMediator();
         List<String> result = QueryFactory.evaluate("get category where (author is 'CLCStudent' and (title is 'Barack Obama' or title is 'Naomi Klein'))");
+        System.out.println(Arrays.toString(result.toArray()));
     }
 
     @Test
-    public void test4() {
+    public void test4() throws InvalidQueryException {
         WikiMediator wiki = new WikiMediator();
         List<String> result = QueryFactory.evaluate("get page where (author is 'AndrewOne' and author is 'Sylas')");
+        System.out.println(Arrays.toString(result.toArray()));
     }
 }
