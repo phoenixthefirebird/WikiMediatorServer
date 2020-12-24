@@ -3,7 +3,6 @@ package cpen221.mp3;
 import cpen221.mp3.wikimediator.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import java.io.IOException;
 import java.util.*;
@@ -120,7 +119,6 @@ public class WikiMediatorTests {
     @Test
     public void test5() {
         WikiMediator wiki = new WikiMediator();
-        Timer timer = new Timer();
         int flag = 0;
 
         for(int i = 0; i < 10; i++){
