@@ -5,6 +5,7 @@ import org.fastily.jwiki.core.Wiki;
 import org.fastily.jwiki.dwrap.Contrib;
 import org.fastily.jwiki.dwrap.DataEntry;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -44,12 +45,37 @@ public class OperandNode extends Node {
             }else if(condition_type.compareTo("category is") == 0){
                 return wiki.getCategoryMembers(string,NS.MAIN);
             }
-
         } else if (item.compareTo("author") == 0){
-            List<Contrib> result = wiki.getContribs(string,-1,false,false,NS.MAIN);
-            return result.stream().map(DataEntry::toString).collect(Collectors.toList());
+            if(condition_type.compareTo("title is") == 0){
+                String creator = wiki.getPageCreator(string);
+                List<String> result = new ArrayList<>();
+                result.add(creator);
+                return result;
+            }else if(condition_type.compareTo("author is") == 0){
+                List<String> result = new ArrayList<>();
+                result.add(string);
+                return result;
+            } else if(condition_type.compareTo("category is") == 0){
+                List<String> titles = wiki.getCategoryMembers(string, NS.MAIN);
+                List<String> result = new ArrayList<>();
+                for(String title : titles){
+                    String contributor = wiki.getPageCreator(title);
+                    result.add(contributor);
+                }
+                return result;
+            }
         } else if(item.compareTo("category")==0){
-            return wiki.getCategoryMembers(string,NS.MAIN);
+            if(condition_type.compareTo("title is") == 0){
+                List<String> result = wiki.getCategoriesOnPage(string);
+                return result;
+            }else if(condition_type.compareTo("author is") == 0){
+                List<String> result = new ArrayList<>();
+                return result;
+            }else if(condition_type.compareTo("category is") == 0){
+                List<String> result = new ArrayList<>();
+                result.add(string);
+                return result;
+            }
         }
         throw new InvalidQueryException();
     }
