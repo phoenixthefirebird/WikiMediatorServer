@@ -1,42 +1,14 @@
 # mp3 Feedback
 
-## Grade: 1.8
-
-| Compilation | Timeout | Duration |
-|:-----------:|:-------:|:--------:|
-|Yes|No|53.65|
-
-## Test Results
-### cpen221.mp3.Task1Grader
-| Test Status | Count |
-| ----------- | ----- |
-|skipped|0|
-|failures|1|
-|tests|10|
-|errors|0|
-#### Failed Tests
-1. `testUpdate (java.lang.AssertionError: expected:<cpen221.mp3.Text@5a4fd1f9> but was:<cpen221.mp3.Text@159270c>)`
-### cpen221.mp3.Task2Grader
-| Test Status | Count |
-| ----------- | ----- |
-|skipped|0|
-|failures|1|
-|tests|4|
-|errors|0|
-#### Failed Tests
-1. `testUpdate (java.lang.AssertionError: FSFTBuffer: concurrent update failure)`
+## Grade: 4.0
 
 ## Comments
+Tasks 1 and 2 had good implementations. Tasks 3 and 4 were acceptable (defects exist). Task 5 was not implemented properly.
 
+Code documentation is good. Code organization has room for improvement.
 
-## Test Coverage
-### FSFTBuffer
-| Metric | Coverage |
-| ------ | -------- |
-|LINE_COVERED|36|
-|LINE_MISSED|13|
-|BRANCH_MISSED|2|
-|BRANCH_COVERED|10|
++++
+RIs and AFs that were written are quite good, but some classes are missing them.  Specs are consistently good and included in all files - so great job here.  Note that in the future, public constructors should have specs, too.  Some code smells such as code repetition and comment artifacts.  The implementation is also quite complex, so commenting seemed insufficient in some areas.  There are also messy things like that killer if() statement (whose condition takes 6 lines) that could be logically simlified.  Naming is good.  As an aside, I thought the WikiMediator implementation is clever.  Contribs are quite imbalanced, and contrib file cannot address the imbalances because it is empty.
 
 ## Checkstyle Results
 ### `FSFTBuffer.java`
